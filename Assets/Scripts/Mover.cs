@@ -17,6 +17,7 @@ namespace RPGgame
         #endregion
 
 
+
         #region --Methods-- (Built In)
         private void Start()
         {
@@ -31,6 +32,7 @@ namespace RPGgame
             }
         }
         #endregion
+
 
 
         #region --Methods-- (Custome PRIVATE)

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace RPGgame
+namespace RPG.Movement
 {
     [RequireComponent(typeof(NavMeshAgent), typeof(Animator))]
     public class Mover : MonoBehaviour

@@ -26,12 +26,11 @@ namespace RPG.Combat
 
         private void Update()
         {
-            bool inStopRange = Vector3.Distance(transform.position, _target.position) < _weaponRange;
+            if (_target == null) return;
 
-            if (_target != null && !inStopRange)
+            if (!IsInStopRange())
             {
                 _mover.MoveTo(_target.position);
-                print(Vector3.Distance(transform.position, _target.position));
             }
             else
             {
@@ -41,11 +40,23 @@ namespace RPG.Combat
         #endregion
 
 
+
         #region --Methods-- (Custom PUBLIC)
         public void Attack(CombatTarget target)
         {
             _target = target.transform;
         }
+
+        public void CancelAttack()
+        {
+            _target = null;
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Custom PRIVATE)
+        private bool IsInStopRange() => Vector3.Distance(transform.position, _target.position) < _weaponRange;
         #endregion
     }
 }

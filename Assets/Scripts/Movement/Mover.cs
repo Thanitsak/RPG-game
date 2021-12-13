@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using RPG.Combat;
 
 namespace RPG.Movement
 {
@@ -14,6 +15,7 @@ namespace RPG.Movement
         #region --Fields-- (In Class)
         private NavMeshAgent _agent;
         private Animator _animator;
+        private Fighter _fighter;
         #endregion
 
 
@@ -23,6 +25,7 @@ namespace RPG.Movement
         {
             _agent = GetComponent<NavMeshAgent>();
             _animator = GetComponent<Animator>();
+            _fighter = GetComponent<Fighter>();
         }
 
         private void Update()
@@ -34,10 +37,17 @@ namespace RPG.Movement
 
 
         #region --Methods-- (Custom PUBLIC)
+        public void StartMoveAction(Vector3 destination)
+        {
+            _fighter.CancelAttack();
+
+            MoveTo(destination);
+        }
+
         public void MoveTo(Vector3 destination)
         {
-            _agent.isStopped = false;
             _agent.SetDestination(destination);
+            _agent.isStopped = false;
         }
 
         public void Stop()

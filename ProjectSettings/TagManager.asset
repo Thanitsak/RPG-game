@@ -4,7 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Enemy
+  - Shadow
+  - Collide
   layers:
   - Default
   - TransparentFX
@@ -14,8 +15,8 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
+  - TempCast
+  - Walkable
   - 
   - 
   - 

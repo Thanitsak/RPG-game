@@ -17,6 +17,7 @@ namespace RPG.Combat
 
         private Transform _target;
         private Mover _mover;
+        private Animator _animator;
         #endregion
 
 
@@ -27,6 +28,7 @@ namespace RPG.Combat
             _actionScheduler = GetComponent<ActionScheduler>();
 
             _mover = GetComponent<Mover>();
+            _animator = GetComponent<Animator>();
         }
 
         private void Update()
@@ -40,6 +42,7 @@ namespace RPG.Combat
             else
             {
                 _mover.CancelMoveTo();
+                AttackBehaviour();
             }
         }
         #endregion
@@ -63,7 +66,18 @@ namespace RPG.Combat
             _target = null;
         }
 
+        private void AttackBehaviour()
+        {
+            _animator.SetTrigger("Attack");
+        }
+
         private bool IsInStopRange() => Vector3.Distance(transform.position, _target.position) < _weaponRange;
+
+        // For Animation Event
+        private void Hit()
+        {
+            
+        }
         #endregion
 
 

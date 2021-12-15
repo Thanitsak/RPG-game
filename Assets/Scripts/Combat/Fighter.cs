@@ -86,6 +86,8 @@ namespace RPG.Combat
         // For Animation Event
         private void Hit()
         {
+            if (_target == null) return;
+
             Health health = _target.GetComponent<Health>();
             health.TakeDamage(_weaponDamage);
         }

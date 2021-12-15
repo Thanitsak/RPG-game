@@ -81,6 +81,7 @@ namespace RPG.Combat
         {
             _target = null;
 
+            _animator.ResetTrigger("Attack");
             _animator.SetTrigger("StopAttack");
         }
 
@@ -90,11 +91,15 @@ namespace RPG.Combat
 
             if (_timeSinceLastAttack > _timeBetweenAttacks)
             {
-                _animator.ResetTrigger("StopAttack"); // Reset first so no weird movement when player gonna attack
-
-                _animator.SetTrigger("Attack"); // This will Trigger the Hit() event
+                TriggerAttack();
                 _timeSinceLastAttack = 0f;
             }
+        }
+
+        private void TriggerAttack()
+        {
+            _animator.ResetTrigger("StopAttack"); // Reset first so no weird movement when player gonna attack
+            _animator.SetTrigger("Attack"); // This will Trigger the Hit() event
         }
 
         private void SmoothRotateTo(Transform target)

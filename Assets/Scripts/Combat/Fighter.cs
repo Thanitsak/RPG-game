@@ -72,19 +72,19 @@ namespace RPG.Combat
             Health target = combatTarget.GetComponent<Health>();
             return target != null && !target.IsDead;
         }
+        #endregion
 
-        public void CancelAttack()
+
+
+        #region --Methods-- (Custom PRIVATE)
+        private void CancelAttack()
         {
             _target = null;
 
             _animator.ResetTrigger("Attack");
             _animator.SetTrigger("StopAttack");
         }
-        #endregion
 
-
-
-        #region --Methods-- (Custom PRIVATE)
         private void AttackBehaviour()
         {
             SmoothRotateTo(_target.transform);

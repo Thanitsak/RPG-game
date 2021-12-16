@@ -45,8 +45,6 @@ namespace RPG.Control
             }
             else
             {
-                _fighter.CancelAttack();
-
                 _mover.StartMoveAction(_guardPosition);
             }
         }

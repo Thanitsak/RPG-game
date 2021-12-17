@@ -64,7 +64,7 @@ namespace RPG.Control
 
         private void OnDrawGizmosSelected()
         {
-            Gizmos.color = Color.blue;
+            Gizmos.color = Color.cyan;
             Gizmos.DrawWireSphere(transform.position, _chaseDistance);
         }
         #endregion

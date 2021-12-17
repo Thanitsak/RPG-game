@@ -9,12 +9,16 @@ namespace RPG.Control
     {
         #region --Fields-- (Inspector)
         [SerializeField] private float _chaseDistance = 5f;
+        [SerializeField] private float _suspicionTime = 5f;
         #endregion
 
 
 
         #region --Fields-- (In Class)
         private Vector3 _guardPosition;
+        private float _timeSinceLastSawPlayer = Mathf.Infinity;
+
+        private ActionScheduler _actionScheduler;
 
         private Transform _player;
         private Fighter _fighter;
@@ -29,6 +33,8 @@ namespace RPG.Control
         {
             _guardPosition = transform.position;
 
+            _actionScheduler = GetComponent<ActionScheduler>();
+
             _player = GameObject.FindWithTag("Player").transform;
             _fighter = GetComponent<Fighter>();
             _health = GetComponent<Health>();
@@ -41,12 +47,19 @@ namespace RPG.Control
 
             if (IsInChaseRange() && _fighter.CanAttack(_player.gameObject))
             {
-                _fighter.Attack(_player.gameObject);
+                _timeSinceLastSawPlayer = 0f;
+                AttackBehaviour();
+            }
+            else if (_timeSinceLastSawPlayer < _suspicionTime)
+            {
+                SuspicionBehaviour();
             }
             else
             {
-                _mover.StartMoveAction(_guardPosition);
+                GuardBehaviour();
             }
+
+            _timeSinceLastSawPlayer += Time.deltaTime;
         }
 
         private void OnDrawGizmosSelected()
@@ -59,6 +72,21 @@ namespace RPG.Control
 
 
         #region --Methods-- (Custom PRIVATE)
+        private void AttackBehaviour()
+        {
+            _fighter.Attack(_player.gameObject);
+        }
+
+        private void SuspicionBehaviour()
+        {
+            _actionScheduler.StopCurrentAction();
+        }
+
+        private void GuardBehaviour()
+        {
+            _mover.StartMoveAction(_guardPosition);
+        }
+
         private bool IsInChaseRange() => Vector3.Distance(transform.position, _player.position) < _chaseDistance;
         #endregion
     }

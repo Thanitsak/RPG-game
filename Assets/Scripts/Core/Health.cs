@@ -27,8 +27,8 @@ namespace RPG.Core
         #region --Methods-- (Built In)
         private void Start()
         {
-            _animator = GetComponent<Animator>();
             _actionScheduler = GetComponent<ActionScheduler>();
+            _animator = GetComponent<Animator>();
         }
         #endregion
 

@@ -7,7 +7,6 @@ namespace RPG.Core
         #region --Methods-- (Custom PUBLIC)
         public static void SmoothRotateTo(Transform transform, Transform target, float rotateSpeed)
         {
-            print($"Rotating {transform.name}");
             // Getting Direction from vector3 by using formula 'targetPos - ourPos'
             Vector3 direction = target.position - transform.position;
 
@@ -16,6 +15,12 @@ namespace RPG.Core
 
             // Gradually Rotate
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, rotateSpeed * Time.deltaTime);
+        }
+
+        public static void SmoothRotateTo(Transform transform, Quaternion targetRotation, float rotateSpeed)
+        {
+            // Gradually Rotate
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
         }
         #endregion
     }

@@ -135,14 +135,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
---- !u!1 &3098491048096653991 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6947039788277725678, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
-  m_PrefabInstance: {fileID: 5433833539211303753}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3098491048096653987 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6947039788277725674, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
+  m_PrefabInstance: {fileID: 5433833539211303753}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3098491048096653991 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6947039788277725678, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
   m_PrefabInstance: {fileID: 5433833539211303753}
   m_PrefabAsset: {fileID: 0}
 --- !u!136 &6266146978978531900
@@ -188,3 +188,5 @@ MonoBehaviour:
   _patrolPath: {fileID: 0}
   _waypointDwellTime: 2
   _waypointReachDistance: 1
+  _guardReachDistance: 0.2
+  _guardRotateSpeed: 10

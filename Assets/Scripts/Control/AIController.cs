@@ -19,8 +19,8 @@ namespace RPG.Control
 
         [Header("Guard")]
         [Tooltip("The Smaller number to Closer it will walk to the waypoint")]
-        [SerializeField] private float _guardReachDistance = 0.1f;
-        [SerializeField] private float _guardRotateSpeed = 5f;
+        [SerializeField] private float _guardReachDistance = 0.2f;
+        [SerializeField] private float _guardRotateSpeed = 10f;
         #endregion
 
 
@@ -34,6 +34,8 @@ namespace RPG.Control
         private Mover _mover;
 
         private Vector3 _guardPosition;
+        private Quaternion _guardRotation;
+
         private float _timeSinceLastSawPlayer = Mathf.Infinity;
         private int _currentWaypointIndex = 0;
         private float _timeSinceArrivedAtWaypoint = Mathf.Infinity;
@@ -51,7 +53,8 @@ namespace RPG.Control
             _health = GetComponent<Health>();
             _mover = GetComponent<Mover>();
 
-            _guardPosition = transform.position; 
+            _guardPosition = transform.position;
+            _guardRotation = transform.rotation;
         }
 
         private void Update()
@@ -121,8 +124,7 @@ namespace RPG.Control
 
                 if (AtGuardPosition())
                 {
-
-                    print($"{transform.name} is at its Guard Position");
+                    Utilities.SmoothRotateTo(transform, _guardRotation, _guardRotateSpeed);
                 }
             }
         }

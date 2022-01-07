@@ -85,6 +85,8 @@ namespace RPG.Combat
 
             _animator.ResetTrigger("Attack");
             _animator.SetTrigger("StopAttack");
+
+            _mover.CancelMoveTo();
         }
 
         private void AttackBehaviour()

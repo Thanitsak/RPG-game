@@ -31,6 +31,9 @@ namespace RPG.Movement
             _agent = GetComponent<NavMeshAgent>();
             _animator = GetComponent<Animator>();
             _health = GetComponent<Health>();
+
+            if (!_agent.enabled)
+                _agent.enabled = true;
         }
 
         private void Update()

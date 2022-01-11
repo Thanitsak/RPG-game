@@ -125,6 +125,7 @@ GameObject:
   m_Component:
   - component: {fileID: 30951550615980966}
   - component: {fileID: 5540737337281370598}
+  - component: {fileID: 2738460616828546011}
   m_Layer: 0
   m_Name: Core
   m_TagString: Untagged
@@ -164,6 +165,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _persistentObjectPrefab: {fileID: 3842778628920563606, guid: aa67a76256908465fad40a28e2dfc828, type: 3}
+--- !u!114 &2738460616828546011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 30951550615980967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 890f2d64ebabf4069b9b301361b6b7f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &30951550248126723
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -925,7 +938,7 @@ PrefabInstance:
       objectReference: {fileID: 3179238749015124540}
     - target: {fileID: 6967298276415934731, guid: 65bf4d255aeee4f2ca1b6417950115d7, type: 3}
       propertyPath: m_Lens.m_SensorSize.x
-      value: 1.7779282
+      value: 1.7779596
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 65bf4d255aeee4f2ca1b6417950115d7, type: 3}

@@ -1,11 +1,12 @@
 using UnityEngine;
 using UnityEngine.AI;
 using RPG.Core;
+using RPG.Saving;
 
 namespace RPG.Movement
 {
     [RequireComponent(typeof(NavMeshAgent), typeof(Animator))]
-    public class Mover : MonoBehaviour, IAction
+    public class Mover : MonoBehaviour, IAction, ISaveable
     {
         #region --Fields-- (Inspector)
         [SerializeField] private float _maxSpeed = 5.66f;
@@ -88,6 +89,17 @@ namespace RPG.Movement
         void IAction.Cancel()
         {
             CancelMoveTo();
+        }
+
+        object ISaveable.CaptureState()
+        {
+            return new SerializableVector3(transform.position);
+        }
+
+        void ISaveable.RestoreState(object state)
+        {
+            SerializableVector3 position = (SerializableVector3)state;
+            GetComponent<NavMeshAgent>().Warp(position.ToVector());
         }
         #endregion
     }

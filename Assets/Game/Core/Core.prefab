@@ -832,11 +832,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2299394840191398307, guid: 1c24f0a7e0c21499696c57fd06c22309, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 116.66869
+      value: 115.52154
       objectReference: {fileID: 0}
     - target: {fileID: 2299394840191398307, guid: 1c24f0a7e0c21499696c57fd06c22309, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -8.598646
+      value: -10.236952
       objectReference: {fileID: 0}
     - target: {fileID: 2299394840191398307, guid: 1c24f0a7e0c21499696c57fd06c22309, type: 3}
       propertyPath: m_LocalPosition.z
@@ -894,11 +894,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6967298276415934730, guid: 65bf4d255aeee4f2ca1b6417950115d7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 116.66869
+      value: 115.52154
       objectReference: {fileID: 0}
     - target: {fileID: 6967298276415934730, guid: 65bf4d255aeee4f2ca1b6417950115d7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -8.598646
+      value: -10.236952
       objectReference: {fileID: 0}
     - target: {fileID: 6967298276415934730, guid: 65bf4d255aeee4f2ca1b6417950115d7, type: 3}
       propertyPath: m_LocalPosition.z
@@ -936,10 +936,6 @@ PrefabInstance:
       propertyPath: m_Follow
       value: 
       objectReference: {fileID: 3179238749015124540}
-    - target: {fileID: 6967298276415934731, guid: 65bf4d255aeee4f2ca1b6417950115d7, type: 3}
-      propertyPath: m_Lens.m_SensorSize.x
-      value: 1.7779596
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 65bf4d255aeee4f2ca1b6417950115d7, type: 3}
 --- !u!4 &30951550327944129 stripped

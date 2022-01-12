@@ -1,10 +1,11 @@
 using UnityEngine;
 using UnityEngine.Playables;
+using RPG.Saving;
 
 namespace RPG.Cinematics
 {
     [RequireComponent(typeof(PlayableDirector))]
-    public class CinematicTrigger : MonoBehaviour
+    public class CinematicTrigger : MonoBehaviour, ISaveable
     {
         #region --Fields-- (In Class)
         private bool _isTriggered = false;
@@ -24,6 +25,20 @@ namespace RPG.Cinematics
                 _playableDirector.Play();
                 _isTriggered = true;
             }
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Interface)
+        object ISaveable.CaptureState()
+        {
+            return _isTriggered;
+        }
+
+        void ISaveable.RestoreState(object state)
+        {
+            _isTriggered = (bool)state;
         }
         #endregion
     }

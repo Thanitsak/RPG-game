@@ -1,8 +1,9 @@
 using UnityEngine;
+using RPG.Saving;
 
 namespace RPG.Core
 {
-    public class Health : MonoBehaviour
+    public class Health : MonoBehaviour, ISaveable
     {
         #region --Fields-- (Inspector)
         [SerializeField] private float _healthPoints = 100f;
@@ -57,6 +58,25 @@ namespace RPG.Core
 
             _animator.SetTrigger("Die");
             _actionScheduler.StopCurrentAction();
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Interface)
+        object ISaveable.CaptureState()
+        {
+            return _healthPoints;
+        }
+
+        void ISaveable.RestoreState(object state) // When level loaded it get called AFTER Awake(), BEFORE Start()
+        {
+            _healthPoints = (float)state;
+
+            if (_healthPoints <= 0f)
+            {
+                DeathBehaviour();
+            }
         }
         #endregion
     }

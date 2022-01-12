@@ -96,7 +96,7 @@ namespace RPG.Movement
             return new SerializableVector3(transform.position);
         }
 
-        void ISaveable.RestoreState(object state)
+        void ISaveable.RestoreState(object state) // When level loaded it get called AFTER Awake(), BEFORE Start()
         {
             SerializableVector3 position = (SerializableVector3)state;
             GetComponent<NavMeshAgent>().Warp(position.ToVector());

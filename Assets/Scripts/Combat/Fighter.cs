@@ -13,7 +13,7 @@ namespace RPG.Combat
         [SerializeField] private float _rotateSpeed = 10f;
         [Header("Weapon")]
         [SerializeField] private Transform _handTransform = null;
-        [SerializeField] private Weapon _weapon = null;
+        [SerializeField] private Weapon _defaultWeapon = null;
         #endregion
 
 
@@ -26,6 +26,8 @@ namespace RPG.Combat
         private Animator _animator;
 
         private float _timeSinceLastAttack = Mathf.Infinity;
+
+        private Weapon _currentWeapon = null;
         #endregion
 
 
@@ -38,7 +40,7 @@ namespace RPG.Combat
             _mover = GetComponent<Mover>();
             _animator = GetComponent<Animator>();
 
-            SpawnWeapon();
+            EquippedWeapon(_defaultWeapon);
         }
 
         private void Update()
@@ -63,6 +65,12 @@ namespace RPG.Combat
 
 
         #region --Methods-- (Custom PUBLIC)
+        public void EquippedWeapon(Weapon equippedWeapon)
+        {
+            _currentWeapon = equippedWeapon;
+            equippedWeapon.Spawn(_handTransform, _animator);
+        }
+
         public void Attack(GameObject combatTarget)
         {
             _actionScheduler.StartAction(this);
@@ -109,21 +117,14 @@ namespace RPG.Combat
             _animator.SetTrigger("Attack"); // This will Trigger the Hit() event
         }
 
-        private bool IsInStopRange() => Vector3.Distance(transform.position, _target.transform.position) < _weapon.Range;
+        private bool IsInStopRange() => Vector3.Distance(transform.position, _target.transform.position) < _currentWeapon.Range;
 
         // For Animation Event
         private void Hit()
         {
             if (_target == null) return;
 
-            _target.TakeDamage(_weapon.Damage);
-        }
-
-        private void SpawnWeapon()
-        {
-            if (_weapon == null) return;
-
-            _weapon.Spawn(_handTransform, _animator);
+            _target.TakeDamage(_currentWeapon.Damage);
         }
         #endregion
 

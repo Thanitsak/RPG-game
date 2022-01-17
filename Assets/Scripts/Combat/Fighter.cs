@@ -119,13 +119,28 @@ namespace RPG.Combat
         }
 
         private bool IsInStopRange() => Vector3.Distance(transform.position, _target.transform.position) < _currentWeapon.Range;
+        #endregion
 
-        // For Animation Event
+
+
+        #region --Methods-- (Animation Event)
         private void Hit()
         {
             if (_target == null) return;
 
-            _target.TakeDamage(_currentWeapon.Damage);
+            if (_currentWeapon.HasProjectile)
+            {
+                _currentWeapon.LaunchProjectile(_rightHandTransform, _leftHandTransform, _target);
+            }
+            else
+            {
+                _target.TakeDamage(_currentWeapon.Damage);
+            }
+        }
+
+        private void Shoot()
+        {
+            Hit();
         }
         #endregion
 

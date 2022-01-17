@@ -1,4 +1,5 @@
 using UnityEngine;
+using RPG.Core;
 
 namespace RPG.Combat
 {
@@ -12,6 +13,7 @@ namespace RPG.Combat
         [Tooltip("How Close the character need to walk near opponent in order to deal damange.")]
         [SerializeField] private float _range = 2f;
         [SerializeField] private bool _isRightHanded = true;
+        [SerializeField] private Projectile _projectile = null;
         #endregion
 
 
@@ -19,6 +21,7 @@ namespace RPG.Combat
         #region --Properties-- (With Backing Fields)
         public float Damage { get { return _damage; } }
         public float Range { get { return _range; } }
+        public bool HasProjectile { get { return _projectile != null; } }
         #endregion
 
 
@@ -33,15 +36,30 @@ namespace RPG.Combat
 
             if (_equippedPrefab != null)
             {
-                Transform handTransform;
-
-                if (_isRightHanded)
-                    handTransform = rightHand;
-                else
-                    handTransform = leftHand;
-
-                Instantiate(_equippedPrefab, handTransform);
+                Instantiate(_equippedPrefab, GetTransform(rightHand, leftHand));
             }
+        }
+
+        public void LaunchProjectile(Transform rightHand, Transform leftHand, Health target)
+        {
+            Projectile projectileCloned = Instantiate(_projectile, GetTransform(rightHand, leftHand).position, Quaternion.identity);
+            projectileCloned.SetTarget(target);
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Custom PRIVATE)
+        private Transform GetTransform(Transform rightHand, Transform leftHand)
+        {
+            Transform handTransform;
+
+            if (_isRightHanded)
+                handTransform = rightHand;
+            else
+                handTransform = leftHand;
+
+            return handTransform;
         }
         #endregion
     }

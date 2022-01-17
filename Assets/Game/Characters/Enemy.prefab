@@ -58,6 +58,11 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 9589290, guid: 7ca0a63998ac55048906c88bcd7c9a47, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7ca0a63998ac55048906c88bcd7c9a47, type: 3}
+--- !u!4 &4219218479831738239 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 480454, guid: 7ca0a63998ac55048906c88bcd7c9a47, type: 3}
+  m_PrefabInstance: {fileID: 4219218479831921593}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4219218479831832603 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 453538, guid: 7ca0a63998ac55048906c88bcd7c9a47, type: 3}
@@ -83,9 +88,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4219218479831832603}
     - target: {fileID: 1230804437610166928, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
+      propertyPath: _leftHandTransform
+      value: 
+      objectReference: {fileID: 4219218479831738239}
+    - target: {fileID: 1230804437610166928, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
       propertyPath: _chaseSpeedFraction
       value: 0.75
       objectReference: {fileID: 0}
+    - target: {fileID: 1230804437610166928, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
+      propertyPath: _rightHandTransform
+      value: 
+      objectReference: {fileID: 4219218479831832603}
     - target: {fileID: 1230804437610166928, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
       propertyPath: _timeBetweenAttacks
       value: 1.25
@@ -200,7 +213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7799925a85fb2422da4b0f4e36ddccb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _chaseDistance: 7
+  _chaseDistance: 12
   _suspicionTime: 5
   _patrolPath: {fileID: 0}
   _patrolSpeedFraction: 0.3

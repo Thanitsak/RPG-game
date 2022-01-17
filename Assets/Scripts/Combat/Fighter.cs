@@ -12,7 +12,8 @@ namespace RPG.Combat
         [SerializeField] private float _chaseSpeedFraction = 1f;
         [SerializeField] private float _rotateSpeed = 10f;
         [Header("Weapon")]
-        [SerializeField] private Transform _handTransform = null;
+        [SerializeField] private Transform _rightHandTransform = null;
+        [SerializeField] private Transform _leftHandTransform = null;
         [SerializeField] private Weapon _defaultWeapon = null;
         #endregion
 
@@ -68,7 +69,7 @@ namespace RPG.Combat
         public void EquippedWeapon(Weapon equippedWeapon)
         {
             _currentWeapon = equippedWeapon;
-            equippedWeapon.Spawn(_handTransform, _animator);
+            equippedWeapon.Spawn(_rightHandTransform, _leftHandTransform, _animator);
         }
 
         public void Attack(GameObject combatTarget)

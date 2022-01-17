@@ -11,6 +11,7 @@ namespace RPG.Combat
         [SerializeField] private float _damage = 10f;
         [Tooltip("How Close the character need to walk near opponent in order to deal damange.")]
         [SerializeField] private float _range = 2f;
+        [SerializeField] private bool _isRightHanded = true;
         #endregion
 
 
@@ -23,7 +24,7 @@ namespace RPG.Combat
 
 
         #region --Methods-- (Custom PUBLIC)
-        public void Spawn(Transform handTransform, Animator animator)
+        public void Spawn(Transform rightHand, Transform leftHand, Animator animator)
         {
             if (_animatorOverride != null)
             {
@@ -32,6 +33,13 @@ namespace RPG.Combat
 
             if (_equippedPrefab != null)
             {
+                Transform handTransform;
+
+                if (_isRightHanded)
+                    handTransform = rightHand;
+                else
+                    handTransform = leftHand;
+
                 Instantiate(_equippedPrefab, handTransform);
             }
         }

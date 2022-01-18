@@ -17,3 +17,4 @@ MonoBehaviour:
   _damage: 5
   _range: 2
   _isRightHanded: 1
+  _projectile: {fileID: 0}

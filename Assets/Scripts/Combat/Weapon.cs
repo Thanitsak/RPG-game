@@ -18,6 +18,12 @@ namespace RPG.Combat
 
 
 
+        #region --Fields-- (In Class)
+        private const string _weaponName = "Weapon";
+        #endregion
+
+
+
         #region --Properties-- (With Backing Fields)
         public float Damage { get { return _damage; } }
         public float Range { get { return _range; } }
@@ -29,6 +35,8 @@ namespace RPG.Combat
         #region --Methods-- (Custom PUBLIC)
         public void Spawn(Transform rightHand, Transform leftHand, Animator animator)
         {
+            DestroyOldWeapon(rightHand, leftHand);
+
             if (_animatorOverride != null)
             {
                 animator.runtimeAnimatorController = _animatorOverride;
@@ -36,7 +44,8 @@ namespace RPG.Combat
 
             if (_equippedPrefab != null)
             {
-                Instantiate(_equippedPrefab, GetTransform(rightHand, leftHand));
+                GameObject weaponCreated = Instantiate(_equippedPrefab, GetTransform(rightHand, leftHand));
+                weaponCreated.name = _weaponName;
             }
         }
 
@@ -50,6 +59,17 @@ namespace RPG.Combat
 
 
         #region --Methods-- (Custom PRIVATE)
+        private void DestroyOldWeapon(Transform rightHand, Transform leftHand)
+        {
+            Transform oldWeapon = rightHand.Find(_weaponName);
+
+            if (oldWeapon == null) oldWeapon = leftHand.Find(_weaponName);
+            if (oldWeapon == null) return;
+
+            oldWeapon.name = "DESTROYING"; // for not having confusing from new Instantiated Weapon
+            Destroy(oldWeapon.gameObject);
+        }
+
         private Transform GetTransform(Transform rightHand, Transform leftHand)
         {
             Transform handTransform;

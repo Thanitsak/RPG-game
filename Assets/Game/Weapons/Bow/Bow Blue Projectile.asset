@@ -18,3 +18,4 @@ MonoBehaviour:
   _range: 12.5
   _isRightHanded: 0
   _projectile: {fileID: 1274550510468283077, guid: 8cd229224dc8c4d6a9d3c5e4dd12e953, type: 3}
+  _projectileLauncherPrefab: {fileID: 4312804185004277035, guid: 832f3ad19dbca45eeaedad8b014706e3, type: 3}

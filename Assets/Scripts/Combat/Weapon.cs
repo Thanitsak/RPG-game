@@ -14,12 +14,15 @@ namespace RPG.Combat
         [SerializeField] private float _range = 2f;
         [SerializeField] private bool _isRightHanded = true;
         [SerializeField] private Projectile _projectile = null;
+        [SerializeField] private GameObject _projectileLauncherPrefab = null;
         #endregion
 
 
 
         #region --Fields-- (In Class)
         private const string _weaponName = "Weapon";
+        private GameObject _weaponCreated = null;
+        private GameObject _launcherCreated = null;
         #endregion
 
 
@@ -44,14 +47,17 @@ namespace RPG.Combat
 
             if (_equippedPrefab != null)
             {
-                GameObject weaponCreated = Instantiate(_equippedPrefab, GetTransform(rightHand, leftHand));
-                weaponCreated.name = _weaponName;
+                _weaponCreated = Instantiate(_equippedPrefab, GetTransform(rightHand, leftHand));
+                _weaponCreated.name = _weaponName;
+
+                if (_projectileLauncherPrefab != null)
+                    _launcherCreated = Instantiate(_projectileLauncherPrefab, _weaponCreated.transform);
             }
         }
 
-        public void LaunchProjectile(Transform rightHand, Transform leftHand, Health target)
+        public void LaunchProjectile(Health target)
         {
-            Projectile projectileCloned = Instantiate(_projectile, GetTransform(rightHand, leftHand).position, Quaternion.identity);
+            Projectile projectileCloned = Instantiate(_projectile, _launcherCreated.transform.position, _launcherCreated.transform.rotation); // Create from LauncherPosition instead of using Transform as quippedWeapon because Projectile can't have parent other it's going to move according to player hand shake
             projectileCloned.SetTarget(target, _damage);
         }
         #endregion

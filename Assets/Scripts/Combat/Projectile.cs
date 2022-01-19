@@ -8,6 +8,7 @@ namespace RPG.Combat
         #region --Fields-- (Inspector)
         [SerializeField] private float _speed = 20f;
         [SerializeField] private bool _isHoming = false;
+        [SerializeField] private GameObject _hitEffect = null;
         #endregion
 
 
@@ -38,6 +39,9 @@ namespace RPG.Combat
         private void OnTriggerEnter(Collider other)
         {
             if (other.GetComponent<Health>() != _target || _target.IsDead) return;
+
+            if (_hitEffect != null)
+                Instantiate(_hitEffect, other.ClosestPointOnBounds(transform.position), transform.rotation);
 
             _target.TakeDamage(_damage);
 

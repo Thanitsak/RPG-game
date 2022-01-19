@@ -48,6 +48,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 25
+  _isHoming: 0
+  _hitEffect: {fileID: 2302457091093092515, guid: bba0418d7ded64bf8bc4c30cf2cfdd9e, type: 3}
 --- !u!65 &1317956032742930433
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -59,8 +61,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.25, y: 0.15, z: 0.75}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.25, y: 0.15, z: 0.12}
+  m_Center: {x: 0, y: 0, z: 0.53}
 --- !u!1 &5436530841078765608
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using RPG.Core;
 using RPG.Movement;
+using RPG.Saving;
 
 namespace RPG.Combat
 {
-    public class Fighter : MonoBehaviour, IAction
+    public class Fighter : MonoBehaviour, IAction, ISaveable
     {
         #region --Fields-- (Inspector)
         [SerializeField] private float _timeBetweenAttacks = 1f;
@@ -15,7 +16,6 @@ namespace RPG.Combat
         [SerializeField] private Transform _rightHandTransform = null;
         [SerializeField] private Transform _leftHandTransform = null;
         [SerializeField] private Weapon _defaultWeapon = null;
-        [SerializeField] private string _defaultWeaponName = "Unarmed";
         #endregion
 
 
@@ -42,8 +42,10 @@ namespace RPG.Combat
             _mover = GetComponent<Mover>();
             _animator = GetComponent<Animator>();
 
-            Weapon weapon = Resources.Load<Weapon>(_defaultWeaponName);
-            EquippedWeapon(weapon);
+            if (_currentWeapon == null) // Just to make sure this won't override Load Data but it won't anyway cuz in SavingSystem already wait for 1 frame then load
+            {
+                EquippedWeapon(_defaultWeapon);
+            }
         }
 
         private void Update()
@@ -152,6 +154,19 @@ namespace RPG.Combat
         void IAction.Cancel()
         {
             CancelAttack();
+        }
+
+        // SAVING WILL Be better way on RPG part 2 course
+        public object CaptureState()
+        {
+            return _currentWeapon.name; // name of the file
+        }
+
+        public void RestoreState(object state)
+        {
+            string weaponName = (string)state;
+            Weapon weapon = Resources.Load<Weapon>(weaponName);
+            EquippedWeapon(weapon);
         }
         #endregion
     }

@@ -10,5 +10,11 @@ namespace RPG.Stats
         [SerializeField] private CharacterType _characterType;
         [SerializeField] private Progression _progression = null;
         #endregion
+
+
+
+        #region --Methods-- (Custom PUBLIC)
+        public float GetHealth() => _progression.GetHealth(_characterType, _startingLevel);
+        #endregion
     }
 }

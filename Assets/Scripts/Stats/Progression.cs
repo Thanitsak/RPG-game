@@ -11,6 +11,23 @@ namespace RPG.Stats
 
 
 
+        #region --Methods-- (Custom PUBLIC)
+        public float GetHealth(CharacterType characterType, int currentLevel)
+        {
+            foreach (ProgressionCharacterType characterProgression in _chractersProgression)
+            {
+                if (characterProgression.characterType == characterType)
+                {
+                    return characterProgression.health[currentLevel - 1];
+                }
+            }
+
+            return 0f;
+        }
+        #endregion
+
+
+
         #region --Classes-- (Custom PRIVATE)
         [System.Serializable]
         private class ProgressionCharacterType

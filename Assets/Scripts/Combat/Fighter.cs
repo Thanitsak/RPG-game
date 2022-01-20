@@ -2,6 +2,7 @@
 using RPG.Core;
 using RPG.Movement;
 using RPG.Saving;
+using RPG.Attributes;
 
 namespace RPG.Combat
 {

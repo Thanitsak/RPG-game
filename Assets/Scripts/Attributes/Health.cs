@@ -17,6 +17,7 @@ namespace RPG.Attributes
         private ActionScheduler _actionScheduler;
 
         private Animator _animator;
+        private BaseStats _baseStats;
         #endregion
 
 
@@ -32,8 +33,9 @@ namespace RPG.Attributes
         {
             _actionScheduler = GetComponent<ActionScheduler>();
             _animator = GetComponent<Animator>();
+            _baseStats = GetComponent<BaseStats>();
 
-            _healthPoints = GetComponent<BaseStats>().GetHealth(); // If this run after Load Save then death enemy back to life BUT This one run before LOAD SAVE for sure because in there we set wait for 1 frame then Load
+            _healthPoints = _baseStats.GetHealth(); // If this run after Load Save then death enemy back to life BUT This one run before LOAD SAVE for sure because in there we set wait for 1 frame then Load
         }
         #endregion
 
@@ -48,6 +50,11 @@ namespace RPG.Attributes
             {
                 DeathBehaviour();
             }
+        }
+
+        public float GetPercentage()
+        {
+            return Mathf.InverseLerp(0f, _baseStats.GetHealth(), _healthPoints) * 100f;
         }
         #endregion
 

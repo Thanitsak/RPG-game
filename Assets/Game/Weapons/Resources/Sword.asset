@@ -17,3 +17,5 @@ MonoBehaviour:
   _damage: 15
   _range: 3
   _isRightHanded: 1
+  _projectile: {fileID: 0}
+  _projectileLauncherPrefab: {fileID: 0}

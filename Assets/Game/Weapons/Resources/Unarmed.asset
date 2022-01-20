@@ -18,3 +18,4 @@ MonoBehaviour:
   _range: 2
   _isRightHanded: 1
   _projectile: {fileID: 0}
+  _projectileLauncherPrefab: {fileID: 0}

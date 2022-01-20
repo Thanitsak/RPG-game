@@ -91,6 +91,11 @@ namespace RPG.Combat
             Health target = combatTarget.GetComponent<Health>();
             return target != null && !target.IsDead;
         }
+
+        public Health GetTarget()
+        {
+            return _target;
+        }
         #endregion
 
 

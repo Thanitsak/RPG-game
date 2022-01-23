@@ -3,6 +3,7 @@ namespace RPG.Stats
     public enum StatType
     {
         Health,
-        ExperienceReward
+        ExperienceReward,
+        ExperienceToLevelUp
     }
 }

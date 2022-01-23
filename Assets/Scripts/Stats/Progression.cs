@@ -29,6 +29,14 @@ namespace RPG.Stats
 
             return levels[currentLevel - 1];
         }
+
+        public int GetLevelsLength(CharacterType characterType, StatType statType)
+        {
+            CreateLookupTable();
+
+            float[] levels = _progressionTable[characterType][statType];
+            return levels.Length;
+        }
         #endregion
 
 

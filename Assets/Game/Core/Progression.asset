@@ -29,6 +29,12 @@ MonoBehaviour:
       - 50
       - 70
       - 100
+    - statType: 2
+      levels:
+      - 20
+      - 40
+      - 70
+      - 100
   - characterType: 1
     statProgression:
     - statType: 0

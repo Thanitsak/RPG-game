@@ -1,5 +1,6 @@
 using UnityEngine;
 using RPG.Saving;
+using System;
 
 namespace RPG.Stats
 {
@@ -11,10 +12,17 @@ namespace RPG.Stats
 
 
 
+        #region --Events-- (Delegate as Action)
+        public event Action OnExperienceGained;
+        #endregion
+
+
+
         #region --Methods-- (Custom PUBLIC)
         public void GainExperience(float experience)
         {
             _experiencePoints += experience;
+            OnExperienceGained();
         }
 
         public float GetExperiencePoints()

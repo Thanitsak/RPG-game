@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 namespace RPG.Stats
 {
@@ -47,11 +48,11 @@ namespace RPG.Stats
 
 
         #region --Methods-- (Custom PUBLIC)
-        public float GetHealth() => _progression.GetStat(_characterType, StatType.Health, GetLevel());
+        public float GetHealth() => _progression.GetStat(_characterType, StatType.Health, GetLevel()) + GetAdditiveModifier(StatType.Health);
 
-        public float GetExperienceReward() => _progression.GetStat(_characterType, StatType.ExperienceReward, GetLevel());
+        public float GetExperienceReward() => _progression.GetStat(_characterType, StatType.ExperienceReward, GetLevel()) + GetAdditiveModifier(StatType.ExperienceReward);
 
-        public float GetDamage() => _progression.GetStat(_characterType, StatType.Damage, GetLevel());
+        public float GetDamage() => _progression.GetStat(_characterType, StatType.Damage, GetLevel()) + GetAdditiveModifier(StatType.Damage);
 
         public int GetLevel()
         {
@@ -62,8 +63,27 @@ namespace RPG.Stats
 
             return _currentLevel;
         }
+        #endregion
 
-        public int CalculateLevel()
+
+
+        #region --Methods-- (Custom PRIVATE)
+        private float GetAdditiveModifier(StatType statType)
+        {
+            float total = 0f;
+
+            foreach (IModifierProvider eachProvider in GetComponents<IModifierProvider>()) // Get All Classes that Implement IModifierProvider attached on this gameObject
+            {
+                foreach (float eachModifier in eachProvider.GetAdditiveModifier(statType))
+                {
+                    total += eachModifier;
+                }
+            }
+
+            return total;
+        }
+
+        private int CalculateLevel()
         {
             if (_experience == null) return _startingLevel; // Guard check for Chracter without Experience component
 
@@ -79,11 +99,7 @@ namespace RPG.Stats
 
             return newLevel;
         }
-        #endregion
 
-
-
-        #region --Methods-- (Custom PRIVATE)
         private void LevelUpEffect()
         {
             Instantiate(_levelUpParticleEffect, transform);

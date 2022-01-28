@@ -36,12 +36,12 @@ namespace RPG.Stats
 
 
         #region --Methods-- (Interface)
-        public object CaptureState()
+        object ISaveable.CaptureState()
         {
             return ExperiencePoints;
         }
 
-        public void RestoreState(object state)
+        void ISaveable.RestoreState(object state)
         {
             ExperiencePoints = (float)state;
 

@@ -4,10 +4,11 @@ using RPG.Movement;
 using RPG.Saving;
 using RPG.Attributes;
 using RPG.Stats;
+using System.Collections.Generic;
 
 namespace RPG.Combat
 {
-    public class Fighter : MonoBehaviour, IAction, ISaveable
+    public class Fighter : MonoBehaviour, IAction, ISaveable, IModifierProvider
     {
         #region --Fields-- (Inspector)
         [SerializeField] private float _timeBetweenAttacks = 1f;
@@ -151,8 +152,6 @@ namespace RPG.Combat
             {
                 _target.TakeDamage(gameObject, damage);
             }
-
-            // _currentWeapon.Damage
         }
 
         private void Shoot()
@@ -170,16 +169,26 @@ namespace RPG.Combat
         }
 
         // SAVING WILL Be better way on RPG part 2 course
-        public object CaptureState()
+        object ISaveable.CaptureState()
         {
             return _currentWeapon.name; // name of the file
         }
 
-        public void RestoreState(object state)
+        void ISaveable.RestoreState(object state)
         {
             string weaponName = (string)state;
             Weapon weapon = Resources.Load<Weapon>(weaponName);
             EquippedWeapon(weapon);
+        }
+
+        IEnumerable<float> IModifierProvider.GetAdditiveModifier(StatType statType)
+        {
+            if (statType == StatType.Damage)
+            {
+                yield return _currentWeapon.Damage;
+                // This way it's concisely to say that we want to return something Otherwise return nothing or as empty list since we are using IEnumerable it's handy
+                // We can also return more than one thing by doing 'yield return _anotherCurrenetWeapon.Damage;' as it's allow in IEnumerable
+            }
         }
         #endregion
     }

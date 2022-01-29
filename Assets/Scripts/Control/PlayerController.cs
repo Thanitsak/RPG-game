@@ -17,7 +17,7 @@ namespace RPG.Control
 
 
         #region --Methods-- (Built In)
-        private void Start()
+        private void Awake()
         {
             _camera = Camera.main;
             _mover = GetComponent<Mover>();

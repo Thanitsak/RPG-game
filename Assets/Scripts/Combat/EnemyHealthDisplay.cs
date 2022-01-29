@@ -20,7 +20,7 @@ namespace RPG.Combat
 
 
         #region --Methods-- (Built In)
-        private void Start()
+        private void Awake()
         {
             _playerFighter = GameObject.FindWithTag("Player").GetComponent<Fighter>();
         }

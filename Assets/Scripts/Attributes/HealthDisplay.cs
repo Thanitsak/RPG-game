@@ -18,7 +18,7 @@ namespace RPG.Attributes
 
 
         #region --Methods-- (Built In)
-        private void Start()
+        private void Awake()
         {
             _health = GameObject.FindWithTag("Player").GetComponent<Health>();
         }

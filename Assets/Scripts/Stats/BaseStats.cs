@@ -31,17 +31,32 @@ namespace RPG.Stats
 
 
         #region --Methods-- (Built In)
-        private void Start()
+        private void Awake()
         {
             _experience = GetComponent<Experience>();
+        }
 
+        private void OnEnable()
+        {
             if (_experience != null)
             {
                 _experience.OnExperienceGained += UpdateLevel;
                 _experience.OnExperienceLoaded += RefreshCurrentLevel;
             }
-            
+        }
+
+        private void Start()
+        {
             _currentLevel = CalculateLevel();
+        }
+
+        private void OnDisable()
+        {
+            if (_experience != null)
+            {
+                _experience.OnExperienceGained -= UpdateLevel;
+                _experience.OnExperienceLoaded -= RefreshCurrentLevel;
+            }
         }
         #endregion
 

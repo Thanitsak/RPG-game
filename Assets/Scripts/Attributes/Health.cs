@@ -39,18 +39,29 @@ namespace RPG.Attributes
 
 
         #region --Methods-- (Built In)
-        private void Start()
+        private void Awake()
         {
             _actionScheduler = GetComponent<ActionScheduler>();
             _animator = GetComponent<Animator>();
             _baseStats = GetComponent<BaseStats>();
+        }
 
+        private void OnEnable()
+        {
             _baseStats.OnLevelUp += RegenerateHealth;
+        }
 
+        private void Start()
+        {
             if (_healthPoints < 0f) // Just to make sure this won't override Load Data but it won't anyway cuz in SavingSystem already wait for 1 frame then load
             {
                 _healthPoints = _baseStats.GetHealth();
             }
+        }
+
+        private void OnDisable()
+        {
+            _baseStats.OnLevelUp -= RegenerateHealth;
         }
         #endregion
 

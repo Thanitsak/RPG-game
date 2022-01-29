@@ -119,7 +119,7 @@ namespace RPG.SceneManagement
             // ResetLoadingBar progress first SO when it open up with animation value start from 0
             ResetLoadingBar();
             yield return OpenLoadingScreen();
-
+            
             // Start Loading Scene
             AsyncOperation operation = SceneManager.LoadSceneAsync(sceneIndexToLoad);
             while (!operation.isDone)
@@ -127,10 +127,10 @@ namespace RPG.SceneManagement
                 float progress = Mathf.Clamp01(operation.progress / _unityLoadingStateMax);
 
                 UpdateLoadingBar(progress);
-
+                
                 yield return null;
             }
-
+            
             yield return CloseLoadingScreen();
         }
         #endregion

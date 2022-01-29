@@ -39,14 +39,17 @@ namespace RPG.Combat
 
 
         #region --Methods-- (Built In)
-        private void Start()
+        private void Awake()
         {
             _actionScheduler = GetComponent<ActionScheduler>();
 
             _mover = GetComponent<Mover>();
             _animator = GetComponent<Animator>();
             _baseStats = GetComponent<BaseStats>();
+        }
 
+        private void Start()
+        {
             if (_currentWeapon == null) // Just to make sure this won't override Load Data but it won't anyway cuz in SavingSystem already wait for 1 frame then load
             {
                 EquippedWeapon(_defaultWeapon);

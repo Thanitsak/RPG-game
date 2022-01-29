@@ -27,14 +27,17 @@ namespace RPG.Movement
 
 
         #region --Methods-- (Built In)
-        private void Start()
+        private void Awake()
         {
             _actionScheduler = GetComponent<ActionScheduler>();
 
             _agent = GetComponent<NavMeshAgent>();
             _animator = GetComponent<Animator>();
             _health = GetComponent<Health>();
+        }
 
+        private void Start()
+        {
             if (!_agent.enabled)
                 _agent.enabled = true;
         }

@@ -18,15 +18,24 @@ namespace RPG.Cinematics
 
 
         #region --Methods-- (Built In)
-        private void Start()
+        private void Awake()
         {
             _actionScheduler = GameObject.FindWithTag("Player").GetComponent<ActionScheduler>();
             _playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
 
             _playableDirector = GetComponent<PlayableDirector>();
+        }
 
+        private void OnEnable()
+        {
             _playableDirector.played += DisableControl;
             _playableDirector.stopped += EnableControl;
+        }
+
+        private void OnDisable()
+        {
+            _playableDirector.played -= DisableControl;
+            _playableDirector.stopped -= EnableControl;
         }
         #endregion
 

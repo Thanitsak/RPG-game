@@ -16,7 +16,7 @@ namespace RPG.Cinematics
 
 
         #region --Methods-- (Build In)
-        private void Start() => _playableDirector = GetComponent<PlayableDirector>();
+        private void Awake() => _playableDirector = GetComponent<PlayableDirector>();
 
         private void OnTriggerEnter(Collider other)
         {

@@ -47,7 +47,7 @@ namespace RPG.Control
 
 
         #region --Methods-- (Built In)
-        private void Start()
+        private void Awake()
         {
             _actionScheduler = GetComponent<ActionScheduler>();
 
@@ -55,7 +55,10 @@ namespace RPG.Control
             _fighter = GetComponent<Fighter>();
             _health = GetComponent<Health>();
             _mover = GetComponent<Mover>();
+        }
 
+        private void Start()
+        {
             _guardPosition = transform.position;
             _guardRotation = transform.rotation;
         }

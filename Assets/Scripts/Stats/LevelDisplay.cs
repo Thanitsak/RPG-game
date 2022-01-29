@@ -18,7 +18,7 @@ namespace RPG.Stats
 
 
         #region --Methods-- (Built In)
-        private void Start()
+        private void Awake()
         {
             _baseStats = GameObject.FindWithTag("Player").GetComponent<BaseStats>();
         }

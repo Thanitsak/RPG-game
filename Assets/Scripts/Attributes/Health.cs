@@ -2,6 +2,7 @@ using UnityEngine;
 using RPG.Saving;
 using RPG.Stats;
 using RPG.Core;
+using BestVoxels.Utils;
 
 namespace RPG.Attributes
 {
@@ -18,21 +19,19 @@ namespace RPG.Attributes
         private ActionScheduler _actionScheduler;
 
         private Animator _animator;
-        private BaseStats _baseStats;
-
-        private float _healthPoints = -1f;
+        private BaseStats _baseStats;        
         #endregion
 
 
 
         #region --Properties-- (Auto)
         public bool IsDead { get; private set; } = false;
+        public AutoInit<float> HealthPoints { get; private set; }
         #endregion
 
 
 
         #region --Properties-- (With Backing Fields)
-        public float HealthPoints { get { return _healthPoints; } }
         public float MaxHealthPoints { get { return _baseStats.GetHealth(); } }
         #endregion
 
@@ -44,6 +43,8 @@ namespace RPG.Attributes
             _actionScheduler = GetComponent<ActionScheduler>();
             _animator = GetComponent<Animator>();
             _baseStats = GetComponent<BaseStats>();
+
+            HealthPoints = new AutoInit<float>(GetInitialHealth);
         }
 
         private void OnEnable()
@@ -53,10 +54,7 @@ namespace RPG.Attributes
 
         private void Start()
         {
-            if (_healthPoints < 0f) // Just to make sure this won't override Load Data but it won't anyway cuz in SavingSystem already wait for 1 frame then load
-            {
-                _healthPoints = _baseStats.GetHealth();
-            }
+            HealthPoints.ForceInit();
         }
 
         private void OnDisable()
@@ -70,9 +68,9 @@ namespace RPG.Attributes
         #region --Methods-- (Custom PUBLIC)
         public void TakeDamage(GameObject attacker, float damage)
         {
-            _healthPoints = Mathf.Max(0f, _healthPoints - damage);
+            HealthPoints.value = Mathf.Max(0f, HealthPoints.value - damage);
 
-            if (_healthPoints <= 0f)
+            if (HealthPoints.value <= 0f)
             {
                 DeathBehaviour();
 
@@ -84,7 +82,7 @@ namespace RPG.Attributes
         {
             // Add GetHealth() Differences l.1 vs l.2 diff is 30 then add 30 to healthPoints
 
-            return Mathf.InverseLerp(0f, _baseStats.GetHealth(), _healthPoints) * 100f;
+            return Mathf.InverseLerp(0f, _baseStats.GetHealth(), HealthPoints.value) * 100f;
         }
         #endregion
 
@@ -114,10 +112,12 @@ namespace RPG.Attributes
 
 
         #region --Methods-- (Subscriber)
+        private float GetInitialHealth() => _baseStats.GetHealth();
+
         private void RegenerateHealth()
         {
             float regenHealthPoints = (_baseStats.GetHealth() * _healthRegneratePercentage) / 100f;
-            _healthPoints = Mathf.Max(_healthPoints, regenHealthPoints);
+            HealthPoints.value = Mathf.Max(HealthPoints.value, regenHealthPoints);
         }
         #endregion
 
@@ -126,14 +126,14 @@ namespace RPG.Attributes
         #region --Methods-- (Interface)
         object ISaveable.CaptureState()
         {
-            return _healthPoints;
+            return HealthPoints.value;
         }
 
         void ISaveable.RestoreState(object state) // When level loaded it get called AFTER Awake(), BEFORE Start()
         {
-            _healthPoints = (float)state;
-
-            if (_healthPoints <= 0f)
+            HealthPoints.value = (float)state;
+            
+            if (HealthPoints.value <= 0f)
             {
                 DeathBehaviour();
             }

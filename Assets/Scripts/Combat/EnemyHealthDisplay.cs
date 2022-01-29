@@ -35,7 +35,7 @@ namespace RPG.Combat
             }
             else
             {
-                _healthText.text = $"{_enemyHealth.HealthPoints:N0}/{_enemyHealth.MaxHealthPoints:N0}";
+                _healthText.text = $"{_enemyHealth.HealthPoints.value:N0}/{_enemyHealth.MaxHealthPoints:N0}";
                 //_healthText.text = $"{_enemyHealth.GetPercentage():N0}%";
             }
         }

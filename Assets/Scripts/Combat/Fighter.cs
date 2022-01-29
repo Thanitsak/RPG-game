@@ -5,6 +5,7 @@ using RPG.Saving;
 using RPG.Attributes;
 using RPG.Stats;
 using System.Collections.Generic;
+using BestVoxels.Utils;
 
 namespace RPG.Combat
 {
@@ -33,7 +34,7 @@ namespace RPG.Combat
 
         private float _timeSinceLastAttack = Mathf.Infinity;
 
-        private Weapon _currentWeapon = null;
+        private AutoInit<Weapon> _currentWeapon;
         #endregion
 
 
@@ -46,14 +47,13 @@ namespace RPG.Combat
             _mover = GetComponent<Mover>();
             _animator = GetComponent<Animator>();
             _baseStats = GetComponent<BaseStats>();
+
+            _currentWeapon = new AutoInit<Weapon>(GetInitialCurrentWeapon);
         }
 
         private void Start()
         {
-            if (_currentWeapon == null) // Just to make sure this won't override Load Data but it won't anyway cuz in SavingSystem already wait for 1 frame then load
-            {
-                EquippedWeapon(_defaultWeapon);
-            }
+            _currentWeapon.ForceInit(); // Otherwise wew won't have weapon when start the game since no one call currentWeapon unless we pickup
         }
 
         private void Update()
@@ -78,10 +78,10 @@ namespace RPG.Combat
 
 
         #region --Methods-- (Custom PUBLIC)
-        public void EquippedWeapon(Weapon equippedWeapon)
+        public void EquippedWeapon(Weapon pickupWeapon)
         {
-            _currentWeapon = equippedWeapon;
-            equippedWeapon.Spawn(_rightHandTransform, _leftHandTransform, _animator);
+            _currentWeapon.value = pickupWeapon;
+            AttachWeaopn(pickupWeapon);
         }
 
         public void Attack(GameObject combatTarget)
@@ -108,6 +108,11 @@ namespace RPG.Combat
 
 
         #region --Methods-- (Custom PRIVATE)
+        private void AttachWeaopn(Weapon weapon)
+        {
+            weapon.Spawn(_rightHandTransform, _leftHandTransform, _animator);
+        }
+
         private void CancelAttack()
         {
             _target = null;
@@ -135,7 +140,7 @@ namespace RPG.Combat
             _animator.SetTrigger("Attack"); // This will Trigger the Hit() event
         }
 
-        private bool IsInStopRange() => Vector3.Distance(transform.position, _target.transform.position) < _currentWeapon.Range;
+        private bool IsInStopRange() => Vector3.Distance(transform.position, _target.transform.position) < _currentWeapon.value.Range;
         #endregion
 
 
@@ -147,9 +152,9 @@ namespace RPG.Combat
 
             float damage = _baseStats.GetDamage();
 
-            if (_currentWeapon.HasProjectile)
+            if (_currentWeapon.value.HasProjectile)
             {
-                _currentWeapon.LaunchProjectile(gameObject, _target, damage);
+                _currentWeapon.value.LaunchProjectile(gameObject, _target, damage);
             }
             else
             {
@@ -165,6 +170,16 @@ namespace RPG.Combat
 
 
 
+        #region --Methods-- (Subscriber)
+        private Weapon GetInitialCurrentWeapon()
+        {
+            AttachWeaopn(_defaultWeapon);
+            return _defaultWeapon;
+        }
+        #endregion
+
+
+
         #region --Methods-- (Interface)
         void IAction.Cancel()
         {
@@ -174,7 +189,7 @@ namespace RPG.Combat
         // SAVING WILL Be better way on RPG part 2 course
         object ISaveable.CaptureState()
         {
-            return _currentWeapon.name; // name of the file
+            return _currentWeapon.value.name; // name of the file
         }
 
         void ISaveable.RestoreState(object state)
@@ -188,7 +203,7 @@ namespace RPG.Combat
         {
             if (statType == StatType.Damage)
             {
-                yield return _currentWeapon.Damage;
+                yield return _currentWeapon.value.Damage;
                 // This way it's concisely to say that we want to return something Otherwise return nothing or as empty list since we are using IEnumerable it's handy
                 // We can also return more than one thing by doing 'yield return _anotherCurrenetWeapon.Damage;' as it's allow in IEnumerable
             }
@@ -198,7 +213,7 @@ namespace RPG.Combat
         {
             if (statType == StatType.Damage)
             {
-                yield return _currentWeapon.DamageBonusPercentage;
+                yield return _currentWeapon.value.DamageBonusPercentage;
             }
         }
         #endregion

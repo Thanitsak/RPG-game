@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using BestVoxels.Utils;
 
 namespace RPG.Stats
 {
@@ -25,7 +26,7 @@ namespace RPG.Stats
         #region --Fields-- (In Class)
         private Experience _experience;
 
-        private int _currentLevel = 0;
+        private AutoInit<int> _currentLevel;
         #endregion
 
 
@@ -34,6 +35,8 @@ namespace RPG.Stats
         private void Awake()
         {
             _experience = GetComponent<Experience>();
+
+            _currentLevel = new AutoInit<int>(GetInitialCurrentLevel);
         }
 
         private void OnEnable()
@@ -47,7 +50,7 @@ namespace RPG.Stats
 
         private void Start()
         {
-            _currentLevel = CalculateLevel();
+            _currentLevel.ForceInit();
         }
 
         private void OnDisable()
@@ -69,15 +72,7 @@ namespace RPG.Stats
 
         public float GetDamage() => GetStat(StatType.Damage);
 
-        public int GetLevel()
-        {
-            if (_currentLevel < 1) // Initialized CurrentLevel first before using it, incase it not yet initialized
-            {
-                _currentLevel = CalculateLevel();
-            }
-
-            return _currentLevel;
-        }
+        public int GetLevel() => _currentLevel.value;
         #endregion
 
 
@@ -155,12 +150,14 @@ namespace RPG.Stats
 
 
         #region --Methods-- (Subscriber)
+        private int GetInitialCurrentLevel() => CalculateLevel();
+
         private void UpdateLevel()
         {
             int newLevel = CalculateLevel();
-            if (newLevel > _currentLevel)
+            if (newLevel > _currentLevel.value)
             {
-                _currentLevel = newLevel; // Have to Run First! Cuz OnLevelUp will use _currentLevel new value
+                _currentLevel.value = newLevel; // Have to Run First! Cuz OnLevelUp will use _currentLevel new value
 
                 OnLevelUp?.Invoke();
                 LevelUpEffect();
@@ -169,7 +166,7 @@ namespace RPG.Stats
 
         private void RefreshCurrentLevel()
         {
-            _currentLevel = CalculateLevel();
+            _currentLevel.value = CalculateLevel();
         }
         #endregion
     }

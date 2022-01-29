@@ -3,6 +3,7 @@ using RPG.Combat;
 using RPG.Core;
 using RPG.Movement;
 using RPG.Attributes;
+using BestVoxels.Utils;
 
 namespace RPG.Control
 {
@@ -36,8 +37,8 @@ namespace RPG.Control
         private Health _health;
         private Mover _mover;
 
-        private Vector3 _guardPosition;
-        private Quaternion _guardRotation;
+        private AutoInit<Vector3> _guardPosition;
+        private AutoInit<Quaternion> _guardRotation;
 
         private float _timeSinceLastSawPlayer = Mathf.Infinity;
         private int _currentWaypointIndex = 0;
@@ -55,12 +56,15 @@ namespace RPG.Control
             _fighter = GetComponent<Fighter>();
             _health = GetComponent<Health>();
             _mover = GetComponent<Mover>();
+
+            _guardPosition = new AutoInit<Vector3>(GetInitialGuardPosition);
+            _guardRotation = new AutoInit<Quaternion>(GetInitialGuardRotation);
         }
 
         private void Start()
         {
-            _guardPosition = transform.position;
-            _guardRotation = transform.rotation;
+            _guardPosition.ForceInit();
+            _guardRotation.ForceInit();
         }
 
         private void Update()
@@ -112,7 +116,7 @@ namespace RPG.Control
 
         private void PatrolBehaviour()
         {
-            Vector3 nextPosition = _guardPosition;
+            Vector3 nextPosition = _guardPosition.value;
 
             if (_patrolPath != null)
             {
@@ -130,7 +134,7 @@ namespace RPG.Control
 
                 if (AtGuardPosition())
                 {
-                    Utilities.SmoothRotateTo(transform, _guardRotation, _guardRotateSpeed);
+                    Utilities.SmoothRotateTo(transform, _guardRotation.value, _guardRotateSpeed);
                 }
             }
         }
@@ -141,10 +145,18 @@ namespace RPG.Control
 
         private Vector3 GetCurrentWaypoint() => _patrolPath.GetWaypoint(_currentWaypointIndex);
 
-        private bool AtGuardPosition() => Vector3.Distance(transform.position, _guardPosition) < _guardReachDistance && _patrolPath == null;
+        private bool AtGuardPosition() => Vector3.Distance(transform.position, _guardPosition.value) < _guardReachDistance && _patrolPath == null;
 
 
         private bool IsInChaseRange() => Vector3.Distance(transform.position, _player.position) < _chaseDistance;
+        #endregion
+
+
+
+        #region --Methods-- (Subscriber)
+        private Vector3 GetInitialGuardPosition() => transform.position;
+
+        private Quaternion GetInitialGuardRotation() => transform.rotation;
         #endregion
     }
 }

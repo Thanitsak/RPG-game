@@ -141,7 +141,7 @@ namespace RPG.Control
 
         private bool AtWaypoint() => Vector3.Distance(transform.position, GetCurrentWaypoint()) < _waypointReachDistance;
 
-        private void CycleWaypoint() => _currentWaypointIndex = _patrolPath.GetNextIndex(_currentWaypointIndex);
+        private void CycleWaypoint() => _currentWaypointIndex = _patrolPath.GetNextIndex(_currentWaypointIndex); // SAVE CurrentWaypointIndex for enemy to continue follow
 
         private Vector3 GetCurrentWaypoint() => _patrolPath.GetWaypoint(_currentWaypointIndex);
 

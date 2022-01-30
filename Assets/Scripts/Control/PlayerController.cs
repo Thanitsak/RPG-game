@@ -2,6 +2,7 @@ using UnityEngine;
 using RPG.Movement;
 using RPG.Combat;
 using RPG.Attributes;
+using UnityEngine.EventSystems;
 
 namespace RPG.Control
 {
@@ -11,7 +12,8 @@ namespace RPG.Control
         {
             None,
             Movement,
-            Combat
+            Combat,
+            UI
         }
 
 
@@ -42,7 +44,12 @@ namespace RPG.Control
 
         private void Update()
         {
-            if (_health.IsDead) return;
+            if (InteractWithUI()) return;
+            if (_health.IsDead)
+            {
+                SetCursor(CursorType.None);
+                return;
+            }
 
             if (InteractWithCombat()) return;
             if (InteractWithMovement()) return;
@@ -54,6 +61,17 @@ namespace RPG.Control
 
 
         #region --Methods-- (Custom PRIVATE)
+        private bool InteractWithUI()
+        {
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                SetCursor(CursorType.UI);
+                return true;
+            }
+
+            return false;
+        }
+
         private bool InteractWithCombat()
         {
             // Draw the ray GET ALL, WON'T GET BLOCK

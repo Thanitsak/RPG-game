@@ -49,7 +49,6 @@ namespace RPG.SceneManagement
         {
             // Disable PlayerControl
             GameObject.FindWithTag("Player").GetComponent<ActionScheduler>().StopCurrentAction();
-            GameObject.FindWithTag("Player").GetComponent<PlayerController>().enabled = false;
 
             int index = 0;
             switch (types)
@@ -82,9 +81,6 @@ namespace RPG.SceneManagement
 
         public IEnumerator EndTransition(Types types, float transitioningSpeed)
         {
-            // Enable PlayerControl (optional cuz once it loaded in new scene, this enabled by default, but it's good practice to put here)
-            GameObject.FindWithTag("Player").GetComponent<PlayerController>().enabled = true;
-
             int index = 0;
             switch (types)
             {

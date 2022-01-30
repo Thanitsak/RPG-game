@@ -7,6 +7,21 @@ namespace RPG.Control
 {
     public class PlayerController : MonoBehaviour
     {
+        private enum CursorType
+        {
+            None,
+            Movement,
+            Combat
+        }
+
+
+
+        #region --Fields-- (Inspector)
+        [SerializeField] private CursorMapping[] _cursorMappings = null;
+        #endregion
+
+
+
         #region --Fields-- (In Class)
         private Camera _camera;
         private Mover _mover;
@@ -31,6 +46,8 @@ namespace RPG.Control
 
             if (InteractWithCombat()) return;
             if (InteractWithMovement()) return;
+
+            SetCursor(CursorType.None);
         }
         #endregion
 
@@ -53,6 +70,7 @@ namespace RPG.Control
                     _fighter.Attack(combatTarget.gameObject);
                 }
 
+                SetCursor(CursorType.Combat);
                 return true;
             }
             return false;
@@ -67,12 +85,45 @@ namespace RPG.Control
                 {
                     _mover.StartMoveAction(hitInfo.point, 1f);
                 }
+
+                SetCursor(CursorType.Movement);
                 return true;
             }
             return false;
         }
 
         private Ray GetMouseRay() => _camera.ScreenPointToRay(Input.mousePosition); // get ray direction from camera to a screen point
+
+        private void SetCursor(CursorType cursorType)
+        {
+            CursorMapping mapping = GetCursorMapping(cursorType);
+            Cursor.SetCursor(mapping.texture, mapping.hotspot, CursorMode.Auto);
+        }
+
+        private CursorMapping GetCursorMapping(CursorType cursorType)
+        {
+            foreach (CursorMapping eachMapping in _cursorMappings)
+            {
+                if (eachMapping.cursorType == cursorType)
+                {
+                    return eachMapping;
+                }
+            }
+
+            return _cursorMappings[0];
+        }
+        #endregion
+
+
+
+        #region --Structs-- (Custom PRIVATE)
+        [System.Serializable]
+        private struct CursorMapping
+        {
+            public CursorType cursorType;
+            public Texture2D texture;
+            public Vector2 hotspot;
+        }
         #endregion
     }
 }

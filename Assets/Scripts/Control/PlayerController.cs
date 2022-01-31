@@ -2,6 +2,7 @@ using UnityEngine;
 using RPG.Movement;
 using RPG.Attributes;
 using UnityEngine.EventSystems;
+using UnityEngine.AI;
 using System;
 
 namespace RPG.Control
@@ -9,6 +10,7 @@ namespace RPG.Control
     public class PlayerController : MonoBehaviour
     {
         #region --Fields-- (Inspector)
+        [SerializeField] private float _maxNavMeshDetectionRange = 2f;
         [SerializeField] private CursorMapping[] _cursorMappings = null;
         #endregion
 
@@ -62,7 +64,6 @@ namespace RPG.Control
 
         private bool InteractWithComponent()
         {
-            // Draw the ray GET ALL, WON'T GET BLOCK & SORTED with Hit Distance
             RaycastHit[] hitsInfo = RaycastAllSorted();
 
             foreach (RaycastHit eachHit in hitsInfo)
@@ -81,12 +82,11 @@ namespace RPG.Control
 
         private bool InteractWithMovement()
         {
-            // Draw the ray GET FIRST HIT
-            if (Physics.Raycast(GetMouseRay(), out RaycastHit hitInfo))
+            if (RaycastNavMesh(out Vector3 target))
             {
                 if (Input.GetMouseButton(0))
                 {
-                    _mover.StartMoveAction(hitInfo.point, 1f);
+                    _mover.StartMoveAction(target, 1f);
                 }
 
                 SetCursor(CursorType.Movement);
@@ -95,10 +95,26 @@ namespace RPG.Control
             return false;
         }
 
-        private Ray GetMouseRay() => _camera.ScreenPointToRay(Input.mousePosition); // get ray direction from camera to a screen point
+        private bool RaycastNavMesh(out Vector3 target)
+        {
+            // Raycast to Terrain
+            if (Physics.Raycast(GetMouseRay(), out RaycastHit hitInfo))
+            {
+                // Find Nearest NavMeshPoint
+                if (NavMesh.SamplePosition(hitInfo.point, out NavMeshHit navMeshHit, _maxNavMeshDetectionRange, NavMesh.AllAreas))
+                {
+                    target = navMeshHit.position;
+                    return true;
+                }
+            }
+
+            target = Vector3.zero;
+            return false;
+        }
 
         private RaycastHit[] RaycastAllSorted()
         {
+            // Draw the ray GET ALL, WON'T GET BLOCK & SORTED with Hit Distance
             RaycastHit[] hits = Physics.RaycastAll(GetMouseRay());
 
             float[] distances = new float[hits.Length];
@@ -111,6 +127,8 @@ namespace RPG.Control
 
             return hits;
         }
+
+        private Ray GetMouseRay() => _camera.ScreenPointToRay(Input.mousePosition); // get ray direction from camera to a screen point
         #endregion
 
 

@@ -124,7 +124,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4713245713524297562}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 2
   m_Camera: {fileID: 0}
@@ -273,6 +273,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _healthBarSlider: {fileID: 582276047596736587}
+  _healthBarCanvas: {fileID: 8262930664743983097}
 --- !u!1 &7606450704859680540
 GameObject:
   m_ObjectHideFlags: 0
@@ -283,6 +284,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1182945643633181358}
   - component: {fileID: 582276047596736587}
+  - component: {fileID: 4600226758704209819}
   m_Layer: 5
   m_Name: Health Bar Slider
   m_TagString: Untagged
@@ -363,6 +365,18 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!225 &4600226758704209819
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7606450704859680540}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &8119072649678618719
 GameObject:
   m_ObjectHideFlags: 0

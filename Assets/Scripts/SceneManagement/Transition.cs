@@ -3,8 +3,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
-using RPG.Control;
-using RPG.Core;
 
 namespace RPG.SceneManagement
 {
@@ -47,9 +45,6 @@ namespace RPG.SceneManagement
         #region --Methods-- (Custom PUBLIC) ~Transitions~
         public IEnumerator StartTransition(Types types, float transitioningSpeed)
         {
-            // Disable PlayerControl
-            GameObject.FindWithTag("Player").GetComponent<ActionScheduler>().StopCurrentAction();
-
             int index = 0;
             switch (types)
             {

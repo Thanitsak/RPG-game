@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.AI;
+using RPG.Control;
 
 namespace RPG.SceneManagement
 {
@@ -55,6 +56,10 @@ namespace RPG.SceneManagement
 
             DontDestroyOnLoad(gameObject);
 
+            // Disable Player Control (player on OLD scene) BUT not cancle action cuz it looks more smooth to walk through
+            PlayerController playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+            playerController.enabled = false;
+
             // StartingTransition
             yield return Transition.Instance.StartTransition(_transitionType, _startTransitionSpeed);
 
@@ -62,6 +67,9 @@ namespace RPG.SceneManagement
 
             // StartLoadingLevel Once Transition is Done
             yield return Transition.Instance.LoadAsynchronously(_sceneIndexToLoad);
+            // Disable Player Control (player on NEW scene)
+            PlayerController newPlayerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+            newPlayerController.enabled = false;
 
             SavingWrapper.Instance.Load();
 
@@ -72,6 +80,8 @@ namespace RPG.SceneManagement
 
             // EndingTransition Once Level is Loaded
             yield return Transition.Instance.EndTransition(_transitionType, _endTransitionSpeed);
+            // Enable Player Control (player on NEW scene)
+            newPlayerController.enabled = true;
             
             Destroy(gameObject);
         }

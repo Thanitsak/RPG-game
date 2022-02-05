@@ -7,7 +7,7 @@ namespace RPG.Combat
     public class WeaponPickup : MonoBehaviour, IRaycastable
     {
         #region --Fields-- (Inspector)
-        [SerializeField] private Weapon _pickupWeapon;
+        [SerializeField] private WeaponConfig _pickupWeapon;
         [SerializeField] private float _respawnTime = 5f;
         #endregion
 

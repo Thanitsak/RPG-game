@@ -19,7 +19,7 @@ namespace RPG.Combat
         [Header("Weapon")]
         [SerializeField] private Transform _rightHandTransform = null;
         [SerializeField] private Transform _leftHandTransform = null;
-        [SerializeField] private Weapon _defaultWeapon = null;
+        [SerializeField] private WeaponConfig _defaultWeapon = null;
         #endregion
 
 
@@ -34,7 +34,7 @@ namespace RPG.Combat
 
         private float _timeSinceLastAttack = Mathf.Infinity;
 
-        private AutoInit<Weapon> _currentWeapon;
+        private AutoInit<WeaponConfig> _currentWeapon;
         #endregion
 
 
@@ -48,7 +48,7 @@ namespace RPG.Combat
             _animator = GetComponent<Animator>();
             _baseStats = GetComponent<BaseStats>();
 
-            _currentWeapon = new AutoInit<Weapon>(GetInitialCurrentWeapon);
+            _currentWeapon = new AutoInit<WeaponConfig>(GetInitialCurrentWeapon);
         }
 
         private void Start()
@@ -78,7 +78,7 @@ namespace RPG.Combat
 
 
         #region --Methods-- (Custom PUBLIC)
-        public void EquippedWeapon(Weapon pickupWeapon)
+        public void EquippedWeapon(WeaponConfig pickupWeapon)
         {
             _currentWeapon.value = pickupWeapon;
             AttachWeaopn(pickupWeapon);
@@ -108,7 +108,7 @@ namespace RPG.Combat
 
 
         #region --Methods-- (Custom PRIVATE)
-        private void AttachWeaopn(Weapon weapon)
+        private void AttachWeaopn(WeaponConfig weapon)
         {
             weapon.Spawn(_rightHandTransform, _leftHandTransform, _animator);
         }
@@ -171,7 +171,7 @@ namespace RPG.Combat
 
 
         #region --Methods-- (Subscriber)
-        private Weapon GetInitialCurrentWeapon()
+        private WeaponConfig GetInitialCurrentWeapon()
         {
             AttachWeaopn(_defaultWeapon);
             return _defaultWeapon;
@@ -195,7 +195,7 @@ namespace RPG.Combat
         void ISaveable.RestoreState(object state)
         {
             string weaponName = (string)state;
-            Weapon weapon = Resources.Load<Weapon>(weaponName);
+            WeaponConfig weapon = Resources.Load<WeaponConfig>(weaponName);
             EquippedWeapon(weapon);
         }
 

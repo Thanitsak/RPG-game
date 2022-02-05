@@ -3,6 +3,7 @@ using RPG.Saving;
 using RPG.Stats;
 using RPG.Core;
 using BestVoxels.Utils;
+using UnityEngine.Events;
 using System;
 
 namespace RPG.Attributes
@@ -16,8 +17,15 @@ namespace RPG.Attributes
 
 
 
+        #region --Events-- (UnityEvent)
+        [Header("UnityEvent")]
+        [SerializeField] private UnityEvent<float> _onTakeDamage;
+        [SerializeField] private UnityEvent _onDie;
+        #endregion
+
+
+
         #region --Events-- (Delegate as Action)
-        public event Action<float> OnTakeDamage;
         public event Action OnHealthChanged;
         #endregion
 
@@ -80,12 +88,14 @@ namespace RPG.Attributes
 
             if (HealthPoints.value <= 0f)
             {
+                _onDie?.Invoke();
+
                 DeathBehaviour();
 
                 AwardExperience(attacker);
             }
 
-            OnTakeDamage?.Invoke(damage);
+            _onTakeDamage?.Invoke(damage);
             OnHealthChanged?.Invoke();
         }
 

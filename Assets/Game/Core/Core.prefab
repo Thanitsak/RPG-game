@@ -185,6 +185,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 30951550615980966}
     m_Modifications:
+    - target: {fileID: 659385588088264950, guid: 1086a27501b2b4315bc92256ab0aa63b, type: 3}
+      propertyPath: _onDie.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 659385588088264950, guid: 1086a27501b2b4315bc92256ab0aa63b, type: 3}
+      propertyPath: _onDie.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3202932936223335227, guid: 1086a27501b2b4315bc92256ab0aa63b, type: 3}
       propertyPath: m_Name
       value: Player

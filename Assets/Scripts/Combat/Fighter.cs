@@ -34,7 +34,8 @@ namespace RPG.Combat
 
         private float _timeSinceLastAttack = Mathf.Infinity;
 
-        private AutoInit<WeaponConfig> _currentWeapon;
+        private WeaponConfig _currentWeaponConfig;
+        private AutoInit<Weapon> _currentWeapon;
         #endregion
 
 
@@ -48,12 +49,14 @@ namespace RPG.Combat
             _animator = GetComponent<Animator>();
             _baseStats = GetComponent<BaseStats>();
 
-            _currentWeapon = new AutoInit<WeaponConfig>(GetInitialCurrentWeapon);
+            
+            _currentWeapon = new AutoInit<Weapon>(GetInitialCurrentWeapon);
+            _currentWeaponConfig = _defaultWeapon;
         }
 
         private void Start()
         {
-            _currentWeapon.ForceInit(); // Otherwise wew won't have weapon when start the game since no one call currentWeapon unless we pickup
+            _currentWeapon.ForceInit(); // Init Default Weapon, Also WON'T Run if already init from save (but it will since save run after this)
         }
 
         private void Update()
@@ -80,8 +83,8 @@ namespace RPG.Combat
         #region --Methods-- (Custom PUBLIC)
         public void EquippedWeapon(WeaponConfig pickupWeapon)
         {
-            _currentWeapon.value = pickupWeapon;
-            AttachWeaopn(pickupWeapon);
+            _currentWeaponConfig = pickupWeapon;
+            _currentWeapon.value = AttachWeaopn(pickupWeapon);
         }
 
         public void Attack(GameObject combatTarget)
@@ -108,9 +111,9 @@ namespace RPG.Combat
 
 
         #region --Methods-- (Custom PRIVATE)
-        private void AttachWeaopn(WeaponConfig weapon)
+        private Weapon AttachWeaopn(WeaponConfig weapon)
         {
-            weapon.Spawn(_rightHandTransform, _leftHandTransform, _animator);
+            return weapon.Spawn(_rightHandTransform, _leftHandTransform, _animator);
         }
 
         private void CancelAttack()
@@ -140,7 +143,7 @@ namespace RPG.Combat
             _animator.SetTrigger("Attack"); // This will Trigger the Hit() event
         }
 
-        private bool IsInStopRange() => Vector3.Distance(transform.position, _target.transform.position) < _currentWeapon.value.Range;
+        private bool IsInStopRange() => Vector3.Distance(transform.position, _target.transform.position) < _currentWeaponConfig.Range;
         #endregion
 
 
@@ -152,9 +155,14 @@ namespace RPG.Combat
 
             float damage = _baseStats.GetDamage();
 
-            if (_currentWeapon.value.HasProjectile)
+            if (_currentWeapon.value != null)
             {
-                _currentWeapon.value.LaunchProjectile(gameObject, _target, damage);
+                _currentWeapon.value.OnHit();
+            }
+
+            if (_currentWeaponConfig.HasProjectile)
+            {
+                _currentWeaponConfig.LaunchProjectile(gameObject, _target, damage);
             }
             else
             {
@@ -171,10 +179,9 @@ namespace RPG.Combat
 
 
         #region --Methods-- (Subscriber)
-        private WeaponConfig GetInitialCurrentWeapon()
+        private Weapon GetInitialCurrentWeapon()
         {
-            AttachWeaopn(_defaultWeapon);
-            return _defaultWeapon;
+            return AttachWeaopn(_defaultWeapon);
         }
         #endregion
 
@@ -189,7 +196,7 @@ namespace RPG.Combat
         // SAVING WILL Be better way on RPG part 2 course
         object ISaveable.CaptureState()
         {
-            return _currentWeapon.value.name; // name of the file
+            return _currentWeaponConfig.name; // name of the file
         }
 
         void ISaveable.RestoreState(object state)
@@ -203,7 +210,7 @@ namespace RPG.Combat
         {
             if (statType == StatType.Damage)
             {
-                yield return _currentWeapon.value.Damage;
+                yield return _currentWeaponConfig.Damage;
                 // This way it's concisely to say that we want to return something Otherwise return nothing or as empty list since we are using IEnumerable it's handy
                 // We can also return more than one thing by doing 'yield return _anotherCurrenetWeapon.Damage;' as it's allow in IEnumerable
             }
@@ -213,7 +220,7 @@ namespace RPG.Combat
         {
             if (statType == StatType.Damage)
             {
-                yield return _currentWeapon.value.DamageBonusPercentage;
+                yield return _currentWeaponConfig.DamageBonusPercentage;
             }
         }
         #endregion

@@ -23,7 +23,6 @@ namespace RPG.Combat
 
         #region --Fields-- (In Class)
         private const string _weaponName = "Weapon";
-        private GameObject _weaponCreated = null;
         private GameObject _launcherCreated = null;
         #endregion
 
@@ -39,7 +38,7 @@ namespace RPG.Combat
 
 
         #region --Methods-- (Custom PUBLIC)
-        public void Spawn(Transform rightHand, Transform leftHand, Animator animator)
+        public Weapon Spawn(Transform rightHand, Transform leftHand, Animator animator)
         {
             DestroyOldWeapon(rightHand, leftHand);
 
@@ -53,14 +52,17 @@ namespace RPG.Combat
                 animator.runtimeAnimatorController = overrideController.runtimeAnimatorController;
             }
 
+            Weapon weaponCreated = null;
             if (_equippedPrefab != null)
             {
-                _weaponCreated = Instantiate(_equippedPrefab.gameObject, GetTransform(rightHand, leftHand));
-                _weaponCreated.name = _weaponName;
+                weaponCreated = Instantiate(_equippedPrefab, GetTransform(rightHand, leftHand));
+                weaponCreated.gameObject.name = _weaponName;
 
                 if (_projectileLauncherPrefab != null)
-                    _launcherCreated = Instantiate(_projectileLauncherPrefab, _weaponCreated.transform);
+                    _launcherCreated = Instantiate(_projectileLauncherPrefab, weaponCreated.transform);
             }
+
+            return weaponCreated;
         }
 
         public void LaunchProjectile(GameObject attacker, Health target, float calculatedDamage)

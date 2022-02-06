@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using RPG.Control;
+using RPG.Attributes;
 
 namespace RPG.Combat
 {
@@ -9,6 +10,7 @@ namespace RPG.Combat
         #region --Fields-- (Inspector)
         [SerializeField] private WeaponConfig _pickupWeapon;
         [SerializeField] private float _respawnTime = 5f;
+        [SerializeField] private float _healthToRestore = 0f; // TEMP
         #endregion
 
 
@@ -18,7 +20,7 @@ namespace RPG.Combat
         {
             if (other.CompareTag("Player"))
             {
-                Pickup(other.GetComponent<Fighter>());
+                Pickup(other.gameObject);
             }
         }
         #endregion
@@ -26,11 +28,19 @@ namespace RPG.Combat
 
 
         #region --Methods-- (Custom PRIVATE)
-        private void Pickup(Fighter fighter)
+        private void Pickup(GameObject target)
         {
-            if (fighter == null) return;
+            if (target == null) return;
 
-            fighter.EquippedWeapon(_pickupWeapon);
+            if (_pickupWeapon != null)
+            {
+                target.GetComponent<Fighter>().EquippedWeapon(_pickupWeapon);
+            }
+            if (_healthToRestore > 0)
+            {
+                target.GetComponent<Health>().Heal(_healthToRestore);
+            }
+
             StartCoroutine(HideForSeconds(_respawnTime));
         }
 
@@ -72,7 +82,7 @@ namespace RPG.Combat
         {
             if (Input.GetMouseButtonDown(0))
             {
-                Pickup(playerController.GetComponent<Fighter>());
+                Pickup(playerController.gameObject);
             }
 
             return true;

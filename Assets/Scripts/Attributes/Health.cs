@@ -99,6 +99,13 @@ namespace RPG.Attributes
             OnHealthChanged?.Invoke();
         }
 
+        public void Heal(float healAmount)
+        {
+            HealthPoints.value = Mathf.Clamp(HealthPoints.value + healAmount, 0f, MaxHealthPoints);
+
+            OnHealthChanged?.Invoke();
+        }
+
         public float GetPercentage()
         {
             return GetPercentageDecimal() * 100f;
@@ -106,7 +113,7 @@ namespace RPG.Attributes
 
         public float GetPercentageDecimal()
         {
-            return Mathf.InverseLerp(0f, _baseStats.GetHealth(), HealthPoints.value);
+            return Mathf.InverseLerp(0f, MaxHealthPoints, HealthPoints.value);
         }
         #endregion
 
@@ -136,11 +143,11 @@ namespace RPG.Attributes
 
 
         #region --Methods-- (Subscriber)
-        private float GetInitialHealth() => _baseStats.GetHealth();
+        private float GetInitialHealth() => MaxHealthPoints;
 
         private void RegenerateHealth()
         {
-            float regenHealthPoints = (_baseStats.GetHealth() * _healthRegneratePercentage) / 100f;
+            float regenHealthPoints = (MaxHealthPoints * _healthRegneratePercentage) / 100f;
             HealthPoints.value = Mathf.Max(HealthPoints.value, regenHealthPoints);
 
             OnHealthChanged?.Invoke();

@@ -13,6 +13,7 @@ namespace RPG.Control
         [SerializeField] private float _chaseDistance = 5f;
         [SerializeField] private float _suspicionTime = 5f;
         [SerializeField] private float _aggravateCoolDownTime = 8f;
+        [SerializeField] private float _shoutDistance = 6f;
 
         [Header("Patrol")]
         [SerializeField] private PatrolPath _patrolPath;
@@ -45,6 +46,8 @@ namespace RPG.Control
         private int _currentWaypointIndex = 0;
         private float _timeSinceArrivedAtWaypoint = Mathf.Infinity;
         private float _timeSinceAggravated = Mathf.Infinity;
+        private AIController _aggravateCaller = null;
+        private bool _canAggravate = true;
         #endregion
 
 
@@ -99,9 +102,12 @@ namespace RPG.Control
 
 
         #region --Methods-- (Custom PUBLIC)
-        public void Aggravate()
+        public void Aggravate(AIController caller)
         {
             _timeSinceAggravated = 0f;
+            _aggravateCaller = caller;
+            _canAggravate = true;
+            print(caller);
         }
         #endregion
 
@@ -113,12 +119,21 @@ namespace RPG.Control
             _timeSinceLastSawPlayer += Time.deltaTime;
             _timeSinceArrivedAtWaypoint += Time.deltaTime;
             _timeSinceAggravated += Time.deltaTime;
+
+            if (_timeSinceAggravated >= _aggravateCoolDownTime)
+                _canAggravate = true;
         }
 
         private void AttackBehaviour()
         {
             _timeSinceLastSawPlayer = 0f;
             _fighter.Attack(_player.gameObject);
+
+            if (_canAggravate)
+            {
+                AggravateNearbyEnemies();
+                _canAggravate = false;
+            }
         }
 
         private void SuspicionBehaviour()
@@ -156,6 +171,23 @@ namespace RPG.Control
             float distanceToPlayer = Vector3.Distance(transform.position, _player.position);
 
             return distanceToPlayer < _chaseDistance || _timeSinceAggravated < _aggravateCoolDownTime;
+        }
+
+        private void AggravateNearbyEnemies()
+        {
+            RaycastHit[] hits = Physics.SphereCastAll(transform.position, _shoutDistance, Vector3.up, 0f);
+
+            print(transform.name + " STARTED");
+            print(transform.name + hits.Length);
+            foreach (RaycastHit eachHit in hits)
+            {
+                
+                AIController otherAI = eachHit.transform.GetComponent<AIController>();
+                if (otherAI == null || otherAI == _aggravateCaller || otherAI == this) continue;
+                print(transform.name + " Activate : " + eachHit.transform.name);
+                otherAI.Aggravate(this);
+            }
+            print(transform.name + " ENDED");
         }
 
         private bool AtWaypoint() => Vector3.Distance(transform.position, GetCurrentWaypoint()) < _waypointReachDistance;

@@ -57,7 +57,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4989239459153347107, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
       propertyPath: _onTakeDamage.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4989239459153347107, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
       propertyPath: _onTakeDamage.m_PersistentCalls.m_Calls.Array.data[2].m_Target
@@ -76,8 +76,12 @@ PrefabInstance:
       value: RPG.Control.AIController, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 4989239459153347107, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
+      propertyPath: _onTakeDamage.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 1343619555467402812}
+    - target: {fileID: 4989239459153347107, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
       propertyPath: _onTakeDamage.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
+      value: RPG.Control.AIController, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 6505787002151178722, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
       propertyPath: _audioClips.Array.size
@@ -203,7 +207,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _chaseDistance: 20
   _suspicionTime: 5
-  _aggravateTime: 8
+  _aggravateCoolDownTime: 0
+  _shoutDistance: 6
   _patrolPath: {fileID: 0}
   _patrolSpeedFraction: 0.3
   _waypointDwellTime: 2

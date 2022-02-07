@@ -14,6 +14,7 @@ namespace RPG.Control
         [Range(0.1f, 4f)]
         [SerializeField] private float _maxNavMeshDetectionRange = 2f;
         [SerializeField] private CursorMapping[] _cursorMappings = null;
+        [SerializeField] private float _raycastRadius = 0.5f;
         #endregion
 
 
@@ -102,7 +103,7 @@ namespace RPG.Control
         private RaycastHit[] RaycastAllSorted()
         {
             // Draw the ray GET ALL, WON'T GET BLOCK & SORTED with Hit Distance
-            RaycastHit[] hits = Physics.RaycastAll(GetMouseRay());
+            RaycastHit[] hits = Physics.SphereCastAll(GetMouseRay(), _raycastRadius);
 
             float[] distances = new float[hits.Length];
             for (int i = 0; i < distances.Length; i++)

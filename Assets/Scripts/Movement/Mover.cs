@@ -12,6 +12,8 @@ namespace RPG.Movement
     {
         #region --Fields-- (Inspector)
         [SerializeField] private float _maxSpeed = 5.66f;
+        [Tooltip("How long can It Travel? Especially for Player Cursor Detection otherwise player can just go in one shot on the other side of river for example.")]
+        [SerializeField] private float _maxDestinationLength = 40f;
         #endregion
 
 
@@ -72,11 +74,40 @@ namespace RPG.Movement
         {
             _agent.isStopped = true;
         }
+
+        public bool CanMoveTo(Vector3 destination)
+        {
+            // Only Navigate where the NavMeshPath is not Cut (like NavMesh on the roof) & Not Too Far Away
+            NavMeshPath path = new NavMeshPath();
+            if (NavMesh.CalculatePath(transform.position, destination, NavMesh.AllAreas, path))
+            {
+                if (path.status == NavMeshPathStatus.PathComplete && GetPathLength(path) < _maxDestinationLength)
+                    return true;
+            }
+
+            return false;
+        }
         #endregion
 
 
 
         #region --Methods-- (Custom PRIVATE)
+        private float GetPathLength(NavMeshPath path)
+        {
+            // SUM All Distance Between each Corners Pair that Player has to travel
+
+            Vector3[] pathCorners = path.corners;
+            float totalLength = 0f;
+            if (pathCorners.Length < 2) return totalLength;
+
+            for (int i = 1; i < pathCorners.Length; i++)
+            {
+                totalLength += Vector3.Distance(pathCorners[i - 1], pathCorners[i]);
+            }
+
+            return totalLength;
+        }
+
         private void AnimateCharacter()
         {
             Vector3 globalVelocity = _agent.velocity;

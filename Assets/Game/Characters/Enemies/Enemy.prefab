@@ -231,6 +231,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 6947039788277725684, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
+      propertyPath: _maxDestinationLength
+      value: 400
+      objectReference: {fileID: 0}
     - target: {fileID: 7835172376215809726, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -288,7 +292,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _chaseDistance: 12
   _suspicionTime: 5
-  _aggravateCoolDownTime: 8
+  _aggravateCoolDownTime: 10
   _shoutDistance: 6
   _patrolPath: {fileID: 0}
   _patrolSpeedFraction: 0.3

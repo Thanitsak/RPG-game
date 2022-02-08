@@ -13,6 +13,8 @@ namespace RPG.Control
         [Tooltip("Only Navigate where there is NavMesh with 'extended range' to place where there is No NavMesh")]
         [Range(0.1f, 4f)]
         [SerializeField] private float _maxNavMeshDetectionRange = 2f;
+        [Tooltip("How long can Player Travel? FOR Cursor Detection otherwise player can just Click in one shot on the other side of river for example.")]
+        [SerializeField] private float _maxDestinationLength = 40f;
         [SerializeField] private CursorMapping[] _cursorMappings = null;
         [SerializeField] private float _raycastRadius = 0.5f;
         #endregion
@@ -87,7 +89,7 @@ namespace RPG.Control
         {
             if (RaycastNavMesh(out Vector3 target))
             {
-                if (!_mover.CanMoveTo(target)) return false;
+                if (!_mover.CanMoveToUnderMaxLength(target, _maxDestinationLength)) return false;
 
                 if (Input.GetMouseButton(0))
                 {

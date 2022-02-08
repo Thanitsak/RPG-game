@@ -12,8 +12,6 @@ namespace RPG.Movement
     {
         #region --Fields-- (Inspector)
         [SerializeField] private float _maxSpeed = 5.66f;
-        [Tooltip("How long can It Travel? Especially for Player Cursor Detection otherwise player can just go in one shot on the other side of river for example.")]
-        [SerializeField] private float _maxDestinationLength = 40f;
         #endregion
 
 
@@ -75,13 +73,26 @@ namespace RPG.Movement
             _agent.isStopped = true;
         }
 
-        public bool CanMoveTo(Vector3 destination)
+        public bool CanMoveToNoMaxLength(Vector3 destination)
         {
             // Only Navigate where the NavMeshPath is not Cut (like NavMesh on the roof) & Not Too Far Away
             NavMeshPath path = new NavMeshPath();
             if (NavMesh.CalculatePath(transform.position, destination, NavMesh.AllAreas, path))
             {
-                if (path.status == NavMeshPathStatus.PathComplete && GetPathLength(path) < _maxDestinationLength)
+                if (path.status == NavMeshPathStatus.PathComplete)
+                    return true;
+            }
+
+            return false;
+        }
+
+        public bool CanMoveToUnderMaxLength(Vector3 destination, float maxDestinationLength)
+        {
+            // Only Navigate where the NavMeshPath is not Cut (like NavMesh on the roof) & Not Too Far Away
+            NavMeshPath path = new NavMeshPath();
+            if (NavMesh.CalculatePath(transform.position, destination, NavMesh.AllAreas, path))
+            {
+                if (path.status == NavMeshPathStatus.PathComplete && GetPathLength(path) < maxDestinationLength)
                     return true;
             }
 

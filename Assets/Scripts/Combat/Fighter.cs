@@ -66,7 +66,7 @@ namespace RPG.Combat
             if (_target == null) return;
             if (_target.IsDead) return;
 
-            if (!IsInStopRange())
+            if (!IsInStopRange(_target.transform))
             {
                 _mover.MoveTo(_target.transform.position, _chaseSpeedFraction);
             }
@@ -97,7 +97,9 @@ namespace RPG.Combat
         public bool CanAttack(GameObject combatTarget)
         {
             if (combatTarget == null) return false;
-            if (!_mover.CanMoveTo(combatTarget.transform.position)) return false;
+
+            if (!_mover.CanMoveToNoMaxLength(combatTarget.transform.position) && !IsInStopRange(combatTarget.transform))
+                return false;
 
             Health target = combatTarget.GetComponent<Health>();
             return target != null && !target.IsDead;
@@ -144,7 +146,7 @@ namespace RPG.Combat
             _animator.SetTrigger("Attack"); // This will Trigger the Hit() event
         }
 
-        private bool IsInStopRange() => Vector3.Distance(transform.position, _target.transform.position) < _currentWeaponConfig.Range;
+        private bool IsInStopRange(Transform targetTransform) => Vector3.Distance(transform.position, targetTransform.position) < _currentWeaponConfig.Range;
         #endregion
 
 

@@ -6,6 +6,7 @@ using RPG.Attributes;
 using RPG.Stats;
 using System.Collections.Generic;
 using RPG.Utils;
+using GameDevTV.Inventories;
 
 namespace RPG.Combat
 {
@@ -36,6 +37,7 @@ namespace RPG.Combat
 
         private WeaponConfig _currentWeaponConfig;
         private AutoInit<Weapon> _currentWeapon;
+        private Equipment _equipment;
         #endregion
 
 
@@ -49,14 +51,26 @@ namespace RPG.Combat
             _animator = GetComponent<Animator>();
             _baseStats = GetComponent<BaseStats>();
 
-            
             _currentWeapon = new AutoInit<Weapon>(GetInitialCurrentWeapon);
             _currentWeaponConfig = _defaultWeapon;
+            _equipment = GetComponent<Equipment>();
+        }
+
+        private void OnEnable()
+        {
+            if (_equipment != null)
+                _equipment.equipmentUpdated += UpdateWeapon;
         }
 
         private void Start()
         {
             _currentWeapon.ForceInit(); // Init Default Weapon, Also WON'T Run if already init from save (but it will since save run after this)
+        }
+
+        private void OnDisable()
+        {
+            if (_equipment != null)
+                _equipment.equipmentUpdated -= UpdateWeapon;
         }
 
         private void Update()
@@ -114,6 +128,20 @@ namespace RPG.Combat
 
 
         #region --Methods-- (Custom PRIVATE)
+        private void UpdateWeapon()
+        {
+            WeaponConfig itemInWeaponSlot = _equipment.GetItemInSlot(EquipLocation.Weapon) as WeaponConfig;
+
+            if (itemInWeaponSlot != null)
+            {
+                EquippedWeapon(itemInWeaponSlot);
+            }
+            else
+            {
+                EquippedWeapon(_defaultWeapon);
+            }
+        }
+
         private Weapon AttachWeaopn(WeaponConfig weapon)
         {
             return weapon.Spawn(_rightHandTransform, _leftHandTransform, _animator);

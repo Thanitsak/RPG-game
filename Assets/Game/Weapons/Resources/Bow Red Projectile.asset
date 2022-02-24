@@ -12,6 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61a27249f6d614d16b45446e7c7d08e3, type: 3}
   m_Name: Bow Red Projectile
   m_EditorClassIdentifier: 
+  itemID: 7db5faa8-3e29-434d-a29f-571382d101f4
+  displayName: Normal Red Bow
+  description: Goblin lover bow. Colored in Red not that good in damage but range
+    is somewhat okay.
+  icon: {fileID: 21300000, guid: dbef0a76fe3974542888e09e324d1836, type: 3}
+  pickup: {fileID: 0}
+  stackable: 0
+  allowedEquipLocation: 5
   _equippedPrefab: {fileID: -1704807085310227917, guid: d9a7ba8b2884b4a6d92f9344e67bb22c, type: 3}
   _animatorOverride: {fileID: 22100000, guid: 1a7722125b7444579a644003ba90cb96, type: 2}
   _damage: 5

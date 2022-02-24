@@ -12,6 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61a27249f6d614d16b45446e7c7d08e3, type: 3}
   m_Name: Sword
   m_EditorClassIdentifier: 
+  itemID: b5b4419c-02a4-4fbe-974a-6c4df536f4e0
+  displayName: Sword
+  description: Forged long long back with around hundread years ago...
+  icon: {fileID: 21300000, guid: c5f379770ddf3470cab5328d5615bb23, type: 3}
+  pickup: {fileID: 0}
+  stackable: 0
+  allowedEquipLocation: 5
   _equippedPrefab: {fileID: 4310933388484756780, guid: 74bacb386326f457ebd3782be7077c20, type: 3}
   _animatorOverride: {fileID: 22100000, guid: c155f25a180b44b789db8282b1ff312f, type: 2}
   _damage: 10

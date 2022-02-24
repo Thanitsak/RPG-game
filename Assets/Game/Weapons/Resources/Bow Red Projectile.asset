@@ -14,10 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemID: 7db5faa8-3e29-434d-a29f-571382d101f4
   displayName: Normal Red Bow
-  description: Goblin lover bow. Colored in Red not that good in damage but range
-    is somewhat okay.
+  description: '+5 Damage
+
+    Goblin''s lover bow. Colored in Red not that good
+    in damage but range is somewhat okay.'
   icon: {fileID: 21300000, guid: dbef0a76fe3974542888e09e324d1836, type: 3}
-  pickup: {fileID: 0}
+  pickup: {fileID: 2163235258711957123, guid: f9c2732d21c4041d3aad7890ad79caa9, type: 3}
   stackable: 0
   allowedEquipLocation: 5
   _equippedPrefab: {fileID: -1704807085310227917, guid: d9a7ba8b2884b4a6d92f9344e67bb22c, type: 3}

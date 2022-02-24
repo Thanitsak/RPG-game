@@ -4,13 +4,12 @@ using RPG.Movement;
 using RPG.Saving;
 using RPG.Attributes;
 using RPG.Stats;
-using System.Collections.Generic;
 using RPG.Utils;
 using GameDevTV.Inventories;
 
 namespace RPG.Combat
 {
-    public class Fighter : MonoBehaviour, IAction, ISaveable, IModifierProvider
+    public class Fighter : MonoBehaviour, IAction, ISaveable
     {
         #region --Fields-- (Inspector)
         [SerializeField] private float _timeBetweenAttacks = 1f;
@@ -20,6 +19,7 @@ namespace RPG.Combat
         [Header("Weapon")]
         [SerializeField] private Transform _rightHandTransform = null;
         [SerializeField] private Transform _leftHandTransform = null;
+        [Tooltip("Default Weapon will be used when nothing is being equipped in the Weapon Slot")]
         [SerializeField] private WeaponConfig _defaultWeapon = null;
         #endregion
 
@@ -50,10 +50,10 @@ namespace RPG.Combat
             _mover = GetComponent<Mover>();
             _animator = GetComponent<Animator>();
             _baseStats = GetComponent<BaseStats>();
+            _equipment = GetComponent<Equipment>();
 
             _currentWeapon = new AutoInit<Weapon>(GetInitialCurrentWeapon);
             _currentWeaponConfig = _defaultWeapon;
-            _equipment = GetComponent<Equipment>();
         }
 
         private void OnEnable()
@@ -128,20 +128,6 @@ namespace RPG.Combat
 
 
         #region --Methods-- (Custom PRIVATE)
-        private void UpdateWeapon()
-        {
-            WeaponConfig itemInWeaponSlot = _equipment.GetItemInSlot(EquipLocation.Weapon) as WeaponConfig;
-
-            if (itemInWeaponSlot != null)
-            {
-                EquippedWeapon(itemInWeaponSlot);
-            }
-            else
-            {
-                EquippedWeapon(_defaultWeapon);
-            }
-        }
-
         private Weapon AttachWeaopn(WeaponConfig weapon)
         {
             return weapon.Spawn(_rightHandTransform, _leftHandTransform, _animator);
@@ -210,6 +196,20 @@ namespace RPG.Combat
 
 
         #region --Methods-- (Subscriber)
+        private void UpdateWeapon()
+        {
+            WeaponConfig itemInWeaponSlot = _equipment.GetItemInSlot(EquipLocation.Weapon) as WeaponConfig;
+
+            if (itemInWeaponSlot != null)
+            {
+                EquippedWeapon(itemInWeaponSlot);
+            }
+            else
+            {
+                EquippedWeapon(_defaultWeapon);
+            }
+        }
+
         private Weapon GetInitialCurrentWeapon()
         {
             return AttachWeaopn(_defaultWeapon);
@@ -235,24 +235,6 @@ namespace RPG.Combat
             string weaponName = (string)state;
             WeaponConfig weapon = Resources.Load<WeaponConfig>(weaponName);
             EquippedWeapon(weapon);
-        }
-
-        IEnumerable<float> IModifierProvider.GetAdditiveModifiers(StatType statType)
-        {
-            if (statType == StatType.Damage)
-            {
-                yield return _currentWeaponConfig.Damage;
-                // This way it's concisely to say that we want to return something Otherwise return nothing or as empty list since we are using IEnumerable it's handy
-                // We can also return more than one thing by doing 'yield return _anotherCurrenetWeapon.Damage;' as it's allow in IEnumerable
-            }
-        }
-
-        IEnumerable<float> IModifierProvider.GetPercentageModifiers(StatType statType)
-        {
-            if (statType == StatType.Damage)
-            {
-                yield return _currentWeaponConfig.DamageBonusPercentage;
-            }
         }
         #endregion
     }

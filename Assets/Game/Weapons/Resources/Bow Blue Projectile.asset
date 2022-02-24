@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemID: 79c916da-d366-4501-b611-6670889a5249
   displayName: Normal Blue Bow
-  description: Looks charming but not that good in damage...
+  description: '+5 Damage / +10% Bonus on Top
+
+    Looks charming but not that good
+    in damage...'
   icon: {fileID: 21300000, guid: dbef0a76fe3974542888e09e324d1836, type: 3}
   pickup: {fileID: 2163235258711957123, guid: f9c2732d21c4041d3aad7890ad79caa9, type: 3}
   stackable: 0

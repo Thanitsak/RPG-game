@@ -81,6 +81,7 @@ namespace RPG.Stats
         #region --Methods-- (Custom PRIVATE) ~Stats Formula~
         private float GetStat(StatType statType)
         {
+            // ADDING PERCENTAGE 'ON TOP' of Both (BASESTAT + ADDITIVE MODIFIER)
             return ((GetBaseStat(statType) + GetAdditiveModifier(statType)) * (100f + GetPercentageModifier(statType))) / 100f; // +100f cuz we want on top of the Damage we currently have
         }
 

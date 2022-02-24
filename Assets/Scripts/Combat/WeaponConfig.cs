@@ -1,11 +1,13 @@
 using UnityEngine;
 using RPG.Attributes;
+using RPG.Stats;
 using GameDevTV.Inventories;
+using System.Collections.Generic;
 
 namespace RPG.Combat
 {
-    [CreateAssetMenu(fileName = "Weapon", menuName = "Weapons/Make New Weapon", order = 0)]
-    public class WeaponConfig : EquipableItem
+    [CreateAssetMenu(fileName = "Weapon", menuName = "RPG/Weapons/Make New Weapon", order = 0)]
+    public class WeaponConfig : EquipableItem, IModifierProvider
     {
         #region --Fields-- (Inspector)
         [SerializeField] private Weapon _equippedPrefab = null;
@@ -97,6 +99,28 @@ namespace RPG.Combat
                 handTransform = leftHand;
 
             return handTransform;
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Interface)
+        IEnumerable<float> IModifierProvider.GetAdditiveModifiers(StatType statType)
+        {
+            if (statType == StatType.Damage)
+            {
+                yield return Damage;
+                // This way it's concisely to say that we want to return something Otherwise return nothing or as empty list since we are using IEnumerable it's handy
+                // We can also return more than one thing by doing 'yield return _anotherCurrenetWeapon.Damage;' as it's allow in IEnumerable
+            }
+        }
+
+        IEnumerable<float> IModifierProvider.GetPercentageModifiers(StatType statType)
+        {
+            if (statType == StatType.Damage)
+            {
+                yield return DamageBonusPercentage;
+            }
         }
         #endregion
     }

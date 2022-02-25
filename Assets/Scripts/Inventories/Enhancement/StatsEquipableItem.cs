@@ -8,10 +8,8 @@ namespace GameDevTV.Inventories.Enhancement
     public class StatsEquipableItem : EquipableItem, IModifierProvider
     {
         #region --Fields-- (Inspector)
-        [SerializeField]
-        private Modifier[] _additiveModifiers;
-        [SerializeField]
-        private Modifier[] _percentageModifiers;
+        [SerializeField] private Modifier[] _additiveModifiers;
+        [SerializeField] private Modifier[] _percentageModifiers;
         #endregion
 
 

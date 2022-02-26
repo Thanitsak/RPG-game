@@ -98,6 +98,10 @@ namespace GameDevTV.Inventories
                     equippedItems[pair.Key] = item;
                 }
             }
+            if (equipmentUpdated != null)
+            {
+                equipmentUpdated();
+            }
         }
     }
 }

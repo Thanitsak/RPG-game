@@ -1,5 +1,7 @@
+using RPG.Stats;
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections.Generic;
 
 namespace GameDevTV.Inventories.Enhancement
 {
@@ -9,7 +11,7 @@ namespace GameDevTV.Inventories.Enhancement
         [Tooltip("How far can the pickups be scattered from the dropper location.")]
         [SerializeField] private float _scatterDistance = 1f;
         [Tooltip("For Enemies Drops")]
-        [SerializeField] private InventoryItem[] _dropItemsLibrary = null;
+        [SerializeField] private DropLibrary _dropLibrary = null;
         #endregion
 
 
@@ -29,13 +31,12 @@ namespace GameDevTV.Inventories.Enhancement
         #region --Methods-- (Custom PUBLIC)
         public void RandomDrop()
         {
-            int dropItemsNumber = Random.Range(2, 5);
-            print(dropItemsNumber);
+            BaseStats baseStats = GetComponent<BaseStats>();
 
-            for (int i = 0; i < dropItemsNumber; i++)
+            IEnumerable<DropLibrary.Dropped> items = _dropLibrary.GetRandomDrops(baseStats.GetLevel());
+            foreach (DropLibrary.Dropped each in items)
             {
-                InventoryItem item = _dropItemsLibrary[Random.Range(0, _dropItemsLibrary.Length)];
-                DropItem(item, 1);
+                DropItem(each.item, each.number);
             }
         }
         #endregion

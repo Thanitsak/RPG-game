@@ -342,9 +342,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scatterDistance: 3
-  _dropItemsLibrary:
-  - {fileID: 11400000, guid: ac01bdfd42f574dbea8c177bbb9de907, type: 2}
-  - {fileID: 11400000, guid: 3c8ae78be6d564981a72716a785c0662, type: 2}
+  _dropLibrary: {fileID: 11400000, guid: 870e1f21bb9834a35b379eb3f9c741b7, type: 2}
 --- !u!1001 &7619708971042197499
 PrefabInstance:
   m_ObjectHideFlags: 0

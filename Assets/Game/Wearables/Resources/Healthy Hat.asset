@@ -19,7 +19,7 @@ MonoBehaviour:
     This hat feels sooo comfyyy!'
   icon: {fileID: 21300000, guid: a6d1118f239904a668126198564cc6a1, type: 3}
   pickup: {fileID: 5895303352902229890, guid: 632357b0906104c6483a866e6e8043ef, type: 3}
-  stackable: 0
+  stackable: 1
   allowedEquipLocation: 0
   _additiveModifiers:
   - statType: 0

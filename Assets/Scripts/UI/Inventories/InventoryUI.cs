@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using GameDevTV.Inventories;
+using RPG.Inventories;
 
-namespace GameDevTV.UI.Inventories
+namespace RPG.UI.Inventories
 {
     /// <summary>
     /// To be placed on the root of the inventory UI. Handles spawning all the

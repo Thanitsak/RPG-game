@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace GameDevTV.UI.Temp
+namespace RPG.UI.Temp
 {
     public class ShowHideUI : MonoBehaviour
     {

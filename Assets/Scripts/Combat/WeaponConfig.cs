@@ -1,7 +1,7 @@
 using UnityEngine;
 using RPG.Attributes;
 using RPG.Stats;
-using GameDevTV.Inventories;
+using RPG.Inventories;
 using System.Collections.Generic;
 
 namespace RPG.Combat

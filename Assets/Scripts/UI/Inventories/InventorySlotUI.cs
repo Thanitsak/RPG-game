@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
-using GameDevTV.Inventories;
-using GameDevTV.Core.UI.Dragging;
+using RPG.Inventories;
+using RPG.Utils.UI.Dragging;
 
-namespace GameDevTV.UI.Inventories
+namespace RPG.UI.Inventories
 {
     public class InventorySlotUI : MonoBehaviour, IItemHolder, IDragContainer<InventoryItem>
     {

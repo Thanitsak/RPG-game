@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
 
-namespace GameDevTV.Inventories.Enhancement
+namespace RPG.Inventories.Enhancement
 {
     public class RandomDropper : ItemDropper
     {

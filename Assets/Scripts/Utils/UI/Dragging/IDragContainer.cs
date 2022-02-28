@@ -1,4 +1,4 @@
-﻿namespace GameDevTV.Core.UI.Dragging
+﻿namespace RPG.Utils.UI.Dragging
 {
     /// <summary>
     /// Acts both as a source and destination for dragging. If we are dragging

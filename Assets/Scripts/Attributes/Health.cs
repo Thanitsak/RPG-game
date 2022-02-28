@@ -5,7 +5,7 @@ using RPG.Core;
 using RPG.Utils;
 using UnityEngine.Events;
 using System;
-using GameDevTV.Inventories;
+using RPG.Inventories;
 
 namespace RPG.Attributes
 {

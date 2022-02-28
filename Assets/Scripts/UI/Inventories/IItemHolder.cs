@@ -1,6 +1,6 @@
-﻿using GameDevTV.Inventories;
+﻿using RPG.Inventories;
 
-namespace GameDevTV.UI.Inventories
+namespace RPG.UI.Inventories
 {
     /// <summary>
     /// Allows the `ItemTooltipSpawner` to display the right information.

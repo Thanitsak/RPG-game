@@ -1,8 +1,8 @@
 using UnityEngine;
-using GameDevTV.Core.UI.Dragging;
-using GameDevTV.Inventories;
+using RPG.Utils.UI.Dragging;
+using RPG.Inventories;
 
-namespace GameDevTV.UI.Inventories
+namespace RPG.UI.Inventories
 {
     /// <summary>
     /// Handles spawning pickups when item dropped into the world.

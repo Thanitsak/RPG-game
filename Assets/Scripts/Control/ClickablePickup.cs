@@ -1,6 +1,6 @@
 using UnityEngine;
 using RPG.Movement;
-using GameDevTV.Inventories;
+using RPG.Inventories;
 
 namespace RPG.Control
 {

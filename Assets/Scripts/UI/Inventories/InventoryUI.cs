@@ -11,14 +11,19 @@ namespace GameDevTV.UI.Inventories
     /// </summary>
     public class InventoryUI : MonoBehaviour
     {
-        // CONFIG DATA
+        #region --Fields-- (Inspector)
         [SerializeField] InventorySlotUI InventoryItemPrefab = null;
+        #endregion
 
-        // CACHE
+
+
+        #region --Fields-- (In Class)
         Inventory playerInventory;
+        #endregion
 
-        // LIFECYCLE METHODS
 
+
+        #region --Methods-- (Built In)
         private void Awake()
         {
             playerInventory = Inventory.GetPlayerInventory();
@@ -29,9 +34,11 @@ namespace GameDevTV.UI.Inventories
         {
             Redraw();
         }
+        #endregion
 
-        // PRIVATE
 
+
+        #region --Methods-- (Subscriber)
         private void Redraw()
         {
             foreach (Transform child in transform)
@@ -45,5 +52,6 @@ namespace GameDevTV.UI.Inventories
                 itemUI.Setup(playerInventory, i);
             }
         }
+        #endregion
     }
 }

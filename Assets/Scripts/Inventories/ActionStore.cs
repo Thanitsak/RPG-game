@@ -13,21 +13,22 @@ namespace GameDevTV.Inventories
     /// </summary>
     public class ActionStore : MonoBehaviour, ISaveable
     {
-        // STATE
-        Dictionary<int, DockedItemSlot> dockedItems = new Dictionary<int, DockedItemSlot>();
-        private class DockedItemSlot
-        {
-            public ActionItem item;
-            public int number;
-        }
-
-        // PUBLIC
-
+        #region --Events-- (Delegate as Action)
         /// <summary>
         /// Broadcasts when the items in the slots are added/removed.
         /// </summary>
         public event Action storeUpdated;
+        #endregion
 
+
+
+        #region --Fields-- (In Class)
+        Dictionary<int, DockedItemSlot> dockedItems = new Dictionary<int, DockedItemSlot>();
+        #endregion
+
+
+
+        #region --Methods-- (Custom PUBLIC)
         /// <summary>
         /// Get the action at the given index.
         /// </summary>
@@ -152,16 +153,11 @@ namespace GameDevTV.Inventories
 
             return 1;
         }
+        #endregion
 
-        /// PRIVATE
 
-        [System.Serializable]
-        private struct DockedItemRecord
-        {
-            public string itemID;
-            public int number;
-        }
 
+        #region --Methods-- (Interface)
         object ISaveable.CaptureState()
         {
             var state = new Dictionary<int, DockedItemRecord>();
@@ -187,5 +183,27 @@ namespace GameDevTV.Inventories
                 storeUpdated();
             }
         }
+        #endregion
+
+
+
+        #region --Classes-- (Custom PRIVATE)
+        private class DockedItemSlot
+        {
+            public ActionItem item;
+            public int number;
+        }
+        #endregion
+
+
+
+        #region --Structs-- (Custom PRIVATE)
+        [System.Serializable]
+        private struct DockedItemRecord
+        {
+            public string itemID;
+            public int number;
+        }
+        #endregion
     }
 }

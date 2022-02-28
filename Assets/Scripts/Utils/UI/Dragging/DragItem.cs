@@ -22,60 +22,27 @@ namespace GameDevTV.Core.UI.Dragging
     public class DragItem<T> : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
         where T : class
     {
-        // PRIVATE STATE
+        #region --Fields-- (In Class)
+        Canvas parentCanvas;
+
         Vector3 startPosition;
         Transform originalParent;
         IDragSource<T> source;
+        #endregion
 
-        // CACHED REFERENCES
-        Canvas parentCanvas;
 
-        // LIFECYCLE METHODS
+
+        #region --Methods-- (Built In)
         private void Awake()
         {
             parentCanvas = GetComponentInParent<Canvas>();
             source = GetComponentInParent<IDragSource<T>>();
         }
-
-        // PRIVATE
-        void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
-        {
-            startPosition = transform.position;
-            originalParent = transform.parent;
-            // Else won't get the drop event.
-            GetComponent<CanvasGroup>().blocksRaycasts = false;
-            transform.SetParent(parentCanvas.transform, true);
-        }
-
-        void IDragHandler.OnDrag(PointerEventData eventData)
-        {
-            transform.position = eventData.position;
-        }
-
-        void IEndDragHandler.OnEndDrag(PointerEventData eventData)
-        {
-            transform.position = startPosition;
-            GetComponent<CanvasGroup>().blocksRaycasts = true;
-            transform.SetParent(originalParent, true);
-
-            IDragDestination<T> container;
-            if (!EventSystem.current.IsPointerOverGameObject())
-            {
-                container = parentCanvas.GetComponent<IDragDestination<T>>();
-            }
-            else
-            {
-                container = GetContainer(eventData);
-            }
-
-            if (container != null)
-            {
-                DropItemIntoContainer(container);
-            }
+        #endregion
 
 
-        }
 
+        #region --Methods-- (Custom PRIVATE)
         private IDragDestination<T> GetContainer(PointerEventData eventData)
         {
             if (eventData.pointerEnter)
@@ -196,5 +163,48 @@ namespace GameDevTV.Core.UI.Dragging
             }
             return takeBackNumber;
         }
+        #endregion
+
+
+
+        #region --Methods-- (Interface)
+        void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
+        {
+            startPosition = transform.position;
+            originalParent = transform.parent;
+            // Else won't get the drop event.
+            GetComponent<CanvasGroup>().blocksRaycasts = false;
+            transform.SetParent(parentCanvas.transform, true);
+        }
+
+        void IDragHandler.OnDrag(PointerEventData eventData)
+        {
+            transform.position = eventData.position;
+        }
+
+        void IEndDragHandler.OnEndDrag(PointerEventData eventData)
+        {
+            transform.position = startPosition;
+            GetComponent<CanvasGroup>().blocksRaycasts = true;
+            transform.SetParent(originalParent, true);
+
+            IDragDestination<T> container;
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                container = parentCanvas.GetComponent<IDragDestination<T>>();
+            }
+            else
+            {
+                container = GetContainer(eventData);
+            }
+
+            if (container != null)
+            {
+                DropItemIntoContainer(container);
+            }
+
+
+        }
+        #endregion
     }
 }

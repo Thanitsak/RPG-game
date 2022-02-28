@@ -11,6 +11,7 @@ namespace GameDevTV.UI.Inventories
     [RequireComponent(typeof(IItemHolder))]
     public class ItemTooltipSpawner : TooltipSpawner
     {
+        #region --Methods-- (Override)
         public override bool CanCreateTooltip()
         {
             var item = GetComponent<IItemHolder>().GetItem();
@@ -28,5 +29,6 @@ namespace GameDevTV.UI.Inventories
 
             itemTooltip.Setup(item);
         }
+        #endregion
     }
 }

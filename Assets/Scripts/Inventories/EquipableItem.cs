@@ -9,15 +9,18 @@ namespace GameDevTV.Inventories
     [CreateAssetMenu(menuName = ("RPG/Inventory Item/Equipable Item"))]
     public class EquipableItem : InventoryItem
     {
-        // CONFIG DATA
+        #region --Fields-- (Inspector)
         [Tooltip("Where are we allowed to put this item.")]
         [SerializeField] EquipLocation allowedEquipLocation = EquipLocation.Weapon;
+        #endregion
 
-        // PUBLIC
 
+
+        #region --Methods-- (Custom PUBLIC)
         public EquipLocation GetAllowedEquipLocation()
         {
             return allowedEquipLocation;
         }
+        #endregion
     }
 }

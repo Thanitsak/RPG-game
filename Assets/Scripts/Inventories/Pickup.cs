@@ -8,23 +8,26 @@ namespace GameDevTV.Inventories
     /// </summary>
     public class Pickup : MonoBehaviour
     {
-        // STATE
-        InventoryItem item;
-        int number = 1;
-
-        // CACHED REFERENCE
+        #region --Fields-- (In Class)
         Inventory inventory;
 
-        // LIFECYCLE METHODS
+        InventoryItem item;
+        int number = 1;
+        #endregion
 
+
+
+        #region --Methods-- (Built In)
         private void Awake()
         {
             var player = GameObject.FindGameObjectWithTag("Player");
             inventory = player.GetComponent<Inventory>();
         }
+        #endregion
 
-        // PUBLIC
 
+
+        #region --Methods-- (Custom PUBLIC)
         /// <summary>
         /// Set the vital data after creating the prefab.
         /// </summary>
@@ -63,5 +66,6 @@ namespace GameDevTV.Inventories
         {
             return inventory.HasSpaceFor(item);
         }
+        #endregion
     }
 }

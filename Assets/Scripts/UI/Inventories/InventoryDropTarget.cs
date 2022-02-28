@@ -15,6 +15,7 @@ namespace GameDevTV.UI.Inventories
     /// </summary>
     public class InventoryDropTarget : MonoBehaviour, IDragDestination<InventoryItem>
     {
+        #region --Methods-- (Interface)
         public void AddItems(InventoryItem item, int number)
         {
             var player = GameObject.FindGameObjectWithTag("Player");
@@ -25,5 +26,6 @@ namespace GameDevTV.UI.Inventories
         {
             return int.MaxValue;
         }
+        #endregion
     }
 }

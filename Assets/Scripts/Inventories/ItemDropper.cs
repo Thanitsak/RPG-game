@@ -11,12 +11,14 @@ namespace GameDevTV.Inventories
     /// </summary>
     public class ItemDropper : MonoBehaviour, ISaveable
     {
-        // STATE
+        #region --Fields-- (In Class)
         private List<Pickup> droppedItems = new List<Pickup>();
         private List<DropRecord> otherSceneDroppedItems = new List<DropRecord>();
+        #endregion
 
-        // PUBLIC
 
+
+        #region --Methods-- (Custom PUBLIC)
         /// <summary>
         /// Create a pickup at the current position.
         /// </summary>
@@ -38,9 +40,11 @@ namespace GameDevTV.Inventories
         {
             SpawnPickup(item, GetDropLocation(), 1);
         }
+        #endregion
 
-        // PROTECTED
 
+
+        #region --Methods-- (Custom PROTECTED)
         /// <summary>
         /// Override to set a custom method for locating a drop.
         /// </summary>
@@ -49,24 +53,37 @@ namespace GameDevTV.Inventories
         {
             return transform.position;
         }
+        #endregion
 
-        // PRIVATE
 
-        public void SpawnPickup(InventoryItem item, Vector3 spawnLocation, int number)
+
+        #region --Methods-- (Custom PRIVATE)
+        private void SpawnPickup(InventoryItem item, Vector3 spawnLocation, int number)
         {
             var pickup = item.SpawnPickup(spawnLocation, number);
             droppedItems.Add(pickup);
         }
 
-        [System.Serializable]
-        private struct DropRecord
+        /// <summary>
+        /// Remove any drops in the world that have subsequently been picked up.
+        /// </summary>
+        private void RemoveDestroyedDrops()
         {
-            public string itemID;
-            public SerializableVector3 position;
-            public int number;
-            public int sceneBuildIndex;
+            var newList = new List<Pickup>();
+            foreach (var item in droppedItems)
+            {
+                if (item != null)
+                {
+                    newList.Add(item);
+                }
+            }
+            droppedItems = newList;
         }
+        #endregion
 
+
+
+        #region --Methods-- (Interface)
         object ISaveable.CaptureState()
         {
             RemoveDestroyedDrops();
@@ -109,21 +126,19 @@ namespace GameDevTV.Inventories
                 SpawnPickup(pickupItem, position, number);
             }
         }
+        #endregion
 
-        /// <summary>
-        /// Remove any drops in the world that have subsequently been picked up.
-        /// </summary>
-        private void RemoveDestroyedDrops()
+
+
+        #region --Structs-- (Custom PRIVATE)
+        [System.Serializable]
+        private struct DropRecord
         {
-            var newList = new List<Pickup>();
-            foreach (var item in droppedItems)
-            {
-                if (item != null)
-                {
-                    newList.Add(item);
-                }
-            }
-            droppedItems = newList;
+            public string itemID;
+            public SerializableVector3 position;
+            public int number;
+            public int sceneBuildIndex;
         }
+        #endregion
     }
 }

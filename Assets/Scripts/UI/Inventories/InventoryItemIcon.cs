@@ -14,12 +14,14 @@ namespace GameDevTV.UI.Inventories
     [RequireComponent(typeof(Image))]
     public class InventoryItemIcon : MonoBehaviour
     {
-        // CONFIG DATA
+        #region --Fields-- (Inspector)
         [SerializeField] GameObject textContainer = null;
         [SerializeField] TextMeshProUGUI itemNumber = null;
+        #endregion
 
-        // PUBLIC
 
+
+        #region --Methods-- (Custom PUBLIC)
         public void SetItem(InventoryItem item)
         {
             SetItem(item, 0);
@@ -51,5 +53,6 @@ namespace GameDevTV.UI.Inventories
                 }
             }
         }
+        #endregion
     }
 }

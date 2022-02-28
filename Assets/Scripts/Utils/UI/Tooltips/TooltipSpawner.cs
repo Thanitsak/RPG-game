@@ -12,13 +12,34 @@ namespace GameDevTV.Core.UI.Tooltips
     /// </summary>
     public abstract class TooltipSpawner : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
-        // CONFIG DATA
+        #region --Fields-- (Inspector)
         [Tooltip("The prefab of the tooltip to spawn.")]
         [SerializeField] GameObject tooltipPrefab = null;
+        #endregion
 
-        // PRIVATE STATE
+
+
+        #region --Fields-- (In Class)
         GameObject tooltip = null;
+        #endregion
 
+
+
+        #region --Methods-- (Built In)
+        private void OnDestroy()
+        {
+            ClearTooltip();
+        }
+
+        private void OnDisable()
+        {
+            ClearTooltip();
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Custom PUBLIC)
         /// <summary>
         /// Called when it is time to update the information on the tooltip
         /// prefab.
@@ -32,40 +53,11 @@ namespace GameDevTV.Core.UI.Tooltips
         /// Return true when the tooltip spawner should be allowed to create a tooltip.
         /// </summary>
         public abstract bool CanCreateTooltip();
+        #endregion
 
-        // PRIVATE
 
-        private void OnDestroy()
-        {
-            ClearTooltip();
-        }
 
-        private void OnDisable()
-        {
-            ClearTooltip();
-        }
-
-        void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
-        {
-            var parentCanvas = GetComponentInParent<Canvas>();
-
-            if (tooltip && !CanCreateTooltip())
-            {
-                ClearTooltip();
-            }
-
-            if (!tooltip && CanCreateTooltip())
-            {
-                tooltip = Instantiate(tooltipPrefab, parentCanvas.transform);
-            }
-
-            if (tooltip)
-            {
-                UpdateTooltip(tooltip);
-                PositionTooltip();
-            }
-        }
-
+        #region --Methods-- (Custom PRIVATE)
         private void PositionTooltip()
         {
             // Required to ensure corners are updated by positioning elements.
@@ -94,6 +86,39 @@ namespace GameDevTV.Core.UI.Tooltips
 
         }
 
+        private void ClearTooltip()
+        {
+            if (tooltip)
+            {
+                Destroy(tooltip.gameObject);
+            }
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Interface)
+        void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
+        {
+            var parentCanvas = GetComponentInParent<Canvas>();
+
+            if (tooltip && !CanCreateTooltip())
+            {
+                ClearTooltip();
+            }
+
+            if (!tooltip && CanCreateTooltip())
+            {
+                tooltip = Instantiate(tooltipPrefab, parentCanvas.transform);
+            }
+
+            if (tooltip)
+            {
+                UpdateTooltip(tooltip);
+                PositionTooltip();
+            }
+        }
+
         void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
         {
             Vector3[] slotCorners = new Vector3[4];
@@ -104,13 +129,6 @@ namespace GameDevTV.Core.UI.Tooltips
 
             ClearTooltip();
         }
-
-        private void ClearTooltip()
-        {
-            if (tooltip)
-            {
-                Destroy(tooltip.gameObject);
-            }
-        }
+        #endregion
     }
 }

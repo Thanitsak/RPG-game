@@ -8,16 +8,21 @@ namespace GameDevTV.UI.Inventories
 {
     public class InventorySlotUI : MonoBehaviour, IItemHolder, IDragContainer<InventoryItem>
     {
-        // CONFIG DATA
+        #region --Fields-- (Inspector)
         [SerializeField] InventoryItemIcon icon = null;
+        #endregion
 
-        // STATE
+
+
+        #region --Fields-- (In Class)
         int index;
         InventoryItem item;
         Inventory inventory;
+        #endregion
 
-        // PUBLIC
 
+
+        #region --Methods-- (Custom PUBLIC)
         public void Setup(Inventory inventory, int index)
         {
             this.inventory = inventory;
@@ -53,5 +58,6 @@ namespace GameDevTV.UI.Inventories
         {
             inventory.RemoveFromSlot(index, number);
         }
+        #endregion
     }
 }

@@ -13,16 +13,22 @@ namespace GameDevTV.Inventories
     /// </summary>
     public class Equipment : MonoBehaviour, ISaveable
     {
-        // STATE
-        Dictionary<EquipLocation, EquipableItem> equippedItems = new Dictionary<EquipLocation, EquipableItem>();
-
-        // PUBLIC
-
+        #region --Events-- (Delegate as Action)
         /// <summary>
         /// Broadcasts when the items in the slots are added/removed.
         /// </summary>
         public event Action equipmentUpdated;
+        #endregion
 
+
+
+        #region --Fields-- (In Class)
+        Dictionary<EquipLocation, EquipableItem> equippedItems = new Dictionary<EquipLocation, EquipableItem>();
+        #endregion
+
+
+
+        #region --Methods-- (Custom PUBLIC)
         /// <summary>
         /// Return the item in the given equip location.
         /// </summary>
@@ -71,9 +77,11 @@ namespace GameDevTV.Inventories
         {
             return equippedItems.Keys;
         }
+        #endregion
 
-        // PRIVATE
 
+
+        #region --Methods-- (Interface)
         object ISaveable.CaptureState()
         {
             var equippedItemsForSerialization = new Dictionary<EquipLocation, string>();
@@ -103,5 +111,6 @@ namespace GameDevTV.Inventories
                 equipmentUpdated();
             }
         }
+        #endregion
     }
 }

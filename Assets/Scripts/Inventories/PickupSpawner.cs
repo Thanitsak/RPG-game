@@ -9,9 +9,10 @@ namespace GameDevTV.Inventories
     /// </summary>
     public class PickupSpawner : MonoBehaviour, ISaveable
     {
-        // CONFIG DATA
+        #region --Fields-- (Inspector)
         [SerializeField] InventoryItem item = null;
         [SerializeField] int number = 1;
+        #endregion
 
 
 
@@ -21,15 +22,17 @@ namespace GameDevTV.Inventories
 
 
 
-        // LIFECYCLE METHODS
+        #region --Methods-- (Built In)
         private void Awake()
         {
             // Spawn in Awake so can be destroyed by save system after.
             SpawnPickup();
         }
+        #endregion
 
-        // PUBLIC
 
+
+        #region --Methods-- (Custom PUBLIC)
         /// <summary>
         /// Returns the pickup spawned by this class if it exists.
         /// </summary>
@@ -46,9 +49,11 @@ namespace GameDevTV.Inventories
         {
             return GetPickup() == null;
         }
+        #endregion
 
-        //PRIVATE
 
+
+        #region --Methods-- (Custom PRIVATE)
         private void SpawnPickup()
         {
             var spawnedPickup = item.SpawnPickup(transform.position, number);
@@ -62,7 +67,11 @@ namespace GameDevTV.Inventories
                 Destroy(GetPickup().gameObject);
             }
         }
+        #endregion
 
+
+
+        #region --Methods-- (Interface)
         object ISaveable.CaptureState()
         {
             return isCollected() || _isCollectedSave; // Need '_isCollectedSave' bcuz 'isCollected()' will return 'false' when load scene and will override save file as if we havn't pickup!
@@ -82,5 +91,6 @@ namespace GameDevTV.Inventories
                 SpawnPickup();
             }
         }
+        #endregion
     }
 }

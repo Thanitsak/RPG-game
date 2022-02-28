@@ -12,26 +12,38 @@ namespace GameDevTV.Inventories
     /// </summary>
     public class Inventory : MonoBehaviour, ISaveable
     {
-        // CONFIG DATA
+        #region --Fields-- (Inspector)
         [Tooltip("Allowed size")]
         [SerializeField] int inventorySize = 16;
+        #endregion
 
-        // STATE
-        InventorySlot[] slots;
 
-        public struct InventorySlot
-        {
-            public InventoryItem item;
-            public int number;
-        }
 
-        // PUBLIC
-
+        #region --Events-- (Delegate as Action)
         /// <summary>
         /// Broadcasts when the items in the slots are added/removed.
         /// </summary>
         public event Action inventoryUpdated;
+        #endregion
 
+
+
+        #region --Fields-- (In Class)
+        InventorySlot[] slots;
+        #endregion
+
+
+
+        #region --Methods-- (Built In)
+        private void Awake()
+        {
+            slots = new InventorySlot[inventorySize];
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Custom PUBLIC)
         /// <summary>
         /// Convenience for getting the player's inventory.
         /// </summary>
@@ -160,14 +172,11 @@ namespace GameDevTV.Inventories
             }
             return true;
         }
+        #endregion
 
-        // PRIVATE
 
-        private void Awake()
-        {
-            slots = new InventorySlot[inventorySize];
-        }
 
+        #region --Methods-- (Custom PRIVATE)
         /// <summary>
         /// Find a slot that can accomodate the given item.
         /// </summary>
@@ -218,14 +227,11 @@ namespace GameDevTV.Inventories
             }
             return -1;
         }
+        #endregion
 
-        [System.Serializable]
-        private struct InventorySlotRecord
-        {
-            public string itemID;
-            public int number;
-        }
 
+
+        #region --Methods-- (Interface)
         object ISaveable.CaptureState()
         {
             var slotStrings = new InventorySlotRecord[inventorySize];
@@ -253,5 +259,23 @@ namespace GameDevTV.Inventories
                 inventoryUpdated();
             }
         }
+        #endregion
+
+
+
+        #region --Structs-- (Custom PRIVATE)
+        public struct InventorySlot
+        {
+            public InventoryItem item;
+            public int number;
+        }
+
+        [System.Serializable]
+        private struct InventorySlotRecord
+        {
+            public string itemID;
+            public int number;
+        }
+        #endregion
     }
 }

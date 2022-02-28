@@ -13,12 +13,14 @@ namespace GameDevTV.Inventories
     [CreateAssetMenu(menuName = ("RPG/Inventory Item/Action Item"))]
     public class ActionItem : InventoryItem
     {
-        // CONFIG DATA
+        #region --Fields-- (Inspector)
         [Tooltip("Does an instance of this item get consumed every time it's used.")]
         [SerializeField] bool consumable = false;
+        #endregion
 
-        // PUBLIC
 
+
+        #region --Methods-- (Custom PUBLIC)
         /// <summary>
         /// Trigger the use of this item. Override to provide functionality.
         /// </summary>
@@ -32,5 +34,6 @@ namespace GameDevTV.Inventories
         {
             return consumable;
         }
+        #endregion
     }
 }

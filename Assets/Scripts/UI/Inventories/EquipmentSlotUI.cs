@@ -12,16 +12,20 @@ namespace GameDevTV.UI.Inventories
     /// </summary>
     public class EquipmentSlotUI : MonoBehaviour, IItemHolder, IDragContainer<InventoryItem>
     {
-        // CONFIG DATA
-
+        #region --Fields-- (Inspector)
         [SerializeField] InventoryItemIcon icon = null;
         [SerializeField] EquipLocation equipLocation = EquipLocation.Weapon;
+        #endregion
 
-        // CACHE
+
+
+        #region --Fields-- (In Class)
         Equipment playerEquipment;
+        #endregion
 
-        // LIFECYCLE METHODS
 
+
+        #region --Methods-- (Built In)
         private void Awake()
         {
             var player = GameObject.FindGameObjectWithTag("Player");
@@ -33,9 +37,11 @@ namespace GameDevTV.UI.Inventories
         {
             RedrawUI();
         }
+        #endregion
 
-        // PUBLIC
 
+
+        #region --Methods-- (Custom PUBLIC)
         public int MaxAcceptable(InventoryItem item)
         {
             EquipableItem equipableItem = item as EquipableItem;
@@ -72,12 +78,15 @@ namespace GameDevTV.UI.Inventories
         {
             playerEquipment.RemoveItem(equipLocation);
         }
+        #endregion
 
-        // PRIVATE
 
-        void RedrawUI()
+
+        #region --Methods-- (Subscriber)
+        private void RedrawUI()
         {
             icon.SetItem(playerEquipment.GetItemInSlot(equipLocation));
         }
+        #endregion
     }
 }

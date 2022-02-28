@@ -14,7 +14,7 @@ namespace GameDevTV.Inventories
     /// </remarks>
     public abstract class InventoryItem : ScriptableObject, ISerializationCallbackReceiver
     {
-        // CONFIG DATA
+        #region --Fields-- (Inspector)
         [Tooltip("Auto-generated UUID for saving/loading. Clear this field if you want to generate a new one.")]
         [SerializeField] string itemID = null;
         [Tooltip("Item name to be displayed in UI.")]
@@ -27,12 +27,17 @@ namespace GameDevTV.Inventories
         [SerializeField] Pickup pickup = null;
         [Tooltip("If true, multiple items of this type can be stacked in the same inventory slot.")]
         [SerializeField] bool stackable = false;
+        #endregion
 
-        // STATE
+
+
+        #region --Fields-- (In Class)
         static Dictionary<string, InventoryItem> itemLookupCache;
+        #endregion
 
-        // PUBLIC
 
+
+        #region --Methods-- (Custom PUBLIC)
         /// <summary>
         /// Get the inventory item instance from its UUID.
         /// </summary>
@@ -102,9 +107,11 @@ namespace GameDevTV.Inventories
         {
             return description;
         }
+        #endregion
 
-        // PRIVATE
 
+
+        #region --Methods-- (Interface)
         void ISerializationCallbackReceiver.OnBeforeSerialize()
         {
             // Generate and save a new UUID if this is blank.
@@ -119,5 +126,6 @@ namespace GameDevTV.Inventories
             // Require by the ISerializationCallbackReceiver but we don't need
             // to do anything with it.
         }
+        #endregion
     }
 }

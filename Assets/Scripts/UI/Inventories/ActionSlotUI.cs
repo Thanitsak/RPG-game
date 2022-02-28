@@ -11,22 +11,30 @@ namespace GameDevTV.UI.Inventories
     /// </summary>
     public class ActionSlotUI : MonoBehaviour, IItemHolder, IDragContainer<InventoryItem>
     {
-        // CONFIG DATA
+        #region --Fields-- (Inspector)
         [SerializeField] InventoryItemIcon icon = null;
         [SerializeField] int index = 0;
+        #endregion
 
-        // CACHE
+
+
+        #region --Fields-- (In Class)
         ActionStore store;
+        #endregion
 
-        // LIFECYCLE METHODS
+
+
+        #region --Methods-- (Built In)
         private void Awake()
         {
             store = GameObject.FindGameObjectWithTag("Player").GetComponent<ActionStore>();
             store.storeUpdated += UpdateIcon;
         }
+        #endregion
 
-        // PUBLIC
 
+
+        #region --Methods-- (Custom PUBLIC)
         public void AddItems(InventoryItem item, int number)
         {
             store.AddAction(item, index, number);
@@ -51,12 +59,15 @@ namespace GameDevTV.UI.Inventories
         {
             store.RemoveItems(index, number);
         }
+        #endregion
 
-        // PRIVATE
 
-        void UpdateIcon()
+
+        #region --Methods-- (Subscriber)
+        private void UpdateIcon()
         {
             icon.SetItem(GetItem(), GetNumber());
         }
+        #endregion
     }
 }

@@ -9,16 +9,19 @@ namespace GameDevTV.UI.Inventories
     /// </summary>
     public class ItemTooltip : MonoBehaviour
     {
-        // CONFIG DATA
+        #region --Fields-- (Inspector)
         [SerializeField] TextMeshProUGUI titleText = null;
         [SerializeField] TextMeshProUGUI bodyText = null;
+        #endregion
 
-        // PUBLIC
 
+
+        #region --Methods-- (Custom PUBLIC)
         public void Setup(InventoryItem item)
         {
             titleText.text = item.GetDisplayName();
             bodyText.text = item.GetDescription();
         }
+        #endregion
     }
 }

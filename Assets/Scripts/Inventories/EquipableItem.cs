@@ -11,7 +11,7 @@ namespace RPG.Inventories
     {
         #region --Fields-- (Inspector)
         [Tooltip("Where are we allowed to put this item.")]
-        [SerializeField] EquipLocation allowedEquipLocation = EquipLocation.Weapon;
+        [SerializeField] private EquipLocation _allowedEquipLocation = EquipLocation.Weapon;
         #endregion
 
 
@@ -19,7 +19,7 @@ namespace RPG.Inventories
         #region --Methods-- (Custom PUBLIC)
         public EquipLocation GetAllowedEquipLocation()
         {
-            return allowedEquipLocation;
+            return _allowedEquipLocation;
         }
         #endregion
     }

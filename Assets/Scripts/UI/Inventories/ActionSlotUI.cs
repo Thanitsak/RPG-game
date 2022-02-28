@@ -10,14 +10,14 @@ namespace RPG.UI.Inventories
     public class ActionSlotUI : MonoBehaviour, IItemHolder, IDragContainer<InventoryItem>
     {
         #region --Fields-- (Inspector)
-        [SerializeField] InventoryItemIcon icon = null;
-        [SerializeField] int index = 0;
+        [SerializeField] private InventoryItemIcon _icon = null;
+        [SerializeField] private int _index = 0;
         #endregion
 
 
 
         #region --Fields-- (In Class)
-        ActionStore store;
+        private ActionStore _store;
         #endregion
 
 
@@ -25,8 +25,8 @@ namespace RPG.UI.Inventories
         #region --Methods-- (Built In)
         private void Awake()
         {
-            store = GameObject.FindGameObjectWithTag("Player").GetComponent<ActionStore>();
-            store.storeUpdated += UpdateIcon;
+            _store = GameObject.FindGameObjectWithTag("Player").GetComponent<ActionStore>();
+            _store.OnStoreUpdated += UpdateIcon;
         }
         #endregion
 
@@ -35,27 +35,27 @@ namespace RPG.UI.Inventories
         #region --Methods-- (Custom PUBLIC)
         public void AddItems(InventoryItem item, int number)
         {
-            store.AddAction(item, index, number);
+            _store.AddAction(item, _index, number);
         }
 
         public InventoryItem GetItem()
         {
-            return store.GetAction(index);
+            return _store.GetAction(_index);
         }
 
         public int GetNumber()
         {
-            return store.GetNumber(index);
+            return _store.GetNumber(_index);
         }
 
         public int MaxAcceptable(InventoryItem item)
         {
-            return store.MaxAcceptable(item, index);
+            return _store.MaxAcceptable(item, _index);
         }
 
         public void RemoveItems(int number)
         {
-            store.RemoveItems(index, number);
+            _store.RemoveItems(_index, number);
         }
         #endregion
 
@@ -64,7 +64,7 @@ namespace RPG.UI.Inventories
         #region --Methods-- (Subscriber)
         private void UpdateIcon()
         {
-            icon.SetItem(GetItem(), GetNumber());
+            _icon.SetItem(GetItem(), GetNumber());
         }
         #endregion
     }

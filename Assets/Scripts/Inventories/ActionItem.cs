@@ -14,7 +14,7 @@ namespace RPG.Inventories
     {
         #region --Fields-- (Inspector)
         [Tooltip("Does an instance of this item get consumed every time it's used.")]
-        [SerializeField] bool consumable = false;
+        [SerializeField] private bool _consumable = false;
         #endregion
 
 
@@ -31,7 +31,7 @@ namespace RPG.Inventories
 
         public bool isConsumable()
         {
-            return consumable;
+            return _consumable;
         }
         #endregion
     }

@@ -15,23 +15,24 @@ namespace RPG.Inventories
     {
         #region --Fields-- (Inspector)
         [Tooltip("Auto-generated UUID for saving/loading. Clear this field if you want to generate a new one.")]
-        [SerializeField] string itemID = null;
+        [SerializeField] private string _itemID = null;
         [Tooltip("Item name to be displayed in UI.")]
-        [SerializeField] string displayName = null;
+        [SerializeField] private string _displayName = null;
+        [TextArea]
         [Tooltip("Item description to be displayed in UI.")]
-        [SerializeField] [TextArea] string description = null;
+        [SerializeField] private string _description = null;
         [Tooltip("The UI icon to represent this item in the inventory.")]
-        [SerializeField] Sprite icon = null;
+        [SerializeField] private Sprite _icon = null;
         [Tooltip("The prefab that should be spawned when this item is dropped.")]
-        [SerializeField] Pickup pickup = null;
+        [SerializeField] private Pickup _pickup = null;
         [Tooltip("If true, multiple items of this type can be stacked in the same inventory slot.")]
-        [SerializeField] bool stackable = false;
+        [SerializeField] private bool _stackable = false;
         #endregion
 
 
 
         #region --Fields-- (In Class)
-        static Dictionary<string, InventoryItem> itemLookupCache;
+        private static Dictionary<string, InventoryItem> _itemLookupCache;
         #endregion
 
 
@@ -48,24 +49,24 @@ namespace RPG.Inventories
         /// </returns>
         public static InventoryItem GetFromID(string itemID)
         {
-            if (itemLookupCache == null)
+            if (_itemLookupCache == null)
             {
-                itemLookupCache = new Dictionary<string, InventoryItem>();
+                _itemLookupCache = new Dictionary<string, InventoryItem>();
                 var itemList = Resources.LoadAll<InventoryItem>("");
                 foreach (var item in itemList)
                 {
-                    if (itemLookupCache.ContainsKey(item.itemID))
+                    if (_itemLookupCache.ContainsKey(item._itemID))
                     {
-                        Debug.LogError(string.Format("Looks like there's a duplicate GameDevTV.UI.InventorySystem ID for objects: {0} and {1}", itemLookupCache[item.itemID], item));
+                        Debug.LogError(string.Format("Looks like there's a duplicate GameDevTV.UI.InventorySystem ID for objects: {0} and {1}", _itemLookupCache[item._itemID], item));
                         continue;
                     }
 
-                    itemLookupCache[item.itemID] = item;
+                    _itemLookupCache[item._itemID] = item;
                 }
             }
 
-            if (itemID == null || !itemLookupCache.ContainsKey(itemID)) return null;
-            return itemLookupCache[itemID];
+            if (itemID == null || !_itemLookupCache.ContainsKey(itemID)) return null;
+            return _itemLookupCache[itemID];
         }
 
         /// <summary>
@@ -76,7 +77,7 @@ namespace RPG.Inventories
         /// <returns>Reference to the pickup object spawned.</returns>
         public Pickup SpawnPickup(Vector3 position, int number)
         {
-            var pickup = Instantiate(this.pickup);
+            var pickup = Instantiate(_pickup);
             pickup.transform.position = position;
             pickup.Setup(this, number);
             return pickup;
@@ -84,27 +85,27 @@ namespace RPG.Inventories
 
         public Sprite GetIcon()
         {
-            return icon;
+            return _icon;
         }
 
         public string GetItemID()
         {
-            return itemID;
+            return _itemID;
         }
 
         public bool IsStackable()
         {
-            return stackable;
+            return _stackable;
         }
 
         public string GetDisplayName()
         {
-            return displayName;
+            return _displayName;
         }
 
         public string GetDescription()
         {
-            return description;
+            return _description;
         }
         #endregion
 
@@ -114,9 +115,9 @@ namespace RPG.Inventories
         void ISerializationCallbackReceiver.OnBeforeSerialize()
         {
             // Generate and save a new UUID if this is blank.
-            if (string.IsNullOrWhiteSpace(itemID))
+            if (string.IsNullOrWhiteSpace(_itemID))
             {
-                itemID = System.Guid.NewGuid().ToString();
+                _itemID = System.Guid.NewGuid().ToString();
             }
         }
 

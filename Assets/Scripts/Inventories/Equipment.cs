@@ -17,13 +17,13 @@ namespace RPG.Inventories
         /// <summary>
         /// Broadcasts when the items in the slots are added/removed.
         /// </summary>
-        public event Action equipmentUpdated;
+        public event Action OnEquipmentUpdated;
         #endregion
 
 
 
         #region --Fields-- (In Class)
-        Dictionary<EquipLocation, EquipableItem> equippedItems = new Dictionary<EquipLocation, EquipableItem>();
+        private Dictionary<EquipLocation, EquipableItem> _equippedItems = new Dictionary<EquipLocation, EquipableItem>();
         #endregion
 
 
@@ -34,12 +34,12 @@ namespace RPG.Inventories
         /// </summary>
         public EquipableItem GetItemInSlot(EquipLocation equipLocation)
         {
-            if (!equippedItems.ContainsKey(equipLocation))
+            if (!_equippedItems.ContainsKey(equipLocation))
             {
                 return null;
             }
 
-            return equippedItems[equipLocation];
+            return _equippedItems[equipLocation];
         }
 
         /// <summary>
@@ -50,12 +50,9 @@ namespace RPG.Inventories
         {
             Debug.Assert(item.GetAllowedEquipLocation() == slot);
 
-            equippedItems[slot] = item;
+            _equippedItems[slot] = item;
 
-            if (equipmentUpdated != null)
-            {
-                equipmentUpdated();
-            }
+            OnEquipmentUpdated?.Invoke();
         }
 
         /// <summary>
@@ -63,11 +60,8 @@ namespace RPG.Inventories
         /// </summary>
         public void RemoveItem(EquipLocation slot)
         {
-            equippedItems.Remove(slot);
-            if (equipmentUpdated != null)
-            {
-                equipmentUpdated();
-            }
+            _equippedItems.Remove(slot);
+            OnEquipmentUpdated?.Invoke();
         }
 
         /// <summary>
@@ -75,7 +69,7 @@ namespace RPG.Inventories
         /// </summary>
         public IEnumerable<EquipLocation> GetAllPopulatedSlots()
         {
-            return equippedItems.Keys;
+            return _equippedItems.Keys;
         }
         #endregion
 
@@ -85,7 +79,7 @@ namespace RPG.Inventories
         object ISaveable.CaptureState()
         {
             var equippedItemsForSerialization = new Dictionary<EquipLocation, string>();
-            foreach (var pair in equippedItems)
+            foreach (var pair in _equippedItems)
             {
                 equippedItemsForSerialization[pair.Key] = pair.Value.GetItemID();
             }
@@ -94,7 +88,7 @@ namespace RPG.Inventories
 
         void ISaveable.RestoreState(object state)
         {
-            equippedItems = new Dictionary<EquipLocation, EquipableItem>();
+            _equippedItems = new Dictionary<EquipLocation, EquipableItem>();
 
             var equippedItemsForSerialization = (Dictionary<EquipLocation, string>)state;
 
@@ -103,13 +97,10 @@ namespace RPG.Inventories
                 var item = (EquipableItem)InventoryItem.GetFromID(pair.Value);
                 if (item != null)
                 {
-                    equippedItems[pair.Key] = item;
+                    _equippedItems[pair.Key] = item;
                 }
             }
-            if (equipmentUpdated != null)
-            {
-                equipmentUpdated();
-            }
+            OnEquipmentUpdated?.Invoke();
         }
         #endregion
     }

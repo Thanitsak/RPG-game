@@ -10,13 +10,13 @@ namespace RPG.UI.Inventories
     public class InventoryUI : MonoBehaviour
     {
         #region --Fields-- (Inspector)
-        [SerializeField] InventorySlotUI InventoryItemPrefab = null;
+        [SerializeField] private InventorySlotUI _inventoryItemPrefab = null;
         #endregion
 
 
 
         #region --Fields-- (In Class)
-        Inventory playerInventory;
+        private Inventory _playerInventory;
         #endregion
 
 
@@ -24,8 +24,8 @@ namespace RPG.UI.Inventories
         #region --Methods-- (Built In)
         private void Awake()
         {
-            playerInventory = Inventory.GetPlayerInventory();
-            playerInventory.inventoryUpdated += Redraw;
+            _playerInventory = Inventory.GetPlayerInventory();
+            _playerInventory.OnInventoryUpdated += Redraw;
         }
 
         private void Start()
@@ -44,10 +44,10 @@ namespace RPG.UI.Inventories
                 Destroy(child.gameObject);
             }
 
-            for (int i = 0; i < playerInventory.GetSize(); i++)
+            for (int i = 0; i < _playerInventory.GetSize(); i++)
             {
-                var itemUI = Instantiate(InventoryItemPrefab, transform);
-                itemUI.Setup(playerInventory, i);
+                var itemUI = Instantiate(_inventoryItemPrefab, transform);
+                itemUI.Setup(_playerInventory, i);
             }
         }
         #endregion

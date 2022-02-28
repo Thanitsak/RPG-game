@@ -10,8 +10,8 @@ namespace RPG.Inventories
     public class PickupSpawner : MonoBehaviour, ISaveable
     {
         #region --Fields-- (Inspector)
-        [SerializeField] InventoryItem item = null;
-        [SerializeField] int number = 1;
+        [SerializeField] private InventoryItem _item = null;
+        [SerializeField] private int _number = 1;
         #endregion
 
 
@@ -56,7 +56,7 @@ namespace RPG.Inventories
         #region --Methods-- (Custom PRIVATE)
         private void SpawnPickup()
         {
-            var spawnedPickup = item.SpawnPickup(transform.position, number);
+            var spawnedPickup = _item.SpawnPickup(transform.position, _number);
             spawnedPickup.transform.SetParent(transform);
         }
 

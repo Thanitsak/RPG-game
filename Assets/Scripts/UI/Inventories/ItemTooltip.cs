@@ -10,8 +10,8 @@ namespace RPG.UI.Inventories
     public class ItemTooltip : MonoBehaviour
     {
         #region --Fields-- (Inspector)
-        [SerializeField] TextMeshProUGUI titleText = null;
-        [SerializeField] TextMeshProUGUI bodyText = null;
+        [SerializeField] private TextMeshProUGUI _titleText = null;
+        [SerializeField] private TextMeshProUGUI _bodyText = null;
         #endregion
 
 
@@ -19,8 +19,8 @@ namespace RPG.UI.Inventories
         #region --Methods-- (Custom PUBLIC)
         public void Setup(InventoryItem item)
         {
-            titleText.text = item.GetDisplayName();
-            bodyText.text = item.GetDescription();
+            _titleText.text = item.GetDisplayName();
+            _bodyText.text = item.GetDescription();
         }
         #endregion
     }

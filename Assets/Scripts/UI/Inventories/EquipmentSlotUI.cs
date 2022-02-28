@@ -10,14 +10,14 @@ namespace RPG.UI.Inventories
     public class EquipmentSlotUI : MonoBehaviour, IItemHolder, IDragContainer<InventoryItem>
     {
         #region --Fields-- (Inspector)
-        [SerializeField] InventoryItemIcon icon = null;
-        [SerializeField] EquipLocation equipLocation = EquipLocation.Weapon;
+        [SerializeField] private InventoryItemIcon _icon = null;
+        [SerializeField] private EquipLocation _equipLocation = EquipLocation.Weapon;
         #endregion
 
 
 
         #region --Fields-- (In Class)
-        Equipment playerEquipment;
+        private Equipment _playerEquipment;
         #endregion
 
 
@@ -26,8 +26,8 @@ namespace RPG.UI.Inventories
         private void Awake()
         {
             var player = GameObject.FindGameObjectWithTag("Player");
-            playerEquipment = player.GetComponent<Equipment>();
-            playerEquipment.equipmentUpdated += RedrawUI;
+            _playerEquipment = player.GetComponent<Equipment>();
+            _playerEquipment.OnEquipmentUpdated += RedrawUI;
         }
 
         private void Start()
@@ -43,7 +43,7 @@ namespace RPG.UI.Inventories
         {
             EquipableItem equipableItem = item as EquipableItem;
             if (equipableItem == null) return 0;
-            if (equipableItem.GetAllowedEquipLocation() != equipLocation) return 0;
+            if (equipableItem.GetAllowedEquipLocation() != _equipLocation) return 0;
             if (GetItem() != null) return 0;
 
             return 1;
@@ -51,12 +51,12 @@ namespace RPG.UI.Inventories
 
         public void AddItems(InventoryItem item, int number)
         {
-            playerEquipment.AddItem(equipLocation, (EquipableItem)item);
+            _playerEquipment.AddItem(_equipLocation, (EquipableItem)item);
         }
 
         public InventoryItem GetItem()
         {
-            return playerEquipment.GetItemInSlot(equipLocation);
+            return _playerEquipment.GetItemInSlot(_equipLocation);
         }
 
         public int GetNumber()
@@ -73,7 +73,7 @@ namespace RPG.UI.Inventories
 
         public void RemoveItems(int number)
         {
-            playerEquipment.RemoveItem(equipLocation);
+            _playerEquipment.RemoveItem(_equipLocation);
         }
         #endregion
 
@@ -82,7 +82,7 @@ namespace RPG.UI.Inventories
         #region --Methods-- (Subscriber)
         private void RedrawUI()
         {
-            icon.SetItem(playerEquipment.GetItemInSlot(equipLocation));
+            _icon.SetItem(_playerEquipment.GetItemInSlot(_equipLocation));
         }
         #endregion
     }

@@ -59,7 +59,7 @@ namespace RPG.Combat
         private void OnEnable()
         {
             if (_equipment != null)
-                _equipment.equipmentUpdated += UpdateWeapon;
+                _equipment.OnEquipmentUpdated += UpdateWeapon;
         }
 
         private void Start()
@@ -70,7 +70,7 @@ namespace RPG.Combat
         private void OnDisable()
         {
             if (_equipment != null)
-                _equipment.equipmentUpdated -= UpdateWeapon;
+                _equipment.OnEquipmentUpdated -= UpdateWeapon;
         }
 
         private void Update()

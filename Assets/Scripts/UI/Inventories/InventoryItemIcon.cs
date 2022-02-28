@@ -13,8 +13,8 @@ namespace RPG.UI.Inventories
     public class InventoryItemIcon : MonoBehaviour
     {
         #region --Fields-- (Inspector)
-        [SerializeField] GameObject textContainer = null;
-        [SerializeField] TextMeshProUGUI itemNumber = null;
+        [SerializeField] private GameObject _textContainer = null;
+        [SerializeField] private TextMeshProUGUI _itemNumber = null;
         #endregion
 
 
@@ -38,16 +38,16 @@ namespace RPG.UI.Inventories
                 iconImage.sprite = item.GetIcon();
             }
 
-            if (itemNumber)
+            if (_itemNumber)
             {
                 if (number <= 1)
                 {
-                    textContainer.SetActive(false);
+                    _textContainer.SetActive(false);
                 }
                 else
                 {
-                    textContainer.SetActive(true);
-                    itemNumber.text = number.ToString();
+                    _textContainer.SetActive(true);
+                    _itemNumber.text = number.ToString();
                 }
             }
         }

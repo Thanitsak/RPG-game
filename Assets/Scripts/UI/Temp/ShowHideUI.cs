@@ -5,8 +5,8 @@ namespace RPG.UI.Temp
     public class ShowHideUI : MonoBehaviour
     {
         #region --Fields-- (Inspector)
-        [SerializeField] KeyCode toggleKey = KeyCode.Escape;
-        [SerializeField] GameObject uiContainer = null;
+        [SerializeField] private KeyCode _toggleKey = KeyCode.Escape;
+        [SerializeField] private GameObject _uiContainer = null;
         #endregion
 
 
@@ -14,14 +14,14 @@ namespace RPG.UI.Temp
         #region --Methods-- (Built In)
         private void Start()
         {
-            uiContainer.SetActive(false);
+            _uiContainer.SetActive(false);
         }
 
         private void Update()
         {
-            if (Input.GetKeyDown(toggleKey))
+            if (Input.GetKeyDown(_toggleKey))
             {
-                uiContainer.SetActive(!uiContainer.activeSelf);
+                _uiContainer.SetActive(!_uiContainer.activeSelf);
             }
         }
         #endregion

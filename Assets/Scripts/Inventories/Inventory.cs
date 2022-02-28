@@ -14,7 +14,7 @@ namespace RPG.Inventories
     {
         #region --Fields-- (Inspector)
         [Tooltip("Allowed size")]
-        [SerializeField] int inventorySize = 16;
+        [SerializeField] private int _inventorySize = 16;
         #endregion
 
 
@@ -23,13 +23,13 @@ namespace RPG.Inventories
         /// <summary>
         /// Broadcasts when the items in the slots are added/removed.
         /// </summary>
-        public event Action inventoryUpdated;
+        public event Action OnInventoryUpdated;
         #endregion
 
 
 
         #region --Fields-- (In Class)
-        InventorySlot[] slots;
+        private InventorySlot[] _slots;
         #endregion
 
 
@@ -37,7 +37,7 @@ namespace RPG.Inventories
         #region --Methods-- (Built In)
         private void Awake()
         {
-            slots = new InventorySlot[inventorySize];
+            _slots = new InventorySlot[_inventorySize];
         }
         #endregion
 
@@ -66,7 +66,7 @@ namespace RPG.Inventories
         /// </summary>
         public int GetSize()
         {
-            return slots.Length;
+            return _slots.Length;
         }
 
         /// <summary>
@@ -84,12 +84,9 @@ namespace RPG.Inventories
                 return false;
             }
 
-            slots[i].item = item;
-            slots[i].number += number;
-            if (inventoryUpdated != null)
-            {
-                inventoryUpdated();
-            }
+            _slots[i].item = item;
+            _slots[i].number += number;
+            OnInventoryUpdated?.Invoke();
             return true;
         }
 
@@ -98,9 +95,9 @@ namespace RPG.Inventories
         /// </summary>
         public bool HasItem(InventoryItem item)
         {
-            for (int i = 0; i < slots.Length; i++)
+            for (int i = 0; i < _slots.Length; i++)
             {
-                if (object.ReferenceEquals(slots[i].item, item))
+                if (object.ReferenceEquals(_slots[i].item, item))
                 {
                     return true;
                 }
@@ -113,7 +110,7 @@ namespace RPG.Inventories
         /// </summary>
         public InventoryItem GetItemInSlot(int slot)
         {
-            return slots[slot].item;
+            return _slots[slot].item;
         }
 
         /// <summary>
@@ -121,7 +118,7 @@ namespace RPG.Inventories
         /// </summary>
         public int GetNumberInSlot(int slot)
         {
-            return slots[slot].number;
+            return _slots[slot].number;
         }
 
         /// <summary>
@@ -130,16 +127,13 @@ namespace RPG.Inventories
         /// </summary>
         public void RemoveFromSlot(int slot, int number)
         {
-            slots[slot].number -= number;
-            if (slots[slot].number <= 0)
+            _slots[slot].number -= number;
+            if (_slots[slot].number <= 0)
             {
-                slots[slot].number = 0;
-                slots[slot].item = null;
+                _slots[slot].number = 0;
+                _slots[slot].item = null;
             }
-            if (inventoryUpdated != null)
-            {
-                inventoryUpdated();
-            }
+            OnInventoryUpdated?.Invoke();
         }
 
         /// <summary>
@@ -153,7 +147,7 @@ namespace RPG.Inventories
         /// <returns>True if the item was added anywhere in the inventory.</returns>
         public bool AddItemToSlot(int slot, InventoryItem item, int number)
         {
-            if (slots[slot].item != null)
+            if (_slots[slot].item != null)
             {
                 return AddToFirstEmptySlot(item, number); ;
             }
@@ -164,12 +158,9 @@ namespace RPG.Inventories
                 slot = i;
             }
 
-            slots[slot].item = item;
-            slots[slot].number += number;
-            if (inventoryUpdated != null)
-            {
-                inventoryUpdated();
-            }
+            _slots[slot].item = item;
+            _slots[slot].number += number;
+            OnInventoryUpdated?.Invoke();
             return true;
         }
         #endregion
@@ -197,9 +188,9 @@ namespace RPG.Inventories
         /// <returns>-1 if all slots are full.</returns>
         private int FindEmptySlot()
         {
-            for (int i = 0; i < slots.Length; i++)
+            for (int i = 0; i < _slots.Length; i++)
             {
-                if (slots[i].item == null)
+                if (_slots[i].item == null)
                 {
                     return i;
                 }
@@ -218,9 +209,9 @@ namespace RPG.Inventories
                 return -1;
             }
 
-            for (int i = 0; i < slots.Length; i++)
+            for (int i = 0; i < _slots.Length; i++)
             {
-                if (object.ReferenceEquals(slots[i].item, item))
+                if (object.ReferenceEquals(_slots[i].item, item))
                 {
                     return i;
                 }
@@ -234,13 +225,13 @@ namespace RPG.Inventories
         #region --Methods-- (Interface)
         object ISaveable.CaptureState()
         {
-            var slotStrings = new InventorySlotRecord[inventorySize];
-            for (int i = 0; i < inventorySize; i++)
+            var slotStrings = new InventorySlotRecord[_inventorySize];
+            for (int i = 0; i < _inventorySize; i++)
             {
-                if (slots[i].item != null)
+                if (_slots[i].item != null)
                 {
-                    slotStrings[i].itemID = slots[i].item.GetItemID();
-                    slotStrings[i].number = slots[i].number;
+                    slotStrings[i].itemID = _slots[i].item.GetItemID();
+                    slotStrings[i].number = _slots[i].number;
                 }
             }
             return slotStrings;
@@ -249,15 +240,12 @@ namespace RPG.Inventories
         void ISaveable.RestoreState(object state)
         {
             var slotStrings = (InventorySlotRecord[])state;
-            for (int i = 0; i < inventorySize; i++)
+            for (int i = 0; i < _inventorySize; i++)
             {
-                slots[i].item = InventoryItem.GetFromID(slotStrings[i].itemID);
-                slots[i].number = slotStrings[i].number;
+                _slots[i].item = InventoryItem.GetFromID(slotStrings[i].itemID);
+                _slots[i].number = slotStrings[i].number;
             }
-            if (inventoryUpdated != null)
-            {
-                inventoryUpdated();
-            }
+            OnInventoryUpdated?.Invoke();
         }
         #endregion
 

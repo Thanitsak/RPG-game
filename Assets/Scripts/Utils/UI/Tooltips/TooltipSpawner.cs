@@ -14,13 +14,13 @@ namespace RPG.Utils.UI.Tooltips
     {
         #region --Fields-- (Inspector)
         [Tooltip("The prefab of the tooltip to spawn.")]
-        [SerializeField] GameObject tooltipPrefab = null;
+        [SerializeField] private GameObject _tooltipPrefab = null;
         #endregion
 
 
 
         #region --Fields-- (In Class)
-        GameObject tooltip = null;
+        private GameObject _tooltip = null;
         #endregion
 
 
@@ -64,7 +64,7 @@ namespace RPG.Utils.UI.Tooltips
             Canvas.ForceUpdateCanvases();
 
             var tooltipCorners = new Vector3[4];
-            tooltip.GetComponent<RectTransform>().GetWorldCorners(tooltipCorners);
+            _tooltip.GetComponent<RectTransform>().GetWorldCorners(tooltipCorners);
             var slotCorners = new Vector3[4];
             GetComponent<RectTransform>().GetWorldCorners(slotCorners);
 
@@ -74,7 +74,7 @@ namespace RPG.Utils.UI.Tooltips
             int slotCorner = GetCornerIndex(below, right);
             int tooltipCorner = GetCornerIndex(!below, !right);
 
-            tooltip.transform.position = slotCorners[slotCorner] - tooltipCorners[tooltipCorner] + tooltip.transform.position;
+            _tooltip.transform.position = slotCorners[slotCorner] - tooltipCorners[tooltipCorner] + _tooltip.transform.position;
         }
 
         private int GetCornerIndex(bool below, bool right)
@@ -88,9 +88,9 @@ namespace RPG.Utils.UI.Tooltips
 
         private void ClearTooltip()
         {
-            if (tooltip)
+            if (_tooltip)
             {
-                Destroy(tooltip.gameObject);
+                Destroy(_tooltip.gameObject);
             }
         }
         #endregion
@@ -102,19 +102,19 @@ namespace RPG.Utils.UI.Tooltips
         {
             var parentCanvas = GetComponentInParent<Canvas>();
 
-            if (tooltip && !CanCreateTooltip())
+            if (_tooltip && !CanCreateTooltip())
             {
                 ClearTooltip();
             }
 
-            if (!tooltip && CanCreateTooltip())
+            if (!_tooltip && CanCreateTooltip())
             {
-                tooltip = Instantiate(tooltipPrefab, parentCanvas.transform);
+                _tooltip = Instantiate(_tooltipPrefab, parentCanvas.transform);
             }
 
-            if (tooltip)
+            if (_tooltip)
             {
-                UpdateTooltip(tooltip);
+                UpdateTooltip(_tooltip);
                 PositionTooltip();
             }
         }

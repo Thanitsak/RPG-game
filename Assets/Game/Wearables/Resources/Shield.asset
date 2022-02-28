@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f20eb1792e8048a46bf5c7c520a3ea3b, type: 3}
   m_Name: Shield
   m_EditorClassIdentifier: 
-  itemID: 3640e4cd-c474-44d6-9312-f02e40ad7da5
-  displayName: Shield
-  description: Made from solid metal. Very STRONG but not so Comfy...
-  icon: {fileID: 21300000, guid: 40bac6161648b435ebb91acc7e3b9f95, type: 3}
-  pickup: {fileID: 5895303352902229890, guid: c8a69a43599b74c5fb9e228c7f516f42, type: 3}
-  stackable: 0
-  allowedEquipLocation: 6
+  _itemID: bfa18803-0973-4143-b362-11b5f039ea7c
+  _displayName: Shield
+  _description: Made from solid metal. Very STRONG but not so Comfy...
+  _icon: {fileID: 21300000, guid: 40bac6161648b435ebb91acc7e3b9f95, type: 3}
+  _pickup: {fileID: 5895303352902229890, guid: c8a69a43599b74c5fb9e228c7f516f42, type: 3}
+  _stackable: 0
+  _allowedEquipLocation: 6

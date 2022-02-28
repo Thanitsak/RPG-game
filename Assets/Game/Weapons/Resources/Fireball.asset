@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61a27249f6d614d16b45446e7c7d08e3, type: 3}
   m_Name: Fireball
   m_EditorClassIdentifier: 
-  itemID: c4fe307d-c4fd-4315-bf2b-57bc6e3edf30
-  displayName: Fireball
-  description: '+15 Damage / +15% Bonus on Top
+  _itemID: 643aa476-f955-47fd-9edf-0b39f6c1fc28
+  _displayName: Fireball
+  _description: '+15 Damage / +15% Bonus on Top
 
-    Very very cool weapon! Good damage
-    with good range.'
-  icon: {fileID: 21300000, guid: 55aac4d93f232464c88cd97596839db9, type: 3}
-  pickup: {fileID: 809562426117267035, guid: eecc50fb504da45cb9f437c40b3cb255, type: 3}
-  stackable: 0
-  allowedEquipLocation: 5
+    Very very cool weapon! Good
+    damage with good range.'
+  _icon: {fileID: 21300000, guid: 55aac4d93f232464c88cd97596839db9, type: 3}
+  _pickup: {fileID: 809562426117267035, guid: eecc50fb504da45cb9f437c40b3cb255, type: 3}
+  _stackable: 0
+  _allowedEquipLocation: 5
   _equippedPrefab: {fileID: 5290923800119068184, guid: cf2e857a671ea4793b2d1fe309c846ac, type: 3}
   _animatorOverride: {fileID: 22100000, guid: 364ed62ca2c7b44b7bcc989184f1b3fd, type: 2}
   _damage: 15

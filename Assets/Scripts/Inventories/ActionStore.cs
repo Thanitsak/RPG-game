@@ -17,13 +17,13 @@ namespace RPG.Inventories
         /// <summary>
         /// Broadcasts when the items in the slots are added/removed.
         /// </summary>
-        public event Action storeUpdated;
+        public event Action OnStoreUpdated;
         #endregion
 
 
 
         #region --Fields-- (In Class)
-        Dictionary<int, DockedItemSlot> dockedItems = new Dictionary<int, DockedItemSlot>();
+        private Dictionary<int, DockedItemSlot> _dockedItems = new Dictionary<int, DockedItemSlot>();
         #endregion
 
 
@@ -34,9 +34,9 @@ namespace RPG.Inventories
         /// </summary>
         public ActionItem GetAction(int index)
         {
-            if (dockedItems.ContainsKey(index))
+            if (_dockedItems.ContainsKey(index))
             {
-                return dockedItems[index].item;
+                return _dockedItems[index].item;
             }
             return null;
         }
@@ -50,9 +50,9 @@ namespace RPG.Inventories
         /// </returns>
         public int GetNumber(int index)
         {
-            if (dockedItems.ContainsKey(index))
+            if (_dockedItems.ContainsKey(index))
             {
-                return dockedItems[index].number;
+                return _dockedItems[index].number;
             }
             return 0;
         }
@@ -65,11 +65,11 @@ namespace RPG.Inventories
         /// <param name="number">How many items to add.</param>
         public void AddAction(InventoryItem item, int index, int number)
         {
-            if (dockedItems.ContainsKey(index))
+            if (_dockedItems.ContainsKey(index))
             {
-                if (object.ReferenceEquals(item, dockedItems[index].item))
+                if (object.ReferenceEquals(item, _dockedItems[index].item))
                 {
-                    dockedItems[index].number += number;
+                    _dockedItems[index].number += number;
                 }
             }
             else
@@ -77,12 +77,9 @@ namespace RPG.Inventories
                 var slot = new DockedItemSlot();
                 slot.item = item as ActionItem;
                 slot.number = number;
-                dockedItems[index] = slot;
+                _dockedItems[index] = slot;
             }
-            if (storeUpdated != null)
-            {
-                storeUpdated();
-            }
+            OnStoreUpdated?.Invoke();
         }
 
         /// <summary>
@@ -93,10 +90,10 @@ namespace RPG.Inventories
         /// <returns>False if the action could not be executed.</returns>
         public bool Use(int index, GameObject user)
         {
-            if (dockedItems.ContainsKey(index))
+            if (_dockedItems.ContainsKey(index))
             {
-                dockedItems[index].item.Use(user);
-                if (dockedItems[index].item.isConsumable())
+                _dockedItems[index].item.Use(user);
+                if (_dockedItems[index].item.isConsumable())
                 {
                     RemoveItems(index, 1);
                 }
@@ -110,17 +107,14 @@ namespace RPG.Inventories
         /// </summary>
         public void RemoveItems(int index, int number)
         {
-            if (dockedItems.ContainsKey(index))
+            if (_dockedItems.ContainsKey(index))
             {
-                dockedItems[index].number -= number;
-                if (dockedItems[index].number <= 0)
+                _dockedItems[index].number -= number;
+                if (_dockedItems[index].number <= 0)
                 {
-                    dockedItems.Remove(index);
+                    _dockedItems.Remove(index);
                 }
-                if (storeUpdated != null)
-                {
-                    storeUpdated();
-                }
+                OnStoreUpdated?.Invoke();
             }
 
         }
@@ -138,7 +132,7 @@ namespace RPG.Inventories
             var actionItem = item as ActionItem;
             if (!actionItem) return 0;
 
-            if (dockedItems.ContainsKey(index) && !object.ReferenceEquals(item, dockedItems[index].item))
+            if (_dockedItems.ContainsKey(index) && !object.ReferenceEquals(item, _dockedItems[index].item))
             {
                 return 0;
             }
@@ -146,7 +140,7 @@ namespace RPG.Inventories
             {
                 return int.MaxValue;
             }
-            if (dockedItems.ContainsKey(index))
+            if (_dockedItems.ContainsKey(index))
             {
                 return 0;
             }
@@ -161,7 +155,7 @@ namespace RPG.Inventories
         object ISaveable.CaptureState()
         {
             var state = new Dictionary<int, DockedItemRecord>();
-            foreach (var pair in dockedItems)
+            foreach (var pair in _dockedItems)
             {
                 var record = new DockedItemRecord();
                 record.itemID = pair.Value.item.GetItemID();
@@ -178,10 +172,7 @@ namespace RPG.Inventories
             {
                 AddAction(InventoryItem.GetFromID(pair.Value.itemID), pair.Key, pair.Value.number);
             }
-            if (storeUpdated != null)
-            {
-                storeUpdated();
-            }
+            OnStoreUpdated?.Invoke();
         }
         #endregion
 

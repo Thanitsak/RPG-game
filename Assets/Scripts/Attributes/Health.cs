@@ -71,7 +71,7 @@ namespace RPG.Attributes
         {
             _baseStats.OnLevelUp += RegenerateHealth;
             if (_equipment != null)
-                _equipment.equipmentUpdated += UpdateHealthEvent;
+                _equipment.OnEquipmentUpdated += UpdateHealthEvent;
         }
 
         private void Start()
@@ -83,7 +83,7 @@ namespace RPG.Attributes
         {
             _baseStats.OnLevelUp -= RegenerateHealth;
             if (_equipment != null)
-                _equipment.equipmentUpdated -= UpdateHealthEvent;
+                _equipment.OnEquipmentUpdated -= UpdateHealthEvent;
         }
         #endregion
 

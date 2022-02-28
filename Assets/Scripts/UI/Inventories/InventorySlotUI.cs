@@ -7,15 +7,15 @@ namespace RPG.UI.Inventories
     public class InventorySlotUI : MonoBehaviour, IItemHolder, IDragContainer<InventoryItem>
     {
         #region --Fields-- (Inspector)
-        [SerializeField] InventoryItemIcon icon = null;
+        [SerializeField] private InventoryItemIcon _icon = null;
         #endregion
 
 
 
         #region --Fields-- (In Class)
-        int index;
-        InventoryItem item;
-        Inventory inventory;
+        private int _index;
+        private InventoryItem _item;
+        private Inventory _inventory;
         #endregion
 
 
@@ -23,14 +23,14 @@ namespace RPG.UI.Inventories
         #region --Methods-- (Custom PUBLIC)
         public void Setup(Inventory inventory, int index)
         {
-            this.inventory = inventory;
-            this.index = index;
-            icon.SetItem(inventory.GetItemInSlot(index), inventory.GetNumberInSlot(index));
+            _inventory = inventory;
+            _index = index;
+            _icon.SetItem(inventory.GetItemInSlot(index), inventory.GetNumberInSlot(index));
         }
 
         public int MaxAcceptable(InventoryItem item)
         {
-            if (inventory.HasSpaceFor(item))
+            if (_inventory.HasSpaceFor(item))
             {
                 return int.MaxValue;
             }
@@ -39,22 +39,22 @@ namespace RPG.UI.Inventories
 
         public void AddItems(InventoryItem item, int number)
         {
-            inventory.AddItemToSlot(index, item, number);
+            _inventory.AddItemToSlot(_index, item, number);
         }
 
         public InventoryItem GetItem()
         {
-            return inventory.GetItemInSlot(index);
+            return _inventory.GetItemInSlot(_index);
         }
 
         public int GetNumber()
         {
-            return inventory.GetNumberInSlot(index);
+            return _inventory.GetNumberInSlot(_index);
         }
 
         public void RemoveItems(int number)
         {
-            inventory.RemoveFromSlot(index, number);
+            _inventory.RemoveFromSlot(_index, number);
         }
         #endregion
     }

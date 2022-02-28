@@ -9,10 +9,10 @@ namespace RPG.Inventories
     public class Pickup : MonoBehaviour
     {
         #region --Fields-- (In Class)
-        Inventory inventory;
+        private Inventory _inventory;
 
-        InventoryItem item;
-        int number = 1;
+        private InventoryItem _item;
+        private int _number = 1;
         #endregion
 
 
@@ -21,7 +21,7 @@ namespace RPG.Inventories
         private void Awake()
         {
             var player = GameObject.FindGameObjectWithTag("Player");
-            inventory = player.GetComponent<Inventory>();
+            _inventory = player.GetComponent<Inventory>();
         }
         #endregion
 
@@ -35,27 +35,27 @@ namespace RPG.Inventories
         /// <param name="number">The number of items represented.</param>
         public void Setup(InventoryItem item, int number)
         {
-            this.item = item;
+            _item = item;
             if (!item.IsStackable())
             {
                 number = 1;
             }
-            this.number = number;
+            _number = number;
         }
 
         public InventoryItem GetItem()
         {
-            return item;
+            return _item;
         }
 
         public int GetNumber()
         {
-            return number;
+            return _number;
         }
 
         public void PickupItem()
         {
-            bool foundSlot = inventory.AddToFirstEmptySlot(item, number);
+            bool foundSlot = _inventory.AddToFirstEmptySlot(_item, _number);
             if (foundSlot)
             {
                 Destroy(gameObject);
@@ -64,7 +64,7 @@ namespace RPG.Inventories
 
         public bool CanBePickedUp()
         {
-            return inventory.HasSpaceFor(item);
+            return _inventory.HasSpaceFor(_item);
         }
         #endregion
     }

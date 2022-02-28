@@ -12,8 +12,8 @@ namespace RPG.Inventories
     public class ItemDropper : MonoBehaviour, ISaveable
     {
         #region --Fields-- (In Class)
-        private List<Pickup> droppedItems = new List<Pickup>();
-        private List<DropRecord> otherSceneDroppedItems = new List<DropRecord>();
+        private List<Pickup> _droppedItems = new List<Pickup>();
+        private List<DropRecord> _otherSceneDroppedItems = new List<DropRecord>();
         #endregion
 
 
@@ -61,7 +61,7 @@ namespace RPG.Inventories
         private void SpawnPickup(InventoryItem item, Vector3 spawnLocation, int number)
         {
             var pickup = item.SpawnPickup(spawnLocation, number);
-            droppedItems.Add(pickup);
+            _droppedItems.Add(pickup);
         }
 
         /// <summary>
@@ -70,14 +70,14 @@ namespace RPG.Inventories
         private void RemoveDestroyedDrops()
         {
             var newList = new List<Pickup>();
-            foreach (var item in droppedItems)
+            foreach (var item in _droppedItems)
             {
                 if (item != null)
                 {
                     newList.Add(item);
                 }
             }
-            droppedItems = newList;
+            _droppedItems = newList;
         }
         #endregion
 
@@ -90,7 +90,7 @@ namespace RPG.Inventories
             var droppedItemsList = new List<DropRecord>();
             int sceneBuildIndex = SceneManager.GetActiveScene().buildIndex;
 
-            foreach (Pickup eachPickup in droppedItems)
+            foreach (Pickup eachPickup in _droppedItems)
             {
                 DropRecord item = new DropRecord();
                 item.itemID = eachPickup.GetItem().GetItemID();
@@ -100,7 +100,7 @@ namespace RPG.Inventories
 
                 droppedItemsList.Add(item);
             }
-            droppedItemsList.AddRange(otherSceneDroppedItems);
+            droppedItemsList.AddRange(_otherSceneDroppedItems);
 
             return droppedItemsList;
         }
@@ -110,12 +110,12 @@ namespace RPG.Inventories
             List<DropRecord> droppedItemsList = (List<DropRecord>)state;
             int currentSceneBuildIndex = SceneManager.GetActiveScene().buildIndex;
 
-            otherSceneDroppedItems.Clear();
+            _otherSceneDroppedItems.Clear();
             foreach (DropRecord eachItem in droppedItemsList)
             {
                 if (eachItem.sceneBuildIndex != currentSceneBuildIndex)
                 {
-                    otherSceneDroppedItems.Add(eachItem);
+                    _otherSceneDroppedItems.Add(eachItem);
                     continue;
                 }
 

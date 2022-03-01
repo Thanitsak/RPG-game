@@ -1,9 +1,10 @@
-using UnityEngine;
-
-[System.Serializable]
-public class DialogueNode
+namespace RPG.Dialogue
 {
-    public string _uniqueID;
-    public string _text;
-    public string[] _children;
+    [System.Serializable]
+    public class DialogueNode
+    {
+        public string _uniqueID;
+        public string _text;
+        public string[] _children;
+    }
 }

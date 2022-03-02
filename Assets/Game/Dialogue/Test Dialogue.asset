@@ -16,9 +16,27 @@ MonoBehaviour:
   - uniqueID: 
     text: a
     children: []
+    position:
+      serializedVersion: 2
+      x: 10
+      y: 10
+      width: 200
+      height: 200
   - uniqueID: 
     text: 134123
     children: []
+    position:
+      serializedVersion: 2
+      x: 10
+      y: 100
+      width: 200
+      height: 200
   - uniqueID: 
     text: c
     children: []
+    position:
+      serializedVersion: 2
+      x: 10
+      y: 200
+      width: 200
+      height: 200

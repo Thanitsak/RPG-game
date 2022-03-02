@@ -1,6 +1,5 @@
 using UnityEditor;
 using UnityEditor.Callbacks;
-using UnityEngine;
 
 namespace RPG.Dialogue.Editor
 {
@@ -23,11 +22,19 @@ namespace RPG.Dialogue.Editor
             {
                 foreach (DialogueNode eachNode in _selectedDialogue.Nodes)
                 {
-                    string oldNodeText = eachNode.text;
-                    eachNode.text = EditorGUILayout.TextField($"{oldNodeText}");
+                    EditorGUI.BeginChangeCheck();
 
-                    if (!oldNodeText.Equals(eachNode.text))
+                    EditorGUILayout.LabelField("Node : ");
+                    string newID = EditorGUILayout.TextField($"{eachNode.uniqueID}");
+                    string newText = EditorGUILayout.TextField($"{eachNode.text}");
+
+                    if (EditorGUI.EndChangeCheck())
                     {
+                        Undo.RecordObject(_selectedDialogue, "Update Dialogue Field"); // This will undo only one at a time because once changes is made on any of the field this will trigger right away
+
+                        eachNode.text = newText;
+                        eachNode.uniqueID = newID;
+
                         EditorUtility.SetDirty(_selectedDialogue);
                     }
                 }

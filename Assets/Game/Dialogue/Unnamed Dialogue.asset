@@ -13,18 +13,18 @@ MonoBehaviour:
   m_Name: Unnamed Dialogue
   m_EditorClassIdentifier: 
   _nodes:
-  - uniqueID: 
-    text: b
+  - uniqueID: 123
+    text: bbb
     children: []
-  - uniqueID: 
+  - uniqueID: 321
     text: Hello!
     children: []
-  - uniqueID: 
+  - uniqueID: 1234
     text: a
     children: []
-  - uniqueID: 
+  - uniqueID: 4321
     text: Hi!
     children: []
-  - uniqueID: 
+  - uniqueID: 12345
     text: great!!!!!
     children: []

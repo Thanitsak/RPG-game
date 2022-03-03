@@ -17,6 +17,7 @@ namespace RPG.Dialogue
         #endregion
 
 
+
 #if UNITY_EDITOR
         #region --Methods-- (Built In)
         private void Awake()
@@ -31,5 +32,14 @@ namespace RPG.Dialogue
         }
         #endregion
 #endif
+
+
+
+        #region --Methods-- (Custom PUBLIC)
+        public DialogueNode GetRootNode()
+        {
+            return _nodes[0];
+        }
+        #endregion
     }
 }

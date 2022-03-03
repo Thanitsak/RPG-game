@@ -9,6 +9,7 @@ namespace RPG.Dialogue.Editor
         #region --Fields-- (In Class)
         private Dialogue _selectedDialogue = null;
         private GUIStyle _nodeStyle = null;
+        private bool _isDragging = false;
         #endregion
 
 
@@ -54,6 +55,8 @@ namespace RPG.Dialogue.Editor
             }
             else
             {
+                ProcessEvents();
+
                 foreach (DialogueNode eachNode in _selectedDialogue.Nodes)
                 {
                     OnGUINode(eachNode);
@@ -70,9 +73,29 @@ namespace RPG.Dialogue.Editor
 
 
         #region --Methods-- (Custom PRIVATE)
+        private void ProcessEvents()
+        {
+            if (Event.current.type == EventType.MouseDown && !_isDragging)
+            {
+                _isDragging = true;
+            }
+            else if (Event.current.type == EventType.MouseDrag && _isDragging)
+            {
+                Undo.RecordObject(_selectedDialogue, "Update Dialogue Position");
+
+                _selectedDialogue.GetRootNode().rect.position = Event.current.mousePosition;
+
+                GUI.changed = true;
+            }
+            else if (Event.current.type == EventType.MouseUp && _isDragging)
+            {
+                _isDragging = false;
+            }
+        }
+
         private void OnGUINode(DialogueNode node)
         {
-            GUILayout.BeginArea(node.position, _nodeStyle);
+            GUILayout.BeginArea(node.rect, _nodeStyle);
 
             EditorGUI.BeginChangeCheck();
 

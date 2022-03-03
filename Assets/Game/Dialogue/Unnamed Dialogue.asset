@@ -16,45 +16,45 @@ MonoBehaviour:
   - uniqueID: 123
     text: bbb
     children: []
-    position:
+    rect:
       serializedVersion: 2
-      x: 10
-      y: 10
+      x: 381
+      y: 271
       width: 200
       height: 100
   - uniqueID: 321
     text: Hello!
     children: []
-    position:
+    rect:
       serializedVersion: 2
       x: 10
-      y: 100
+      y: 10
       width: 200
       height: 100
   - uniqueID: 1234
     text: a
     children: []
-    position:
+    rect:
       serializedVersion: 2
       x: 10
-      y: 200
+      y: 10
       width: 200
       height: 100
   - uniqueID: 4321
     text: Hi!
     children: []
-    position:
+    rect:
       serializedVersion: 2
       x: 10
-      y: 300
+      y: 10
       width: 200
       height: 100
   - uniqueID: 12345
     text: great!!!!!
     children: []
-    position:
+    rect:
       serializedVersion: 2
       x: 10
-      y: 400
+      y: 10
       width: 200
       height: 100

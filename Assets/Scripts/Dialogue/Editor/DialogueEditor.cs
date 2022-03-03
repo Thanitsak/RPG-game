@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
@@ -9,7 +10,8 @@ namespace RPG.Dialogue.Editor
         #region --Fields-- (In Class)
         private Dialogue _selectedDialogue = null;
         private GUIStyle _nodeStyle = null;
-        private bool _isDragging = false;
+        private DialogueNode _draggingNode = null;
+        private Vector2 _clickOffSet = new Vector2();
         #endregion
 
 
@@ -75,22 +77,44 @@ namespace RPG.Dialogue.Editor
         #region --Methods-- (Custom PRIVATE)
         private void ProcessEvents()
         {
-            if (Event.current.type == EventType.MouseDown && !_isDragging)
+            if (Event.current.type == EventType.MouseDown && _draggingNode == null)
             {
-                _isDragging = true;
+                _draggingNode = GetNodeAtPoint(Event.current.mousePosition);
+
+                if (_draggingNode != null)
+                    _clickOffSet = _draggingNode.rect.position - Event.current.mousePosition;
             }
-            else if (Event.current.type == EventType.MouseDrag && _isDragging)
+            else if (Event.current.type == EventType.MouseDrag && _draggingNode != null)
             {
                 Undo.RecordObject(_selectedDialogue, "Update Dialogue Position");
 
-                _selectedDialogue.GetRootNode().rect.position = Event.current.mousePosition;
+                _draggingNode.rect.position = Event.current.mousePosition + _clickOffSet;
 
-                GUI.changed = true;
+                Repaint();
             }
-            else if (Event.current.type == EventType.MouseUp && _isDragging)
+            else if (Event.current.type == EventType.MouseUp && _draggingNode != null)
             {
-                _isDragging = false;
+                _draggingNode = null;
+
+                EditorUtility.SetDirty(_selectedDialogue);
             }
+        }
+
+        private DialogueNode GetNodeAtPoint(Vector2 point)
+        {
+            foreach (DialogueNode eachNode in _selectedDialogue.Nodes.Reverse()) // Reverse loop so that it pick the upper layer node first which is that lower bottom of the list
+            {
+                if (eachNode.rect.Contains(point))
+                {
+                    return eachNode;
+                }
+            }
+
+            
+            GUI.FocusControl(null);
+            Repaint();
+            
+            return null;
         }
 
         private void OnGUINode(DialogueNode node)

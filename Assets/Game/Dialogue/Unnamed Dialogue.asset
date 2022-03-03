@@ -18,8 +18,8 @@ MonoBehaviour:
     children: []
     rect:
       serializedVersion: 2
-      x: 381
-      y: 271
+      x: 830
+      y: 332
       width: 200
       height: 100
   - uniqueID: 321
@@ -27,8 +27,8 @@ MonoBehaviour:
     children: []
     rect:
       serializedVersion: 2
-      x: 10
-      y: 10
+      x: 442
+      y: 325
       width: 200
       height: 100
   - uniqueID: 1234
@@ -36,8 +36,8 @@ MonoBehaviour:
     children: []
     rect:
       serializedVersion: 2
-      x: 10
-      y: 10
+      x: 144
+      y: 56
       width: 200
       height: 100
   - uniqueID: 4321
@@ -46,7 +46,7 @@ MonoBehaviour:
     rect:
       serializedVersion: 2
       x: 10
-      y: 10
+      y: 13
       width: 200
       height: 100
   - uniqueID: 12345
@@ -54,7 +54,7 @@ MonoBehaviour:
     children: []
     rect:
       serializedVersion: 2
-      x: 10
-      y: 10
+      x: 6
+      y: 27
       width: 200
       height: 100

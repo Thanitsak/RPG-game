@@ -12,16 +12,22 @@ namespace RPG.Dialogue
 
 
 
+        #region --Fields-- (In Class)
+        private Dictionary<string, DialogueNode> _nodeTable = new Dictionary<string, DialogueNode>();
+        #endregion
+
+
+
         #region --Properties-- (With Backing Fields)
         public IEnumerable<DialogueNode> Nodes { get { return _nodes; } }
         #endregion
 
 
 
-#if UNITY_EDITOR
         #region --Methods-- (Built In)
         private void Awake()
         {
+#if UNITY_EDITOR
             if (_nodes.Count == 0)
             {
                 DialogueNode defaultNode = new DialogueNode();
@@ -29,9 +35,20 @@ namespace RPG.Dialogue
 
                 _nodes.Add(defaultNode);
             }
+#endif
+            OnValidate();
+        }
+
+        private void OnValidate()
+        {
+            _nodeTable.Clear();
+
+            foreach (DialogueNode eachParentNode in _nodes)
+            {
+                _nodeTable.Add(eachParentNode.uniqueID, eachParentNode);
+            }
         }
         #endregion
-#endif
 
 
 
@@ -39,6 +56,16 @@ namespace RPG.Dialogue
         public DialogueNode GetRootNode()
         {
             return _nodes[0];
+        }
+
+        public IEnumerable<DialogueNode> GetAllChildren(DialogueNode parentNode)
+        {
+            foreach (string childID in parentNode.children)
+            {
+                if (!_nodeTable.ContainsKey(childID)) continue;
+
+                yield return _nodeTable[childID];
+            }
         }
         #endregion
     }

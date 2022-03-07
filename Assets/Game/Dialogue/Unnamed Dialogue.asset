@@ -16,30 +16,12 @@ MonoBehaviour:
   - _uniqueID: e1332545-acab-44f0-beae-8f232559b9b2
     _text: type dialogue script here...
     _children:
-    - e091481b-d3bc-41a7-91ca-aac8771cdf9f
-    - a5002f10-beb4-4fd0-8056-62c441c40047
+    - 142be069-5ce8-4b74-9410-e3a6809f4915
+    - 9949c3f1-0eb7-4fe5-a827-1c9a02b497dd
     _rect:
       serializedVersion: 2
-      x: 55
-      y: 93
-      width: 200
-      height: 100
-  - _uniqueID: e091481b-d3bc-41a7-91ca-aac8771cdf9f
-    _text: type dialogue script here...
-    _children: []
-    _rect:
-      serializedVersion: 2
-      x: 355
-      y: 194
-      width: 200
-      height: 100
-  - _uniqueID: a5002f10-beb4-4fd0-8056-62c441c40047
-    _text: type dialogue script here...
-    _children: []
-    _rect:
-      serializedVersion: 2
-      x: 351
-      y: 84
+      x: 59
+      y: 100
       width: 200
       height: 100
   - _uniqueID: 7cf413d8-bdbb-4850-89f0-c9b58ed2d669
@@ -58,5 +40,33 @@ MonoBehaviour:
       serializedVersion: 2
       x: 74
       y: 369
+      width: 200
+      height: 100
+  - _uniqueID: 142be069-5ce8-4b74-9410-e3a6809f4915
+    _text: b
+    _children: []
+    _rect:
+      serializedVersion: 2
+      x: 352
+      y: 192
+      width: 200
+      height: 100
+  - _uniqueID: 9949c3f1-0eb7-4fe5-a827-1c9a02b497dd
+    _text: default dialogue
+    _children:
+    - 7af54039-5164-4f98-b669-0bb9c9b976fc
+    _rect:
+      serializedVersion: 2
+      x: 388
+      y: 86
+      width: 200
+      height: 100
+  - _uniqueID: 7af54039-5164-4f98-b669-0bb9c9b976fc
+    _text: c
+    _children: []
+    _rect:
+      serializedVersion: 2
+      x: 609
+      y: 117
       width: 200
       height: 100

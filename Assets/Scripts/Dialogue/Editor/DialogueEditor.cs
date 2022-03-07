@@ -15,6 +15,7 @@ namespace RPG.Dialogue.Editor
         [NonSerialized] private DialogueNode _draggingNode = null;
         [NonSerialized] private Vector2 _clickOffSet = new Vector2();
         [NonSerialized] private DialogueNode _creatingNode = null;
+        [NonSerialized] private DialogueNode _deletingNode = null;
         #endregion
 
 
@@ -45,6 +46,8 @@ namespace RPG.Dialogue.Editor
         #region --Methods-- (Built In)
         private void OnEnable()
         {
+            Undo.undoRedoPerformed += RepaintWhenUndoRedo;
+
             _nodeStyle = new GUIStyle();
             _nodeStyle.normal.background = EditorGUIUtility.Load("node0") as Texture2D;
             _nodeStyle.padding = new RectOffset(15, 15, 15, 15);
@@ -71,13 +74,20 @@ namespace RPG.Dialogue.Editor
                 {
                     DrawNode(eachNode);
                 }
-                // Add More Item to .Nodes list after finish iteration NOT doing inside DrawNode() while it's iterating over .Nodes
+                // HAVE TO MODIFY .Nodes list after finish iteration NOT doing inside DrawNode() while it's iterating over .Nodes
                 if (_creatingNode != null)
                 {
                     Undo.RecordObject(_selectedDialogue, "Added Dialogue Node");
 
                     _selectedDialogue.CreateChildNode(_creatingNode);
                     _creatingNode = null;
+                }
+                if (_deletingNode != null)
+                {
+                    Undo.RecordObject(_selectedDialogue, "Deleted Dialogue Node");
+
+                    _selectedDialogue.DeleteItselfNode(_deletingNode);
+                    _deletingNode = null;
                 }
             }
         }
@@ -152,10 +162,16 @@ namespace RPG.Dialogue.Editor
                 EditorUtility.SetDirty(_selectedDialogue);
             }
 
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("x"))
+            {
+                _deletingNode = node;
+            }
             if (GUILayout.Button("+"))
             {
                 _creatingNode = node;
             }
+            GUILayout.EndHorizontal();
 
             GUILayout.EndArea();
         }
@@ -194,6 +210,15 @@ namespace RPG.Dialogue.Editor
                 _selectedDialogue = null;
                 Repaint();
             }
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Subscriber)
+        private void RepaintWhenUndoRedo()
+        {
+            Repaint();
         }
         #endregion
     }

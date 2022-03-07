@@ -66,12 +66,21 @@ namespace RPG.Dialogue
         public void CreateChildNode(DialogueNode parentNode)
         {
             DialogueNode childNode = new DialogueNode();
-            childNode.Text = "default dialogue";
+            childNode.Text = "type consequence dialogue script here...";
             parentNode.Children.Add(childNode.UniqueID);
 
             _nodes.Add(childNode);
             
             UpdateLookUpTable();
+        }
+
+        public void DeleteItselfNode(DialogueNode nodeToDelete)
+        {
+            _nodes.Remove(nodeToDelete);
+
+            UpdateLookUpTable();
+
+            CleanDanglingNode(nodeToDelete);
         }
         #endregion
 
@@ -85,6 +94,15 @@ namespace RPG.Dialogue
             foreach (DialogueNode eachParentNode in _nodes)
             {
                 _nodeLookUpTable.Add(eachParentNode.UniqueID, eachParentNode);
+            }
+        }
+
+        private void CleanDanglingNode(DialogueNode nodeToDelete)
+        {
+            // Remove this node from any of the other node's children list
+            foreach (DialogueNode eachNode in _nodes)
+            {
+                eachNode.Children.Remove(nodeToDelete.UniqueID);
             }
         }
         #endregion

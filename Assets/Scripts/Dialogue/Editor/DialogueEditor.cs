@@ -18,6 +18,8 @@ namespace RPG.Dialogue.Editor
         [NonSerialized] private DialogueNode _creatingNode = null;
         [NonSerialized] private DialogueNode _deletingNode = null;
         [NonSerialized] private DialogueNode _linkingParentNode = null;
+        [NonSerialized] private bool _isDraggingCanvas = false;
+        [NonSerialized] private Vector2 _draggingCanvasOffset = new Vector2();
         #endregion
 
 
@@ -112,26 +114,41 @@ namespace RPG.Dialogue.Editor
         #region --Methods-- (Custom PRIVATE)
         private void ProcessEvents()
         {
-            if (Event.current.type == EventType.MouseDown && _draggingNode == null)
+            if (Event.current.type == EventType.MouseDown && (_draggingNode == null || _isDraggingCanvas == false))
             {
                 _draggingNode = GetNodeAtPoint(Event.current.mousePosition + _scrollPosition);
 
                 if (_draggingNode != null)
+                {
                     _clickOffSet = _draggingNode.Rect.position - Event.current.mousePosition;
+                }
+                else
+                {
+                    _isDraggingCanvas = true;
+                    _draggingCanvasOffset = Event.current.mousePosition + _scrollPosition;
+                }
             }
-            else if (Event.current.type == EventType.MouseDrag && _draggingNode != null)
+            else if (Event.current.type == EventType.MouseDrag && (_draggingNode != null || _isDraggingCanvas == true))
             {
-                Undo.RecordObject(_selectedDialogue, "Update Dialogue Position");
+                if (_isDraggingCanvas)
+                {
+                    _scrollPosition = _draggingCanvasOffset - Event.current.mousePosition;
+                }
+                else
+                {
+                    Undo.RecordObject(_selectedDialogue, "Update Dialogue Position");
 
-                var temp = _draggingNode.Rect;
-                temp.position = Event.current.mousePosition + _clickOffSet;
-                _draggingNode.Rect = temp;
+                    var temp = _draggingNode.Rect;
+                    temp.position = Event.current.mousePosition + _clickOffSet;
+                    _draggingNode.Rect = temp;
+                }
 
                 Repaint();
             }
-            else if (Event.current.type == EventType.MouseUp && _draggingNode != null)
+            else if (Event.current.type == EventType.MouseUp && (_draggingNode != null || _isDraggingCanvas == true))
             {
                 _draggingNode = null;
+                _isDraggingCanvas = false;
 
                 EditorUtility.SetDirty(_selectedDialogue);
             }

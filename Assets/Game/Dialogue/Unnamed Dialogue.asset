@@ -29,8 +29,8 @@ MonoBehaviour:
     _children: []
     _rect:
       serializedVersion: 2
-      x: 361
-      y: 376
+      x: 1591
+      y: 323
       width: 200
       height: 100
   - _uniqueID: 043a4e26-ac4a-4044-87fe-5bc452b99895
@@ -38,8 +38,8 @@ MonoBehaviour:
     _children: []
     _rect:
       serializedVersion: 2
-      x: 74
-      y: 368
+      x: 1005
+      y: 323
       width: 200
       height: 100
   - _uniqueID: 142be069-5ce8-4b74-9410-e3a6809f4915

@@ -10,6 +10,7 @@ namespace RPG.Dialogue.Editor
     {
         #region --Fields-- (In Class)
         private Dialogue _selectedDialogue = null;
+        private Vector2 _scrollPosition;
         // It get Serialized by Unity as being Editor so need to use this to make it reload this data again.
         [NonSerialized] private GUIStyle _nodeStyle = null;
         [NonSerialized] private DialogueNode _draggingNode = null;
@@ -66,6 +67,10 @@ namespace RPG.Dialogue.Editor
             {
                 ProcessEvents();
 
+                _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
+
+                GUILayoutUtility.GetRect(2000, 2000); // Create ScrollView Size for BeginScrollView to work
+
                 // Drawing Bezier Curve first BEFORE Drawing Nodes to make Nodes stay infront of Curves
                 foreach (DialogueNode eachNode in _selectedDialogue.Nodes)
                 {
@@ -75,6 +80,9 @@ namespace RPG.Dialogue.Editor
                 {
                     DrawNode(eachNode);
                 }
+
+                EditorGUILayout.EndScrollView();
+
                 // HAVE TO MODIFY .Nodes list after finish iteration NOT doing inside DrawNode() while it's iterating over .Nodes
                 if (_creatingNode != null)
                 {
@@ -106,7 +114,7 @@ namespace RPG.Dialogue.Editor
         {
             if (Event.current.type == EventType.MouseDown && _draggingNode == null)
             {
-                _draggingNode = GetNodeAtPoint(Event.current.mousePosition);
+                _draggingNode = GetNodeAtPoint(Event.current.mousePosition + _scrollPosition);
 
                 if (_draggingNode != null)
                     _clickOffSet = _draggingNode.Rect.position - Event.current.mousePosition;

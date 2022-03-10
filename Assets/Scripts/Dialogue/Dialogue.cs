@@ -31,10 +31,12 @@ namespace RPG.Dialogue
             UpdateLookUpTable();
         }
 
+#if UNITY_EDITOR
         private void OnValidate()
         {
             UpdateLookUpTable();
         }
+#endif
         #endregion
 
 
@@ -55,47 +57,65 @@ namespace RPG.Dialogue
             }
         }
 
+        private void CreateRootNode()
+        {
+            DialogueNode rootNode = CreateInstance<DialogueNode>();
+            rootNode.name = System.Guid.NewGuid().ToString();
+            rootNode.Text = "Type First Dialogue script here...";
+
+            _nodes.Add(rootNode);
+            UpdateLookUpTable();
+            // IMPORTANT Can't put AddObjectToAsset here bcuz when we call this in first Awake() it won't yet fully create this scriptable object as an asset, So we need to do this when Save the file.
+        }
+
         public void CreateChildNodeUnder(DialogueNode parentNode)
         {
             DialogueNode childNode = CreateInstance<DialogueNode>();
             childNode.name = System.Guid.NewGuid().ToString();
-            childNode.Text = "Type dialogue script here...";
+            childNode.Text = "Type Consequence Dialogue script here...";
 
-            if (parentNode != null)
-                parentNode.Children.Add(childNode.name);
+#if UNITY_EDITOR
+            Undo.RegisterCreatedObjectUndo(childNode, "Create Dialogue Node");
+#endif
+
+            parentNode.AddChild(childNode.name);
+
+#if UNITY_EDITOR
+            Undo.RecordObject(this, "Added Dialogue Node"); // IMPORTANT This Undo Can't Be put When creating the first root node since create root node is being call form OnBeforeSerialize() and this Undo will also call OnBeforeSerialize() so it will get infinite loop! (if want use this check //if (AssetDatabase.GetAssetPath(this) != ""))
+#endif
 
             _nodes.Add(childNode);
-            // IMPORTANT Can't AddObjectToAsset here bcuz when we call this in first Awake() it won't yet fully create this scriptable object as an asset, So we need to do this when Save the file.
-
             UpdateLookUpTable();
-
-            Undo.RegisterCreatedObjectUndo(childNode, "Create Dialogue Node");
         }
 
         public void DeleteThisNode(DialogueNode nodeToDelete)
         {
+#if UNITY_EDITOR
+            Undo.RecordObject(this, "Deleted Dialogue Node");
+#endif
+
             _nodes.Remove(nodeToDelete);
-
             UpdateLookUpTable();
-
             CleanDanglingNode(nodeToDelete);
 
+#if UNITY_EDITOR
             Undo.DestroyObjectImmediate(nodeToDelete); // put this one on last line so that other can't use deleted one
+#endif
+        }
+
+        public void UnlinkBothNodes(DialogueNode parentNode, DialogueNode childNode)
+        {
+            parentNode.RemoveChild(childNode.name);
         }
 
         public void LinkBothNodes(DialogueNode parentNode, DialogueNode childNode)
         {
-            parentNode.Children.Add(childNode.name);
+            parentNode.AddChild(childNode.name);
         }
 
         public bool IsBothNodesLinked(DialogueNode parentNode, DialogueNode childNode)
         {
             return parentNode.Children.Contains(childNode.name);
-        }
-
-        public void UnlinkBothNodes(DialogueNode parentNode, DialogueNode childNode)
-        {
-            parentNode.Children.Remove(childNode.name);
         }
         #endregion
 
@@ -117,7 +137,7 @@ namespace RPG.Dialogue
             // Remove this node from any of the other node's children list
             foreach (DialogueNode eachNode in _nodes)
             {
-                eachNode.Children.Remove(nodeToDelete.name);
+                eachNode.RemoveChild(nodeToDelete.name);
             }
         }
         #endregion
@@ -127,9 +147,10 @@ namespace RPG.Dialogue
         #region --Methods-- (Interface)
         public void OnBeforeSerialize() // Get Called when about to save the file to Hard Drive
         {
+#if UNITY_EDITOR
             if (_nodes.Count == 0)
             {
-                CreateChildNodeUnder(null);
+                CreateRootNode();
             }
 
             // Check whether this Scriptable Object asset has been created already or not, if it's in process of creating it won't yet have a path
@@ -145,6 +166,7 @@ namespace RPG.Dialogue
                     }
                 }
             }
+#endif
         }
 
         public void OnAfterDeserialize() // Get Called when Load a file from the Hard Drive

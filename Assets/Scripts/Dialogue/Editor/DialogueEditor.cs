@@ -98,15 +98,11 @@ namespace RPG.Dialogue.Editor
                 // HAVE TO MODIFY .Nodes list after finish iteration NOT doing inside DrawNode() while it's iterating over .Nodes
                 if (_creatingNode != null)
                 {
-                    Undo.RecordObject(_selectedDialogue, "Added Dialogue Node");
-
                     _selectedDialogue.CreateChildNodeUnder(_creatingNode);
                     _creatingNode = null;
                 }
                 if (_deletingNode != null)
                 {
-                    Undo.RecordObject(_selectedDialogue, "Deleted Dialogue Node");
-
                     _selectedDialogue.DeleteThisNode(_deletingNode);
                     _deletingNode = null;
                 }
@@ -142,8 +138,6 @@ namespace RPG.Dialogue.Editor
             }
             else if (Event.current.type == EventType.MouseDrag && _draggingNode != null)
             {
-                Undo.RecordObject(_selectedDialogue, "Update Dialogue Position");
-
                 var temp = _draggingNode.Rect;
                 temp.position = Event.current.mousePosition + _clickOffSet;
                 _draggingNode.Rect = temp;
@@ -195,8 +189,6 @@ namespace RPG.Dialogue.Editor
 
             if (EditorGUI.EndChangeCheck())
             {
-                Undo.RecordObject(_selectedDialogue, "Update Dialogue Field");
-
                 node.Text = newText;
 
                 EditorUtility.SetDirty(_selectedDialogue);
@@ -283,7 +275,6 @@ namespace RPG.Dialogue.Editor
                 GUI.backgroundColor = Color.red; // Set the color for Link-button
                 if (GUILayout.Button("unlink"))
                 {
-                    Undo.RecordObject(_selectedDialogue, "Unlinked Dialogue Node");
                     _selectedDialogue.UnlinkBothNodes(_linkingParentNode, node);
                     _linkingParentNode = null;
                 }
@@ -293,7 +284,6 @@ namespace RPG.Dialogue.Editor
                 GUI.backgroundColor = Color.green; // Set the color for Link-button
                 if (GUILayout.Button("link here"))
                 {
-                    Undo.RecordObject(_selectedDialogue, "Linked Dialogue Node");
                     _selectedDialogue.LinkBothNodes(_linkingParentNode, node);
                     _linkingParentNode = null;
                 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace RPG.Dialogue
@@ -14,9 +15,63 @@ namespace RPG.Dialogue
 
 
         #region --Properties-- (With Backing Fields)
-        public string Text { get { return _text; } set { _text = value; } }
-        public List<string> Children { get { return _children; } }
-        public Rect Rect { get { return _rect; } set { _rect = value; } }
+        public string Text
+        {
+            get
+            {
+                return _text;
+            }
+            set
+            {
+#if UNITY_EDITOR
+                Undo.RecordObject(this, "Update Dialogue Field");
+#endif
+                _text = value;
+            }
+        }
+
+        public List<string> Children
+        {
+            get
+            {
+                return _children;
+            }
+        }
+
+        public Rect Rect
+        {
+            get
+            {
+                return _rect;
+            }
+            set
+            {
+#if UNITY_EDITOR
+                Undo.RecordObject(this, "Update Dialogue Position");
+#endif
+                _rect = value;
+            }
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Custom PUBLIC)
+        public void AddChild(string childID)
+        {
+#if UNITY_EDITOR
+            Undo.RecordObject(this, "Remove ChildID");
+#endif
+            Children.Add(childID);
+        }
+
+        public void RemoveChild(string childID)
+        {
+#if UNITY_EDITOR
+            Undo.RecordObject(this, "Add ChildID");
+#endif
+            Children.Remove(childID);
+        }
         #endregion
     }
 }

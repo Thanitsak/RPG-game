@@ -826,7 +826,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1618136693512946, guid: 07dc30b6f1bbb4147acd5fd5555a18f5, type: 3}
       propertyPath: m_Name
-      value: Inventory Canvas
+      value: UI Canvas
       objectReference: {fileID: 0}
     - target: {fileID: 193694013646511904, guid: 07dc30b6f1bbb4147acd5fd5555a18f5, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1739,7 +1739,7 @@ PrefabInstance:
       objectReference: {fileID: 3179238749015124540}
     - target: {fileID: 6967298276415934731, guid: 65bf4d255aeee4f2ca1b6417950115d7, type: 3}
       propertyPath: m_Lens.m_SensorSize.x
-      value: 1.3339844
+      value: 1.776
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 65bf4d255aeee4f2ca1b6417950115d7, type: 3}

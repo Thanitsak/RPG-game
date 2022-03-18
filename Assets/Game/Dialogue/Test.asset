@@ -29,6 +29,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speaker: 1
   _text: Type First Dialogue script here...
+  _questionText: 
   _children: []
   _rect:
     serializedVersion: 2

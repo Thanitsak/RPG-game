@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -13,6 +14,7 @@ namespace RPG.Dialogue
 
         #region --Fields-- (In Class)
         private DialogueNode _currentNode;
+        private DialogueNode _aiNode;
         #endregion
 
 
@@ -21,6 +23,9 @@ namespace RPG.Dialogue
         private void Awake()
         {
             _currentNode = _currentDialogue.GetRootNode();
+
+            if (_currentDialogue.GetRootNode().Speaker == DialogueSpeaker.AI)
+                _aiNode = _currentDialogue.GetRootNode();
         }
         #endregion
 
@@ -37,21 +42,47 @@ namespace RPG.Dialogue
             return _currentNode.Text;
         }
 
+        public string GetQuestionText()
+        {
+            if (_aiNode == null)
+            {
+                return "";
+            }
+
+            return _aiNode.QuestionText;
+        }
+
+        public IEnumerable<string> GetChoices()
+        {
+            DialogueNode[] childArray = _currentDialogue.GetAllChildren(_aiNode).ToArray();
+
+            foreach (DialogueNode eachNode in childArray)
+            {
+                yield return eachNode.Text;
+            }
+        }
+
         public void Next()
         {
-            if (HasNext())
-            {
-                DialogueNode[] childArray = _currentDialogue.GetAllChildren(_currentNode).ToArray();
+            if (!HasNext()) return;
 
-                DialogueNode randChild = childArray[Random.Range(0, childArray.Length)];
+            DialogueNode[] childArray = _currentDialogue.GetAllChildren(_currentNode).ToArray();
 
-                _currentNode = randChild;
-            }
+            DialogueNode randChild = childArray[Random.Range(0, childArray.Length)];
+
+            _currentNode = randChild;
+            if (_currentNode.Speaker == DialogueSpeaker.AI)
+                _aiNode = _currentNode;
         }
 
         public bool HasNext()
         {
             return _currentDialogue.GetAllChildren(_currentNode).ToArray().Length > 0;
+        }
+
+        public bool IsPlayerSpeaking()
+        {
+            return _currentNode.Speaker == DialogueSpeaker.Player;
         }
         #endregion
     }

@@ -14,15 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speaker: 1
   _text: Oh really? Then you must know Mr. Bowler.
+  _questionText: Do you?
   _children:
   - 816a3e0f-ec62-4ee9-8b98-24e557aded13
   - 86322a3a-9bdb-42b9-a497-305b1a664e30
-  _rect:
+  _rectdasdf:
     serializedVersion: 2
-    x: 1092
-    y: 631
+    x: 1250
+    y: 730
     width: 200
-    height: 100
+    height: 120
 --- !u!114 &-5201437024808150768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37,14 +38,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speaker: 0
   _text: I haven't heard about any trouble.
+  _questionText: 
   _children:
   - 59be5db6-01ca-4b21-859d-9379b1fb518f
-  _rect:
+  _rectdasdf:
     serializedVersion: 2
-    x: 791
-    y: 462
+    x: 910
+    y: 479
     width: 200
-    height: 100
+    height: 120
 --- !u!114 &-4452326969135201604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,13 +61,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speaker: 1
   _text: You liar! There ain't no Mr. Bowler, Imade him up!
+  _questionText: 
   _children: []
-  _rect:
+  _rectdasdf:
     serializedVersion: 2
-    x: 1581
-    y: 715
+    x: 1886
+    y: 894
     width: 200
-    height: 100
+    height: 120
 --- !u!114 &-3570082964522795355
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,15 +83,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speaker: 1
   _text: Newton, eh? I heard there's trouble brewing down there.
+  _questionText: You heard some?
   _children:
   - 95c89af0-123c-4d2b-9f5e-b1c3403ae287
   - 3fe4c7e6-3c94-4b45-8e67-cf7f36234305
-  _rect:
+  _rectdasdf:
     serializedVersion: 2
-    x: 546
-    y: 345
+    x: 622
+    y: 352
     width: 200
-    height: 100
+    height: 120
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,13 +132,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speaker: 1
   _text: Don't you worry about it. Say, do you have something to eat? I'm starving.
+  _questionText: 
   _children: []
-  _rect:
+  _rectdasdf:
     serializedVersion: 2
-    x: 1567
-    y: 473
+    x: 1875
+    y: 470
     width: 200
-    height: 100
+    height: 120
 --- !u!114 &2254026656520823013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,14 +154,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speaker: 0
   _text: Did I say Newton? I'm actually from Springville.
+  _questionText: 
   _children:
   - ace26c64-0fd1-47a5-b651-99e3f78f9d7c
-  _rect:
+  _rectdasdf:
     serializedVersion: 2
-    x: 790
-    y: 272
+    x: 917
+    y: 231
     width: 200
-    height: 100
+    height: 120
 --- !u!114 &4246236300585813708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171,15 +177,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speaker: 1
   _text: You don't look like you're from around here.
+  _questionText: So where are you from?
   _children:
   - 972f5747-9a02-487d-907d-a660a20f23ef
   - c1d7cd9c-92c8-411e-87ed-19aea766bac5
-  _rect:
+  _rectdasdf:
     serializedVersion: 2
-    x: 50
-    y: 502
+    x: 64
+    y: 521
     width: 200
-    height: 100
+    height: 120
 --- !u!114 &4859081662361853750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,14 +201,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speaker: 0
   _text: I came here from Newton.
+  _questionText: 
   _children:
   - ace26c64-0fd1-47a5-b651-99e3f78f9d7c
-  _rect:
+  _rectdasdf:
     serializedVersion: 2
-    x: 298
-    y: 630
+    x: 345
+    y: 735
     width: 200
-    height: 100
+    height: 120
 --- !u!114 &5839587925635265110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,14 +224,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speaker: 0
   _text: I've lived here all my life!
+  _questionText: 
   _children:
   - 6c6ab386-287e-454a-9395-e69a803fe383
-  _rect:
+  _rectdasdf:
     serializedVersion: 2
-    x: 296
-    y: 345
+    x: 352
+    y: 352
     width: 200
-    height: 100
+    height: 120
 --- !u!114 &5990215796489139185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,14 +247,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speaker: 0
   _text: Who?
+  _questionText: 
   _children:
   - 59be5db6-01ca-4b21-859d-9379b1fb518f
-  _rect:
+  _rectdasdf:
     serializedVersion: 2
-    x: 1323
-    y: 575
+    x: 1583
+    y: 636
     width: 200
-    height: 100
+    height: 120
 --- !u!114 &6317468973147774722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,11 +270,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speaker: 0
   _text: Mr. Bowler is a good friend of mine!
+  _questionText: 
   _children:
   - d0a9953f-ff16-4c81-a0a8-94299745f137
-  _rect:
+  _rectdasdf:
     serializedVersion: 2
-    x: 1331
-    y: 715
+    x: 1589
+    y: 896
     width: 200
-    height: 100
+    height: 120

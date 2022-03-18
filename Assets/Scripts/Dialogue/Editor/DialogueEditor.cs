@@ -26,7 +26,7 @@ namespace RPG.Dialogue.Editor
 
 
         #region --Fields-- (Constant)
-        private const float _canvasSize = 2000f;
+        private const float _canvasSize = 4000f;
         private const float _backgroundSize = 50f;
         #endregion
 
@@ -62,12 +62,12 @@ namespace RPG.Dialogue.Editor
 
             _nodeStyle = new GUIStyle();
             _nodeStyle.normal.background = EditorGUIUtility.Load("node0") as Texture2D;
-            _nodeStyle.padding = new RectOffset(15, 15, 15, 15);
+            _nodeStyle.padding = new RectOffset(15, 15, 15, 18);
             _nodeStyle.border = new RectOffset(12, 12, 12, 12);
 
             _playerNodeStyle = new GUIStyle();
             _playerNodeStyle.normal.background = EditorGUIUtility.Load("node1") as Texture2D;
-            _playerNodeStyle.padding = new RectOffset(15, 15, 15, 15);
+            _playerNodeStyle.padding = new RectOffset(15, 15, 15, 18);
             _playerNodeStyle.border = new RectOffset(12, 12, 12, 12);
         }
 
@@ -183,16 +183,35 @@ namespace RPG.Dialogue.Editor
         private void DrawNode(DialogueNode node)
         {
             GUIStyle style = _nodeStyle;
+            Rect nodeRect = node.Rect;
             switch (node.Speaker)
             {
+                case DialogueSpeaker.AI:
+                    nodeRect = new Rect(node.Rect.x, node.Rect.y, node.Rect.width, node.Rect.height + 50);
+                    break;
+
                 case DialogueSpeaker.Player:
                     style = _playerNodeStyle;
                     break;
             }
-            GUILayout.BeginArea(node.Rect, style);
 
+            GUILayout.BeginArea(nodeRect, style);
+
+            // Create Enum DropDown Selection
             node.Speaker = (DialogueSpeaker)EditorGUILayout.EnumPopup($"Speaker : {node.Speaker}", node.Speaker);
-            node.Text = EditorGUILayout.TextField($"{node.Text}");
+
+            // Create Dialogue TextArea
+            EditorStyles.textArea.wordWrap = true;
+            node.Text = EditorGUILayout.TextArea($"{node.Text}", EditorStyles.textArea, GUILayout.ExpandHeight(true));
+
+            // Create Question TextArea for AI
+            switch (node.Speaker)
+            {
+                case DialogueSpeaker.AI:
+                    EditorGUILayout.LabelField("Question Text");
+                    node.QuestionText = EditorGUILayout.TextArea($"{node.QuestionText}", EditorStyles.textArea, GUILayout.ExpandHeight(true));
+                    break;
+            }
 
             GUILayout.BeginHorizontal();
             Color defaultGUIColor = GUI.backgroundColor; // Saves the default color

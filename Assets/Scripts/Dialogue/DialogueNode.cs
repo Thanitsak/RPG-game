@@ -9,8 +9,9 @@ namespace RPG.Dialogue
         #region --Fields-- (Inspector)
         [SerializeField] private DialogueSpeaker _speaker;
         [SerializeField] private string _text;
+        [SerializeField] private string _questionText;
         [SerializeField] private List<string> _children = new List<string>(); // IF has to initialize first otherwise will get null exception when try to access in GetAllChildren method
-        [SerializeField] private Rect _rect = new Rect(10, 10, 200, 100);
+        [SerializeField] private Rect _rectdasdf = new Rect(10, 10, 200, 120);
         #endregion
 
 
@@ -43,10 +44,29 @@ namespace RPG.Dialogue
                 if (Text != value)
                 {
 #if UNITY_EDITOR
-                    Undo.RecordObject(this, "Update Dialogue Field");
+                    Undo.RecordObject(this, "Update Dialogue Text");
                     EditorUtility.SetDirty(this);
 #endif
                     _text = value;
+                }
+            }
+        }
+
+        public string QuestionText
+        {
+            get
+            {
+                return _questionText;
+            }
+            set
+            {
+                if (QuestionText != value)
+                {
+#if UNITY_EDITOR
+                    Undo.RecordObject(this, "Update Dialogue Question Text");
+                    EditorUtility.SetDirty(this);
+#endif
+                    _questionText = value;
                 }
             }
         }
@@ -63,7 +83,7 @@ namespace RPG.Dialogue
         {
             get
             {
-                return _rect;
+                return _rectdasdf;
             }
         }
         #endregion
@@ -95,7 +115,7 @@ namespace RPG.Dialogue
             Undo.RecordObject(this, "Update Dialogue Position");
             EditorUtility.SetDirty(this);
 #endif
-            _rect.position = newPosition;
+            _rectdasdf.position = newPosition;
         }
         #endregion
     }

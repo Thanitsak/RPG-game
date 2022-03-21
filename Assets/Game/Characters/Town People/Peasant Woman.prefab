@@ -11,6 +11,14 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1230804437610166928, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
+      propertyPath: _leftHandTransform
+      value: 
+      objectReference: {fileID: 5846559242665300735}
+    - target: {fileID: 1230804437610166928, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
+      propertyPath: _rightHandTransform
+      value: 
+      objectReference: {fileID: 5846559242665295335}
     - target: {fileID: 3323380601352519069, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
       propertyPath: _levelUpParticleEffect
       value: 
@@ -198,3 +206,13 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 9554418, guid: c80d63d739f7231458975214a486d247, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c80d63d739f7231458975214a486d247, type: 3}
+--- !u!4 &5846559242665295335 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 446614, guid: c80d63d739f7231458975214a486d247, type: 3}
+  m_PrefabInstance: {fileID: 5846559242664914289}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5846559242665300735 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 409486, guid: c80d63d739f7231458975214a486d247, type: 3}
+  m_PrefabInstance: {fileID: 5846559242664914289}
+  m_PrefabAsset: {fileID: 0}

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Collections;
 using System.Linq;
 using System;
 using UnityEngine;
@@ -28,11 +27,17 @@ namespace RPG.Dialogue
             _currentDialogue = newDialogue;
             _currentNode = _currentDialogue.GetRootNode();
 
+            if (!IsPlayerSpeaking())
+                TriggerEnterAction();
+
             OnDialogueUpdated?.Invoke();
         }
 
         public void QuitDialogue()
         {
+            if (!IsPlayerSpeaking())
+                TriggerExitAction();
+
             _currentDialogue = null;
             _currentNode = null;
             _previousNode = null;
@@ -75,7 +80,9 @@ namespace RPG.Dialogue
             _previousNode = _currentNode;
             _currentNode = clickedNode;
 
+            TriggerEnterAction();
             OnDialogueUpdated?.Invoke();
+
             GetNextNode();
         }
 
@@ -87,8 +94,13 @@ namespace RPG.Dialogue
             DialogueNode[] allNode = _currentDialogue.GetAllChildren(_currentNode).ToArray();
             DialogueNode randChild = allNode[UnityEngine.Random.Range(0, allNode.Length)];
 
+            TriggerExitAction();
+
             _previousNode = _currentNode;
             _currentNode = randChild;
+
+            if (!IsPlayerSpeaking())
+                TriggerEnterAction();
 
             OnDialogueUpdated?.Invoke();
         }
@@ -106,6 +118,26 @@ namespace RPG.Dialogue
         public bool IsPlayerSpeaking()
         {
             return _currentNode.Speaker == DialogueSpeaker.Player;
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Custom PRIVATE)
+        // When Calling Above, some need to check IF currentNode is PlayerNode CUZ we don't want to trigger action right away when PlayerNode choice is not yet picked OR when exit
+        // the current node will be one of player choice when get randomed, so only trigger enter normal node right away AND trigger exit when leave the current node.
+        private void TriggerEnterAction()
+        {
+            if (_currentNode == null || _currentNode.OnTriggerEnter == "") return;
+
+            Debug.Log(_currentNode.OnTriggerEnter);
+        }
+
+        private void TriggerExitAction()
+        {
+            if (_currentNode == null || _currentNode.OnTriggerExit == "") return;
+
+            Debug.Log(_currentNode.OnTriggerExit);
         }
         #endregion
     }

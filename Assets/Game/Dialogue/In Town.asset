@@ -18,12 +18,14 @@ MonoBehaviour:
   _children:
   - 816a3e0f-ec62-4ee9-8b98-24e557aded13
   - 86322a3a-9bdb-42b9-a497-305b1a664e30
-  _rectdasdf:
+  _rect:
     serializedVersion: 2
-    x: 1250
-    y: 730
+    x: 1232
+    y: 703
     width: 200
     height: 120
+  _onTriggerEnter: enter oh really?
+  _onTriggerExit: exit oh really
 --- !u!114 &-5201437024808150768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41,12 +43,14 @@ MonoBehaviour:
   _questionText: 
   _children:
   - 59be5db6-01ca-4b21-859d-9379b1fb518f
-  _rectdasdf:
+  _rect:
     serializedVersion: 2
-    x: 910
-    y: 479
+    x: 917
+    y: 195
     width: 200
     height: 120
+  _onTriggerEnter: 
+  _onTriggerExit: 
 --- !u!114 &-4452326969135201604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,12 +67,14 @@ MonoBehaviour:
   _text: You liar! There ain't no Mr. Bowler, Imade him up!
   _questionText: 
   _children: []
-  _rectdasdf:
+  _rect:
     serializedVersion: 2
-    x: 1886
-    y: 894
+    x: 1897
+    y: 788
     width: 200
     height: 120
+  _onTriggerEnter: 
+  _onTriggerExit: 
 --- !u!114 &-3570082964522795355
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,14 +91,16 @@ MonoBehaviour:
   _text: Newton, eh? I heard there's trouble brewing down there.
   _questionText: You heard some?
   _children:
-  - 95c89af0-123c-4d2b-9f5e-b1c3403ae287
   - 3fe4c7e6-3c94-4b45-8e67-cf7f36234305
-  _rectdasdf:
+  - 95c89af0-123c-4d2b-9f5e-b1c3403ae287
+  _rect:
     serializedVersion: 2
-    x: 622
-    y: 352
+    x: 600
+    y: 302
     width: 200
     height: 120
+  _onTriggerEnter: enter newton eh??
+  _onTriggerExit: exit newton eh??
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -105,6 +113,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1ef5e2bdeabd4de888a1dac01458fa7, type: 3}
   m_Name: In Town
   m_EditorClassIdentifier: 
+  _isShowedNodesAction: 1
+  _isShowedQuestionTextOnAISpeaker: 1
+  _normalNodesSize: {x: 200, y: 120}
+  _showedNodesActionSize: {x: 200, y: 250}
+  _showedQuestionExtraHeightOnAI: 50
+  _newNodeOffset: {x: 250, y: 0}
   _nodes:
   - {fileID: 4246236300585813708}
   - {fileID: 4859081662361853750}
@@ -117,7 +131,6 @@ MonoBehaviour:
   - {fileID: 6317468973147774722}
   - {fileID: 516899863793072521}
   - {fileID: -4452326969135201604}
-  _newNodeOffset: {x: 250, y: 0}
 --- !u!114 &516899863793072521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,12 +147,14 @@ MonoBehaviour:
   _text: Don't you worry about it. Say, do you have something to eat? I'm starving.
   _questionText: 
   _children: []
-  _rectdasdf:
+  _rect:
     serializedVersion: 2
-    x: 1875
-    y: 470
+    x: 1893
+    y: 349
     width: 200
     height: 120
+  _onTriggerEnter: enter 'don't you worry'
+  _onTriggerExit: TEST EXIT!!!
 --- !u!114 &2254026656520823013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,12 +172,14 @@ MonoBehaviour:
   _questionText: 
   _children:
   - ace26c64-0fd1-47a5-b651-99e3f78f9d7c
-  _rectdasdf:
+  _rect:
     serializedVersion: 2
-    x: 917
-    y: 231
+    x: 922
+    y: 438
     width: 200
     height: 120
+  _onTriggerEnter: 
+  _onTriggerExit: 
 --- !u!114 &4246236300585813708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,14 +196,16 @@ MonoBehaviour:
   _text: You don't look like you're from around here.
   _questionText: So where are you from?
   _children:
-  - 972f5747-9a02-487d-907d-a660a20f23ef
   - c1d7cd9c-92c8-411e-87ed-19aea766bac5
-  _rectdasdf:
+  - 972f5747-9a02-487d-907d-a660a20f23ef
+  _rect:
     serializedVersion: 2
-    x: 64
-    y: 521
+    x: 39
+    y: 496
     width: 200
     height: 120
+  _onTriggerEnter: start node enter
+  _onTriggerExit: start exit
 --- !u!114 &4859081662361853750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,12 +223,14 @@ MonoBehaviour:
   _questionText: 
   _children:
   - ace26c64-0fd1-47a5-b651-99e3f78f9d7c
-  _rectdasdf:
+  _rect:
     serializedVersion: 2
-    x: 350
-    y: 732
+    x: 330
+    y: 703
     width: 200
     height: 120
+  _onTriggerEnter: enter player choice 'from newton'
+  _onTriggerExit: exit player choice 'from newton'
 --- !u!114 &5839587925635265110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,12 +248,14 @@ MonoBehaviour:
   _questionText: 
   _children:
   - 6c6ab386-287e-454a-9395-e69a803fe383
-  _rectdasdf:
+  _rect:
     serializedVersion: 2
-    x: 352
-    y: 352
+    x: 330
+    y: 301
     width: 200
     height: 120
+  _onTriggerEnter: enter player choice 'lived here'
+  _onTriggerExit: exit player choice 'lived here'
 --- !u!114 &5990215796489139185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,12 +273,14 @@ MonoBehaviour:
   _questionText: 
   _children:
   - 59be5db6-01ca-4b21-859d-9379b1fb518f
-  _rectdasdf:
+  _rect:
     serializedVersion: 2
-    x: 1583
-    y: 636
+    x: 1553
+    y: 562
     width: 200
     height: 120
+  _onTriggerEnter: 
+  _onTriggerExit: 
 --- !u!114 &6317468973147774722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,9 +298,11 @@ MonoBehaviour:
   _questionText: 
   _children:
   - d0a9953f-ff16-4c81-a0a8-94299745f137
-  _rectdasdf:
+  _rect:
     serializedVersion: 2
-    x: 1589
-    y: 896
+    x: 1556
+    y: 791
     width: 200
     height: 120
+  _onTriggerEnter: 
+  _onTriggerExit: 

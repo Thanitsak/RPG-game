@@ -8,8 +8,26 @@ namespace RPG.Dialogue
     public class Dialogue : ScriptableObject, ISerializationCallbackReceiver
     {
         #region --Fields-- (Inspector)
+        [Header("Show/Hide Toggle")]
+        [SerializeField] private bool _isShowedNodesAction = false;
+        [SerializeField] private bool _isShowedQuestionTextOnAISpeaker = true;
+
+        [Space]
+        [Space]
+
+        [Header("All Nodes Width & Height, and create Node OffSet")]
+        [SerializeField] private Vector2 _normalNodesSize = new Vector2(200, 120);
+        [SerializeField] private Vector2 _showedNodesActionSize = new Vector2(200, 250);
+        [Space]
+        [SerializeField] private float _showedQuestionExtraHeightOnAI = 50f;
+        [Space]
+        [SerializeField] private Vector2 _newNodeOffset = new Vector2(250, 0); // No Need to create Public Properties cuz not use in DialogueEditor
+
+        [Space]
+        [Space]
+
+        [Header("All Nodes Data in Editor")]
         [SerializeField] private List<DialogueNode> _nodes = new List<DialogueNode>();
-        [SerializeField] private Vector2 _newNodeOffset = new Vector2(250, 0);
         #endregion
 
 
@@ -21,6 +39,13 @@ namespace RPG.Dialogue
 
 
         #region --Properties-- (With Backing Fields)
+        public bool IsShowedNodesAction { get { return _isShowedNodesAction; } }
+        public bool IsShowedQuestionTextOnAISpeaker { get { return _isShowedQuestionTextOnAISpeaker; } }
+
+        public Vector2 NormalNodesSize { get { return _normalNodesSize; } }
+        public Vector2 ShowedNodesActionSize { get { return _showedNodesActionSize; } }
+        public float ShowedQuestionExtraHeightOnAI { get { return _showedQuestionExtraHeightOnAI; } }
+
         public IEnumerable<DialogueNode> Nodes { get { return _nodes; } }
         #endregion
 

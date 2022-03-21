@@ -183,11 +183,22 @@ namespace RPG.Dialogue.Editor
         private void DrawNode(DialogueNode node)
         {
             GUIStyle style = _nodeStyle;
-            Rect nodeRect = node.Rect;
+            Rect nodeRect;
+
+            // Get Width & Height from Dialogue.cs
+            if (_selectedDialogue.IsShowedNodesAction)
+                nodeRect = new Rect(node.Rect.x, node.Rect.y, _selectedDialogue.ShowedNodesActionSize.x, _selectedDialogue.ShowedNodesActionSize.y);
+            else
+                nodeRect = new Rect(node.Rect.x, node.Rect.y, _selectedDialogue.NormalNodesSize.x, _selectedDialogue.NormalNodesSize.y);
+
             switch (node.Speaker)
             {
                 case DialogueSpeaker.AI:
-                    nodeRect = new Rect(node.Rect.x, node.Rect.y, node.Rect.width, node.Rect.height + 50);
+                    // GET 50 from Dialogue.cs
+                    if (_selectedDialogue.IsShowedQuestionTextOnAISpeaker)
+                    {
+                        nodeRect.height += _selectedDialogue.ShowedQuestionExtraHeightOnAI;
+                    }
                     break;
 
                 case DialogueSpeaker.Player:
@@ -208,9 +219,21 @@ namespace RPG.Dialogue.Editor
             switch (node.Speaker)
             {
                 case DialogueSpeaker.AI:
-                    EditorGUILayout.LabelField("Question Text");
-                    node.QuestionText = EditorGUILayout.TextArea($"{node.QuestionText}", EditorStyles.textArea, GUILayout.ExpandHeight(true));
+                    if (_selectedDialogue.IsShowedQuestionTextOnAISpeaker)
+                    {
+                        EditorGUILayout.LabelField("Question Text");
+                        node.QuestionText = EditorGUILayout.TextArea($"{node.QuestionText}", EditorStyles.textArea, GUILayout.ExpandHeight(true));
+                    }
                     break;
+            }
+
+            if (_selectedDialogue.IsShowedNodesAction)
+            {
+                // Create OnTriggerEnter & OnTriggerExit TextArea
+                EditorGUILayout.LabelField("ENTER Node Action");
+                node.OnTriggerEnter = EditorGUILayout.TextArea($"{node.OnTriggerEnter}", EditorStyles.textArea, GUILayout.ExpandHeight(true));
+                EditorGUILayout.LabelField("EXIT Node Action");
+                node.OnTriggerExit = EditorGUILayout.TextArea($"{node.OnTriggerExit}", EditorStyles.textArea, GUILayout.ExpandHeight(true));
             }
 
             GUILayout.BeginHorizontal();

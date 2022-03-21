@@ -11,7 +11,13 @@ namespace RPG.Dialogue
         [SerializeField] private string _text;
         [SerializeField] private string _questionText;
         [SerializeField] private List<string> _children = new List<string>(); // IF has to initialize first otherwise will get null exception when try to access in GetAllChildren method
-        [SerializeField] private Rect _rectdasdf = new Rect(10, 10, 200, 120);
+        [Tooltip("Width and Height of this is not being used to show ONLY FOR dragging purpose (120 is minimum size from Dialogue.cs), DialogueEditor.cs USE Width and Height from Dialogue.cs scriptable object")]
+        [SerializeField] private Rect _rect = new Rect(10, 10, 200, 120);
+
+        [Space]
+
+        [SerializeField] private string _onTriggerEnter;
+        [SerializeField] private string _onTriggerExit;
         #endregion
 
 
@@ -83,7 +89,45 @@ namespace RPG.Dialogue
         {
             get
             {
-                return _rectdasdf;
+                return _rect;
+            }
+        }
+
+        public string OnTriggerEnter
+        {
+            get
+            {
+                return _onTriggerEnter;
+            }
+            set
+            {
+                if (OnTriggerEnter != value)
+                {
+#if UNITY_EDITOR
+                    Undo.RecordObject(this, "Update Dialogue Trigger Enter");
+                    EditorUtility.SetDirty(this);
+#endif
+                    _onTriggerEnter = value;
+                }
+            }
+        }
+
+        public string OnTriggerExit
+        {
+            get
+            {
+                return _onTriggerExit;
+            }
+            set
+            {
+                if (OnTriggerExit != value)
+                {
+#if UNITY_EDITOR
+                    Undo.RecordObject(this, "Update Dialogue Trigger Exit");
+                    EditorUtility.SetDirty(this);
+#endif
+                    _onTriggerExit = value;
+                }
             }
         }
         #endregion
@@ -115,7 +159,7 @@ namespace RPG.Dialogue
             Undo.RecordObject(this, "Update Dialogue Position");
             EditorUtility.SetDirty(this);
 #endif
-            _rectdasdf.position = newPosition;
+            _rect.position = newPosition;
         }
         #endregion
     }

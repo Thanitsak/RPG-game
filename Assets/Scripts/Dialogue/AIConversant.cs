@@ -2,6 +2,7 @@ using UnityEngine;
 using RPG.Control;
 using RPG.Movement;
 using RPG.Core;
+using RPG.Attributes;
 
 namespace RPG.Dialogue
 {
@@ -30,6 +31,8 @@ namespace RPG.Dialogue
         {
             if (other.CompareTag("Player"))
             {
+                if (_playerConversant == null || GetComponent<Health>().IsDead) return;
+
                 _playerConversant.StartDialogue(this, _dialogue);
                 _actionScheduler.StopCurrentAction();
             }
@@ -46,6 +49,8 @@ namespace RPG.Dialogue
 
         bool IRaycastable.HandleRaycast(PlayerController playerController)
         {
+            if (!enabled || GetComponent<Health>().IsDead) return false;
+
             if (Input.GetMouseButtonDown(0))
             {
                 playerController.GetComponent<Mover>().StartMoveAction(transform.position, 1f);

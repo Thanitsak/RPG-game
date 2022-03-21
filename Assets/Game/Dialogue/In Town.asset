@@ -74,7 +74,7 @@ MonoBehaviour:
     width: 200
     height: 120
   _onTriggerEnter: 
-  _onTriggerExit: 
+  _onTriggerExit: Attack
 --- !u!114 &-3570082964522795355
 MonoBehaviour:
   m_ObjectHideFlags: 0

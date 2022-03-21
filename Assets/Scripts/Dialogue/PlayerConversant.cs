@@ -91,7 +91,11 @@ namespace RPG.Dialogue
 
         public void GetNextNode()
         {
-            if (!HasNext()) return;
+            if (!HasNext())
+            {
+                QuitDialogue();
+                return;
+            }
 
             // Randomly get Node from All Children
             DialogueNode[] allNode = _currentDialogue.GetAllChildren(_currentNode).ToArray();
@@ -134,8 +138,6 @@ namespace RPG.Dialogue
             if (_currentNode == null) return;
 
             TriggerAction(_currentNode.OnTriggerEnter);
-
-            Debug.Log(_currentNode.OnTriggerEnter);
         }
 
         private void TriggerExitAction()
@@ -143,8 +145,6 @@ namespace RPG.Dialogue
             if (_currentNode == null) return;
 
             TriggerAction(_currentNode.OnTriggerExit);
-
-            Debug.Log(_currentNode.OnTriggerExit);
         }
 
         private void TriggerAction(string actionString)

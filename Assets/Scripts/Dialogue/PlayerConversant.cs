@@ -126,6 +126,9 @@ namespace RPG.Dialogue
         {
             return _currentNode.Speaker == DialogueSpeaker.Player;
         }
+
+        public string GetAISpeakerName() => _aiConversant.SpeakerName;
+        public Sprite GetAIProfileImage() => _aiConversant.ProfileImage;
         #endregion
 
 

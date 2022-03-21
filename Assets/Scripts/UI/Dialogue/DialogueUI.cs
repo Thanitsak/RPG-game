@@ -20,6 +20,10 @@ namespace RPG.UI.Dialogue
         [Space]
         [Space]
 
+        [Header("Profile Stuffs")]
+        [SerializeField] private TMP_Text _profileText;
+        [SerializeField] private Image _profileImage;
+
         [Header("Dialogue Stuffs")]
         [SerializeField] private Button _quitButton;
 
@@ -90,6 +94,12 @@ namespace RPG.UI.Dialogue
             }
         }
 
+        private void UpdateProfilePanels()
+        {
+            _profileText.text = _playerConversant.GetAISpeakerName();
+            _profileImage.overrideSprite = _playerConversant.GetAIProfileImage();
+        }
+
         private void SetDialogueUIPanels(bool status)
         {
             foreach (GameObject eachPanel in _dialogueUIPanels)
@@ -118,6 +128,8 @@ namespace RPG.UI.Dialogue
 
             if (!_playerConversant.IsActive()) return;
 
+            UpdateProfilePanels();
+
             if (_playerConversant.IsPlayerSpeaking())
             {
                 SetTalkPanels(false);
@@ -133,10 +145,10 @@ namespace RPG.UI.Dialogue
                 SetResponsePanels(false);
                 SetTalkPanels(true);
 
+                _nextButton.gameObject.SetActive(_playerConversant.HasNext());
+
                 _talkText.text = _playerConversant.GetText();
             }
-
-            _nextButton.gameObject.SetActive(_playerConversant.HasNext());
         }
         #endregion
 

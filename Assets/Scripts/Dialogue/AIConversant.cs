@@ -9,6 +9,8 @@ namespace RPG.Dialogue
     public class AIConversant : MonoBehaviour, IRaycastable
     {
         #region --Fields-- (Inspector)
+        [SerializeField] private Sprite _profileImage;
+        [SerializeField] private string _speakerName;
         [SerializeField] private Dialogue _dialogue;
         #endregion
 
@@ -17,6 +19,13 @@ namespace RPG.Dialogue
         #region --Fields-- (In Class)
         private ActionScheduler _actionScheduler;
         private PlayerConversant _playerConversant;
+        #endregion
+
+
+
+        #region --Properties-- (With Backing Fields)
+        public Sprite ProfileImage { get { return _profileImage; } }
+        public string SpeakerName { get { return _speakerName; } }
         #endregion
 
 

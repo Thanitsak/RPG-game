@@ -276,6 +276,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af3c5eb34e29747e491dbf2a0d69c3e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _profileImage: {fileID: 21300000, guid: 88a1cbcfc07604b8bb6294fbbbcff649, type: 3}
+  _speakerName: Human Knight
   _dialogue: {fileID: 11400000, guid: 0eba5a5ba2c7e414b8b28617201dc014, type: 2}
 --- !u!4 &8190621187077453735 stripped
 Transform:

@@ -909,6 +909,8 @@ MonoBehaviour:
   _responsePanels:
   - {fileID: 5754819123883413037}
   - {fileID: 4092631049009562301}
+  _profileText: {fileID: 6348409551590317857}
+  _profileImage: {fileID: 8241923415184264144}
   _quitButton: {fileID: 8358595607097314042}
   _talkText: {fileID: 4002670131683246858}
   _nextButton: {fileID: 8034170873843404282}

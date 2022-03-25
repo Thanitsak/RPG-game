@@ -64,17 +64,17 @@ namespace RPG.Utils.UI.Tooltips
             Canvas.ForceUpdateCanvases();
 
             var tooltipCorners = new Vector3[4];
-            _tooltip.GetComponent<RectTransform>().GetWorldCorners(tooltipCorners);
-            var slotCorners = new Vector3[4];
-            GetComponent<RectTransform>().GetWorldCorners(slotCorners);
+            _tooltip.GetComponent<RectTransform>().GetWorldCorners(tooltipCorners); // Read 4 Corners of Instantiated Toolitp UI. Start Clockwise from bottom left, top left, top right, bottom right
+            var hoveredUICorners = new Vector3[4];
+            GetComponent<RectTransform>().GetWorldCorners(hoveredUICorners); // Read 4 Corners of this Hovered UI (slot UI, Quest UI). Start Clockwise from bottom left, top left, top right, bottom right
 
-            bool below = transform.position.y > Screen.height / 2;
-            bool right = transform.position.x < Screen.width / 2;
+            bool below = transform.position.y > Screen.height / 2; // IF this Hovered UI (slot UI, Quest UI) It's Position is MORE THAN half screen height
+            bool right = transform.position.x < Screen.width / 2; // IF this Hovered UI (slot UI, Quest UI) It's Position is LESS THAN half screen width
 
-            int slotCorner = GetCornerIndex(below, right);
+            int hoveredUICorner = GetCornerIndex(below, right);
             int tooltipCorner = GetCornerIndex(!below, !right);
 
-            _tooltip.transform.position = slotCorners[slotCorner] - tooltipCorners[tooltipCorner] + _tooltip.transform.position;
+            _tooltip.transform.position = hoveredUICorners[hoveredUICorner] - tooltipCorners[tooltipCorner] + _tooltip.transform.position;
         }
 
         private int GetCornerIndex(bool below, bool right)
@@ -122,7 +122,7 @@ namespace RPG.Utils.UI.Tooltips
         void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
         {
             Vector3[] slotCorners = new Vector3[4];
-            GetComponent<RectTransform>().GetWorldCorners(slotCorners); // Initialize with four Corners of this UI gameObject. Start Clockwise from bottom left, top left, top right, bottom right
+            GetComponent<RectTransform>().GetWorldCorners(slotCorners); // Read 4 Corners of this Hovered UI (slot UI, Quest UI). Start Clockwise from bottom left, top left, top right, bottom right
 
             Rect rect = new Rect(slotCorners[0], slotCorners[2] - slotCorners[0]); // Position of minimum corner, Width and Height
             if (rect.Contains(eventData.position)) return;

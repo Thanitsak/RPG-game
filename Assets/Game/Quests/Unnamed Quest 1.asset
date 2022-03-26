@@ -12,7 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d376356f3a86042309f091661b496808, type: 3}
   m_Name: Unnamed Quest 1
   m_EditorClassIdentifier: 
-  _title: Test Quest 2
+  _title: Green Slime Slayer
+  _description: Go slayed the green slime in the hill! Just 4 of them! Once you did
+    that come and talk to us! Goodluck...
   _timerInHours: 24
   _objectives:
-  - TEST TEST
+  - 0/4 Green Slime Slayed
+  - Talk to Us
+  _rewards:
+  - + 100 Gold
+  - + Healthy Hat

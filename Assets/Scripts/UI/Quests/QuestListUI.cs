@@ -17,23 +17,26 @@ namespace RPG.UI.Quests
         {
             ClearQuestList();
 
-            foreach (Quest eachQuest in _tempQuests)
-            {
-                QuestItemUI createdPrefab = Instantiate(_questPrefab, transform);
-                createdPrefab.Setup(eachQuest);
-            }
+            BuildQuestList();
         }
         #endregion
 
 
 
         #region --Methods-- (Custom PRIVATE)
+        private void BuildQuestList()
+        {
+            foreach (Quest eachQuest in _tempQuests)
+            {
+                QuestItemUI createdPrefab = Instantiate(_questPrefab, transform);
+                createdPrefab.Setup(eachQuest);
+            }
+        }
+
         private void ClearQuestList()
         {
             foreach (Transform eachChild in transform)
-            {
                 Destroy(eachChild.gameObject);
-            }
         }
         #endregion
     }

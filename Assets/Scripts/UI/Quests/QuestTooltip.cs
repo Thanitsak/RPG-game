@@ -7,16 +7,18 @@ namespace RPG.UI.Quests
     public class QuestTooltip : MonoBehaviour
     {
         #region --Fields-- (Inspector)
-        [Header("Texts")]
+        [Header("Main Header Texts")]
         [SerializeField] private TMP_Text _headerText;
         [SerializeField] private TMP_Text _descriptionText;
 
-        [Header("Spawner Stuff")]
+        [Header("Sub Header Texts")]
         [SerializeField] private TMP_Text _objectiveHeaderTextPrefab;
         [SerializeField] private TMP_Text _rewardHeaderTextPrefab;
-        [SerializeField] private TMP_Text _objectivePrefab;
+
+        [Header("Spawner Stuff")]
+        [SerializeField] private GameObject _objectivePrefab;
         [SerializeField] private Transform _objectiveTransform;
-        [SerializeField] private TMP_Text _rewardPrefab;
+        [SerializeField] private GameObject _rewardPrefab;
         [SerializeField] private Transform _rewardTransform;
         #endregion
 
@@ -45,8 +47,8 @@ namespace RPG.UI.Quests
 
             foreach (string eachText in quest.Objectives)
             {
-                TMP_Text createdPrefab = Instantiate(_objectivePrefab, _objectiveTransform);
-                createdPrefab.text = eachText;
+                TMP_Text createdPrefabText = Instantiate(_objectivePrefab, _objectiveTransform).GetComponentInChildren<TMP_Text>();
+                createdPrefabText.text = eachText;
             }
         }
 
@@ -56,8 +58,8 @@ namespace RPG.UI.Quests
 
             foreach (string eachText in quest.Rewards)
             {
-                TMP_Text createdPrefab = Instantiate(_rewardPrefab, _rewardTransform);
-                createdPrefab.text = eachText;
+                TMP_Text createdPrefabText = Instantiate(_rewardPrefab, _rewardTransform).GetComponentInChildren<TMP_Text>();
+                createdPrefabText.text = eachText;
             }
         }
 

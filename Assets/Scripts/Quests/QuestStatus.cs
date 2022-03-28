@@ -24,6 +24,15 @@ namespace RPG.Quests
         {
             _quest = quest;
         }
+
+        public QuestStatus(object objectState)
+        {
+            QuestStatusRecord questStatusRecord = objectState as QuestStatusRecord;
+            if (questStatusRecord == null) return;
+
+            _quest = Quest.GetByName(questStatusRecord.questName);
+            _completedObjectives = questStatusRecord.completedObjectives;
+        }
         #endregion
 
 
@@ -51,6 +60,31 @@ namespace RPG.Quests
         public bool IsObjectiveCompleted(string compareObjective) => _completedObjectives.Contains(compareObjective);
 
         public bool IsQuestCompleted() => Quest.Objectives.Count() == CompletedCount;
+        #endregion
+
+
+
+        #region --Methods-- (Custom PUBLIC) ~Saving~ //for QuestList to call
+        public object Capture()
+        {
+            QuestStatusRecord newRecord = new QuestStatusRecord();
+
+            newRecord.questName = _quest.name;
+            newRecord.completedObjectives = _completedObjectives;
+
+            return newRecord;
+        }
+        #endregion
+
+
+
+        #region --Classes-- (Custom PRIVATE)
+        [System.Serializable]
+        private class QuestStatusRecord
+        {
+            public string questName;
+            public List<string> completedObjectives = new List<string>();
+        }
         #endregion
     }
 }

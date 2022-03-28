@@ -27,6 +27,15 @@ namespace RPG.Quests
 
 
 
+        #region --Methods-- (Custom PUBLIC) ~STATIC~
+        public static Quest GetByName(string name)
+        {
+            return Resources.Load<Quest>(name);
+        }
+        #endregion
+
+
+
         #region --Methods-- (Custom PUBLIC)
         public bool IsObjectiveExist(string objectiveToCheck) => _objectives.Contains(objectiveToCheck);
         #endregion

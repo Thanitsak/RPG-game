@@ -252,7 +252,7 @@ namespace RPG.Inventories
 
 
         #region --Structs-- (Custom PRIVATE)
-        public struct InventorySlot
+        private struct InventorySlot
         {
             public InventoryItem item;
             public int number;

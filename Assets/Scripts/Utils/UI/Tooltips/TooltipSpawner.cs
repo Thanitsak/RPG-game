@@ -10,7 +10,7 @@ namespace RPG.Utils.UI.Tooltips
     /// Override the abstract functions to create a tooltip spawner for your own
     /// data.
     /// </summary>
-    public abstract class TooltipSpawner : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+    public abstract class TooltipSpawner : MonoBehaviour, IPointerEnterHandler, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler
     {
         #region --Fields-- (Inspector)
         [Tooltip("The prefab of the tooltip to spawn.")]
@@ -88,9 +88,10 @@ namespace RPG.Utils.UI.Tooltips
 
         private void ClearTooltip()
         {
-            if (_tooltip)
+            if (_tooltip != null)
             {
                 Destroy(_tooltip.gameObject);
+                _tooltip = null; // reset it back so when PointerExit and Enter quickly it knows tooltip == null is true
             }
         }
         #endregion
@@ -102,31 +103,34 @@ namespace RPG.Utils.UI.Tooltips
         {
             var parentCanvas = GetComponentInParent<Canvas>();
 
-            if (_tooltip && !CanCreateTooltip())
+            if (_tooltip != null && !CanCreateTooltip())
             {
                 ClearTooltip();
             }
 
-            if (!_tooltip && CanCreateTooltip())
+            if (_tooltip == null && CanCreateTooltip())
             {
                 _tooltip = Instantiate(_tooltipPrefab, parentCanvas.transform);
             }
 
-            if (_tooltip)
+            if (_tooltip != null)
             {
                 UpdateTooltip(_tooltip);
                 PositionTooltip();
             }
         }
 
+        void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
+        {
+        }
+
+        void IPointerUpHandler.OnPointerUp(PointerEventData eventData)
+        {
+            ClearTooltip();
+        }
+
         void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
         {
-            Vector3[] slotCorners = new Vector3[4];
-            GetComponent<RectTransform>().GetWorldCorners(slotCorners); // Read 4 Corners of this Hovered UI (slot UI, Quest UI). Start Clockwise from bottom left, top left, top right, bottom right
-
-            Rect rect = new Rect(slotCorners[0], slotCorners[2] - slotCorners[0]); // Position of minimum corner, Width and Height
-            if (rect.Contains(eventData.position)) return;
-
             ClearTooltip();
         }
         #endregion

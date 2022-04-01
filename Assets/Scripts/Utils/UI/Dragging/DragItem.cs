@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using RPG.Core;
 
 namespace RPG.Utils.UI.Dragging
 {
@@ -187,7 +188,7 @@ namespace RPG.Utils.UI.Dragging
             transform.SetParent(_originalParent, true);
 
             IDragDestination<T> container;
-            if (!EventSystem.current.IsPointerOverGameObject())
+            if (!Utilities.IsPointerOverUIObject())
             {
                 container = _parentCanvas.GetComponent<IDragDestination<T>>();
             }

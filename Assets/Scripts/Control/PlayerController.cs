@@ -1,9 +1,9 @@
+using System;
 using UnityEngine;
+using UnityEngine.AI;
 using RPG.Movement;
 using RPG.Attributes;
-using UnityEngine.EventSystems;
-using UnityEngine.AI;
-using System;
+using RPG.Core;
 
 namespace RPG.Control
 {
@@ -65,7 +65,7 @@ namespace RPG.Control
                 _isDraggingUI = false;
             }
 
-            if (EventSystem.current.IsPointerOverGameObject())
+            if (Utilities.IsPointerOverUIObject())
             {
                 if (Input.GetMouseButtonDown(0))
                 {

@@ -128,8 +128,8 @@ MonoBehaviour:
   - 88c6dc0a-d99e-41c0-a0dd-38231711f7a3
   _rect:
     serializedVersion: 2
-    x: 469
-    y: 970
+    x: 463
+    y: 974
     width: 200
     height: 120
   _onTriggerEnter: 
@@ -141,6 +141,11 @@ MonoBehaviour:
         _parameters:
         - Help Mom
         _negate: 0
+    - _or:
+      - _methodName: HasCompletedQuest
+        _parameters:
+        - Help Mom
+        _negate: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -343,7 +348,7 @@ MonoBehaviour:
   - e3a4e3cc-820a-4424-9802-82aa957b0553
   _rect:
     serializedVersion: 2
-    x: 463
+    x: 464
     y: 1585
     width: 200
     height: 120

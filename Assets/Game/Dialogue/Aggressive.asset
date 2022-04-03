@@ -27,8 +27,7 @@ MonoBehaviour:
   _onTriggerEnter: 
   _onTriggerExit: 
   _condition:
-    _methodName: 
-    _parameters: []
+    _and: []
 --- !u!114 &-5201437024808150768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55,8 +54,7 @@ MonoBehaviour:
   _onTriggerEnter: 
   _onTriggerExit: 
   _condition:
-    _methodName: 
-    _parameters: []
+    _and: []
 --- !u!114 &-4452326969135201604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82,8 +80,7 @@ MonoBehaviour:
   _onTriggerEnter: 
   _onTriggerExit: Attack
   _condition:
-    _methodName: 
-    _parameters: []
+    _and: []
 --- !u!114 &-3570082964522795355
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,8 +108,7 @@ MonoBehaviour:
   _onTriggerEnter: 
   _onTriggerExit: 
   _condition:
-    _methodName: 
-    _parameters: []
+    _and: []
 --- !u!114 &-1044665625715304608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,8 +135,7 @@ MonoBehaviour:
   _onTriggerEnter: 
   _onTriggerExit: 
   _condition:
-    _methodName: 
-    _parameters: []
+    _and: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,8 +196,7 @@ MonoBehaviour:
   _onTriggerEnter: 
   _onTriggerExit: CompleteMomQuestGetMedicine
   _condition:
-    _methodName: 
-    _parameters: []
+    _and: []
 --- !u!114 &2254026656520823013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -229,8 +223,7 @@ MonoBehaviour:
   _onTriggerEnter: 
   _onTriggerExit: 
   _condition:
-    _methodName: 
-    _parameters: []
+    _and: []
 --- !u!114 &3633300036585516311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,11 +246,10 @@ MonoBehaviour:
     y: 1322
     width: 200
     height: 120
-  _onTriggerEnter: 
+  _onTriggerEnter: GiveRewardMapAsSword
   _onTriggerExit: CompleteMomQuestFindHer
   _condition:
-    _methodName: 
-    _parameters: []
+    _and: []
 --- !u!114 &4246236300585813708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -286,8 +278,7 @@ MonoBehaviour:
   _onTriggerEnter: 
   _onTriggerExit: 
   _condition:
-    _methodName: 
-    _parameters: []
+    _and: []
 --- !u!114 &4859081662361853750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -314,8 +305,7 @@ MonoBehaviour:
   _onTriggerEnter: 
   _onTriggerExit: 
   _condition:
-    _methodName: 
-    _parameters: []
+    _and: []
 --- !u!114 &5839587925635265110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -342,8 +332,7 @@ MonoBehaviour:
   _onTriggerEnter: 
   _onTriggerExit: 
   _condition:
-    _methodName: 
-    _parameters: []
+    _and: []
 --- !u!114 &5990215796489139185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -370,8 +359,7 @@ MonoBehaviour:
   _onTriggerEnter: 
   _onTriggerExit: 
   _condition:
-    _methodName: 
-    _parameters: []
+    _and: []
 --- !u!114 &6317468973147774722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -398,8 +386,7 @@ MonoBehaviour:
   _onTriggerEnter: 
   _onTriggerExit: 
   _condition:
-    _methodName: 
-    _parameters: []
+    _and: []
 --- !u!114 &7808118540755338127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -427,8 +414,7 @@ MonoBehaviour:
   _onTriggerEnter: 
   _onTriggerExit: 
   _condition:
-    _methodName: 
-    _parameters: []
+    _and: []
 --- !u!114 &8665147301501561333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -455,8 +441,7 @@ MonoBehaviour:
   _onTriggerEnter: 
   _onTriggerExit: 
   _condition:
-    _methodName: 
-    _parameters: []
+    _and: []
 --- !u!114 &8814875700306990183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -484,5 +469,4 @@ MonoBehaviour:
   _onTriggerEnter: 
   _onTriggerExit: 
   _condition:
-    _methodName: 
-    _parameters: []
+    _and: []

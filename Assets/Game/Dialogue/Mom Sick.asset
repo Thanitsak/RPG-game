@@ -129,7 +129,7 @@ MonoBehaviour:
   _rect:
     serializedVersion: 2
     x: 463
-    y: 974
+    y: 970
     width: 200
     height: 120
   _onTriggerEnter: 
@@ -258,8 +258,8 @@ MonoBehaviour:
   _children: []
   _rect:
     serializedVersion: 2
-    x: 772
-    y: 1588
+    x: 779
+    y: 1584
     width: 200
     height: 120
   _onTriggerEnter: 
@@ -349,7 +349,7 @@ MonoBehaviour:
   _rect:
     serializedVersion: 2
     x: 464
-    y: 1585
+    y: 1584
     width: 200
     height: 120
   _onTriggerEnter: 

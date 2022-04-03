@@ -46,6 +46,54 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _questWithObjective: {fileID: 11400000, guid: 61b4ceafcf6d143da8ccabae4598c6cd, type: 2}
   _objectiveToComplete: 2
+--- !u!1 &829502296291786396
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5300358040555829363}
+  - component: {fileID: 3877085180433775704}
+  m_Layer: 0
+  m_Name: 'RewardGiver '
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5300358040555829363
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 829502296291786396}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8190621187077453735}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3877085180433775704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 829502296291786396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a44e891661807440ea4ca9bb415a5631, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rewardsToGive:
+  - rewardItem: {fileID: 11400000, guid: 576ad7dee68df4321b50ffe16da86008, type: 2}
+    number: 2
+    description: Description Is Not Needed
 --- !u!1 &5021755788122737922
 GameObject:
   m_ObjectHideFlags: 0
@@ -418,6 +466,34 @@ MonoBehaviour:
       - m_Target: {fileID: 4924501886306631418}
         m_TargetAssemblyTypeName: RPG.Quests.QuestCompleter, Assembly-CSharp
         m_MethodName: CompleteQuestObjective
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &5683638813509775138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8190621187077453731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91a78e599e44845a2a3026f7e77be0e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _actionString: GiveRewardMapAsSword
+  _onTriggerHappen:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3877085180433775704}
+        m_TargetAssemblyTypeName: RPG.Quests.RewardGiver, Assembly-CSharp
+        m_MethodName: GiveRewardFromItself
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

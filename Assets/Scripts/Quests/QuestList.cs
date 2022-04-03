@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using RPG.Saving;
-using RPG.Inventories;
 using RPG.Core;
 
 namespace RPG.Quests
@@ -62,7 +61,7 @@ namespace RPG.Quests
 
             if (questStatus.IsQuestCompleted())
             {
-                GiveQuestReward(quest);
+                RewardGiver.GiveReward(quest.Rewards);
             }
 
             OnQuestListUpdated?.Invoke();
@@ -86,20 +85,6 @@ namespace RPG.Quests
                     return eachQuestStatus;
 
             return null;
-        }
-
-        private void GiveQuestReward(Quest quest)
-        {
-            // For Each of Reward, Gradually Add one Reward to empty slot, OR IF FULL drop that one down. (Stackable or Non-Stackable can both be done like this)
-            foreach (Quest.Reward eachReward in quest.Rewards)
-            {
-                for (int i = 0; i < eachReward.number; i++)
-                {
-                    bool success = GetComponentInChildren<Inventory>().AddToFirstEmptySlot(eachReward.rewardItem, 1);
-                    if (!success)
-                        GetComponentInChildren<ItemDropper>().DropItem(eachReward.rewardItem, 1);
-                }
-            }
         }
         #endregion
 

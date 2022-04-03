@@ -24,23 +24,21 @@ namespace RPG.Inventories
         /// </summary>
         /// <param name="item">The item type for the pickup.</param>
         /// <param name="number">
-        /// The number of items contained in the pickup. Only used if the item
-        /// is stackable.
+        /// The number of items contained in the pickup. Can be used for Stackable and Non-Stackable items.
+        /// IF Stackable this will spawn Single Pickup with 'number' value. IF Non-Stackable this will spawn Multiple Pickups with '1' value.
         /// </param>
         public void DropItem(InventoryItem item, int number)
         {
-            SpawnPickup(item, GetDropLocation(), number);
+            if (item.IsStackable())
+            {
+                SpawnPickup(item, GetDropLocation(), number);
+                return;
+            }
 
-            // TODO ADD CHECK CONDITION HERE IF NOT STACKABLE LOOP THROUGH number and SpawnPickup() only 1
-        }
-
-        /// <summary>
-        /// Create a pickup at the current position.
-        /// </summary>
-        /// <param name="item">The item type for the pickup.</param>
-        public void DropItem(InventoryItem item)
-        {
-            SpawnPickup(item, GetDropLocation(), 1);
+            for (int i = 0; i < number; i++)
+            {
+                SpawnPickup(item, GetDropLocation(), 1);
+            }
         }
         #endregion
 

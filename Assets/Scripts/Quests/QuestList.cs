@@ -90,13 +90,14 @@ namespace RPG.Quests
 
         private void GiveQuestReward(Quest quest)
         {
-            // For Each of the reward Add Directly to player inventory, IF FULL the drop down
+            // For Each of Reward, Gradually Add one Reward to empty slot, OR IF FULL drop that one down. (Stackable or Non-Stackable can both be done like this)
             foreach (Quest.Reward eachReward in quest.Rewards)
             {
-                bool success = GetComponentInChildren<Inventory>().AddToFirstEmptySlot(eachReward.rewardItem, eachReward.number);
-                if (!success)
+                for (int i = 0; i < eachReward.number; i++)
                 {
-                    GetComponentInChildren<ItemDropper>().DropItem(eachReward.rewardItem, eachReward.number);
+                    bool success = GetComponentInChildren<Inventory>().AddToFirstEmptySlot(eachReward.rewardItem, 1);
+                    if (!success)
+                        GetComponentInChildren<ItemDropper>().DropItem(eachReward.rewardItem, 1);
                 }
             }
         }

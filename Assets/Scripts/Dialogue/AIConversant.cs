@@ -44,6 +44,8 @@ namespace RPG.Dialogue
 
                 _playerConversant.StartDialogue(this, _dialogue);
                 _actionScheduler.StopCurrentAction();
+
+                _playerConversant = null;
             }
         }
         #endregion

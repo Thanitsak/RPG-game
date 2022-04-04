@@ -128,8 +128,8 @@ MonoBehaviour:
   - 88c6dc0a-d99e-41c0-a0dd-38231711f7a3
   _rect:
     serializedVersion: 2
-    x: 463
-    y: 970
+    x: 467
+    y: 971
     width: 200
     height: 120
   _onTriggerEnter: 
@@ -137,12 +137,12 @@ MonoBehaviour:
   _condition:
     _and:
     - _or:
-      - _methodName: HasQuest
+      - _methodName: 1
         _parameters:
         - Help Mom
         _negate: 0
     - _or:
-      - _methodName: HasCompletedQuest
+      - _methodName: 0
         _parameters:
         - Help Mom
         _negate: 1
@@ -204,12 +204,12 @@ MonoBehaviour:
   _condition:
     _and:
     - _or:
-      - _methodName: HasItem
+      - _methodName: 2
         _parameters:
         - f52bc728f5144-435a-a4bf-440f52bc728f
         _negate: 0
     - _or:
-      - _methodName: HasItem
+      - _methodName: 2
         _parameters:
         - bfa18803-0973-4143-b362-11b5f039ea7c
         _negate: 0
@@ -316,8 +316,8 @@ MonoBehaviour:
   - 743bbff7-c7ae-4934-813a-2a59e1d740d7
   _rect:
     serializedVersion: 2
-    x: 475
-    y: 647
+    x: 471
+    y: 653
     width: 200
     height: 120
   _onTriggerEnter: 
@@ -325,7 +325,7 @@ MonoBehaviour:
   _condition:
     _and:
     - _or:
-      - _methodName: HasQuest
+      - _methodName: 1
         _parameters:
         - Help Mom
         _negate: 1
@@ -348,7 +348,7 @@ MonoBehaviour:
   - e3a4e3cc-820a-4424-9802-82aa957b0553
   _rect:
     serializedVersion: 2
-    x: 464
+    x: 465
     y: 1584
     width: 200
     height: 120
@@ -357,7 +357,7 @@ MonoBehaviour:
   _condition:
     _and:
     - _or:
-      - _methodName: HasCompletedQuest
+      - _methodName: 0
         _parameters:
         - Help Mom
         _negate: 0

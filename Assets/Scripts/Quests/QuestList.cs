@@ -115,14 +115,14 @@ namespace RPG.Quests
             OnQuestListUpdated?.Invoke();
         }
 
-        bool? IPredicateEvaluator.Evaluate(string methodName, string[] parameters)
+        bool? IPredicateEvaluator.Evaluate(PredicateName methodName, string[] parameters)
         {
             switch (methodName)
             {
-                case "HasQuest":
+                case PredicateName.HasQuest:
                     return IsQuestExist(Quest.GetByName(parameters[0]));
 
-                case "HasCompletedQuest":
+                case PredicateName.HasCompletedQuest:
                     QuestStatus questStatus = GetQuestStatus(Quest.GetByName(parameters[0]));
                     if (questStatus == null) return false;
 

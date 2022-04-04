@@ -249,11 +249,11 @@ namespace RPG.Inventories
             OnInventoryUpdated?.Invoke();
         }
 
-        bool? IPredicateEvaluator.Evaluate(string methodName, string[] parameters)
+        bool? IPredicateEvaluator.Evaluate(PredicateName methodName, string[] parameters)
         {
             switch (methodName)
             {
-                case "HasItem":
+                case PredicateName.HasItem:
                     return HasItem(InventoryItem.GetFromID(parameters[0]));
             }
 

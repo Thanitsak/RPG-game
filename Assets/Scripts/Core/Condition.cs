@@ -55,7 +55,7 @@ namespace RPG.Core
         private class Predicate
         {
             #region --Fields-- (Inspector)
-            [SerializeField] private string _methodName;
+            [SerializeField] private PredicateName _methodName;
             [SerializeField] private string[] _parameters;
             [SerializeField] private bool _negate = false;
             #endregion

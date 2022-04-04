@@ -109,6 +109,37 @@ MonoBehaviour:
   _onTriggerExit: 
   _condition:
     _and: []
+--- !u!114 &-2937918556705868592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90ecf6047c05b4430a9a93771aa5ea19, type: 3}
+  m_Name: 3cc1d86c-82de-48ab-bf43-56ca4f1ccf6e
+  m_EditorClassIdentifier: 
+  _speaker: 1
+  _text: Hey! I already gave you that!
+  _questionText: 
+  _children: []
+  _rect:
+    serializedVersion: 2
+    x: 735
+    y: 1567
+    width: 200
+    height: 120
+  _onTriggerEnter: 
+  _onTriggerExit: 
+  _condition:
+    _and:
+    - _or:
+      - _methodName: 3
+        _parameters:
+        - ASword
+        _negate: 0
 --- !u!114 &-1044665625715304608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,6 +203,9 @@ MonoBehaviour:
   - {fileID: 8665147301501561333}
   - {fileID: -1044665625715304608}
   - {fileID: 3633300036585516311}
+  - {fileID: 3688298139442609207}
+  - {fileID: 3507281955012940016}
+  - {fileID: -2937918556705868592}
 --- !u!114 &516899863793072521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,6 +259,37 @@ MonoBehaviour:
   _onTriggerExit: 
   _condition:
     _and: []
+--- !u!114 &3507281955012940016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90ecf6047c05b4430a9a93771aa5ea19, type: 3}
+  m_Name: 5475ae49-03db-421a-ad27-0ea0ae91dcaf
+  m_EditorClassIdentifier: 
+  _speaker: 1
+  _text: Sure boy! Here you are!
+  _questionText: 
+  _children: []
+  _rect:
+    serializedVersion: 2
+    x: 733
+    y: 1187
+    width: 200
+    height: 120
+  _onTriggerEnter: GiveRewardASword
+  _onTriggerExit: 
+  _condition:
+    _and:
+    - _or:
+      - _methodName: 3
+        _parameters:
+        - ASword
+        _negate: 1
 --- !u!114 &3633300036585516311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,7 +303,7 @@ MonoBehaviour:
   m_Name: 88dcf4dc-00ee-49a4-bd96-9e2f3da4b5fa
   m_EditorClassIdentifier: 
   _speaker: 1
-  _text: Ah I can help you with that! Here the map!
+  _text: Ah I can help you with that!
   _questionText: 
   _children: []
   _rect:
@@ -247,8 +312,36 @@ MonoBehaviour:
     y: 1322
     width: 200
     height: 120
-  _onTriggerEnter: GiveRewardMapAsSword
+  _onTriggerEnter: 
   _onTriggerExit: CompleteMomQuestFindHer
+  _condition:
+    _and: []
+--- !u!114 &3688298139442609207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90ecf6047c05b4430a9a93771aa5ea19, type: 3}
+  m_Name: 9deb8d82-207f-4a27-80b4-dfcd6b1df328
+  m_EditorClassIdentifier: 
+  _speaker: 0
+  _text: From South, but can you give me a sword?
+  _questionText: 
+  _children:
+  - 5475ae49-03db-421a-ad27-0ea0ae91dcaf
+  - 3cc1d86c-82de-48ab-bf43-56ca4f1ccf6e
+  _rect:
+    serializedVersion: 2
+    x: 328
+    y: 1309
+    width: 200
+    height: 120
+  _onTriggerEnter: 
+  _onTriggerExit: 
   _condition:
     _and: []
 --- !u!114 &4246236300585813708
@@ -270,6 +363,7 @@ MonoBehaviour:
   - c1d7cd9c-92c8-411e-87ed-19aea766bac5
   - 972f5747-9a02-487d-907d-a660a20f23ef
   - 8a931441-2779-4c85-9d9d-42489293e4bd
+  - 9deb8d82-207f-4a27-80b4-dfcd6b1df328
   _rect:
     serializedVersion: 2
     x: 39
@@ -401,8 +495,7 @@ MonoBehaviour:
   m_Name: 8a931441-2779-4c85-9d9d-42489293e4bd
   m_EditorClassIdentifier: 
   _speaker: 0
-  _text: From South of the town, but do you know how can I go to the North of the
-    Town?
+  _text: From South, but do you know how can I go to the North?
   _questionText: 
   _children:
   - 145e7c5c-65d5-49d2-8e91-6a88a23c85ee

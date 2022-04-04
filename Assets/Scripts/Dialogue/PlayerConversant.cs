@@ -72,7 +72,7 @@ namespace RPG.Dialogue
         public IEnumerable<DialogueNode> GetChoices()
         {
             DialogueNode[] playerNode = FilterOnCondition(_currentDialogue.GetPlayerChildren(_previousNode)).ToArray();
-
+            
             foreach (DialogueNode eachNode in playerNode)
             {
                 yield return eachNode;
@@ -101,7 +101,7 @@ namespace RPG.Dialogue
             // Randomly get Node from All Children
             DialogueNode[] allNode = FilterOnCondition(_currentDialogue.GetAllChildren(_currentNode)).ToArray();
             DialogueNode randChild = allNode[UnityEngine.Random.Range(0, allNode.Length)];
-
+            
             TriggerExitAction();
 
             _previousNode = _currentNode;
@@ -141,9 +141,11 @@ namespace RPG.Dialogue
         #region --Methods-- (Custom PRIVATE) ~Node Filtering~
         private IEnumerable<DialogueNode> FilterOnCondition(IEnumerable<DialogueNode> inputNodes)
         {
+            IEnumerable<IPredicateEvaluator> allEvaluators = GetEvaluators();
+
             foreach (DialogueNode eachNode in inputNodes)
             {
-                if (eachNode.CheckCondition(GetEvaluators()))
+                if (eachNode.CheckCondition(allEvaluators))
                 {
                     yield return eachNode;
                 }
@@ -152,7 +154,15 @@ namespace RPG.Dialogue
 
         private IEnumerable<IPredicateEvaluator> GetEvaluators()
         {
-            return GetComponentsInChildren<IPredicateEvaluator>();
+            List<IPredicateEvaluator> _classesThatImplemented = new List<IPredicateEvaluator>();
+
+            foreach (IPredicateEvaluator each in GetComponentsInChildren<IPredicateEvaluator>()) // Get from Player GameObject
+                _classesThatImplemented.Add(each);
+
+            foreach (IPredicateEvaluator each in _aiConversant.GetComponentsInChildren<IPredicateEvaluator>()) // Get from AI GameObject that Player is talking to
+                _classesThatImplemented.Add(each);
+
+            return _classesThatImplemented;
         }
         #endregion
 

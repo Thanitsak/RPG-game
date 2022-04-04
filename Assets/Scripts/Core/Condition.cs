@@ -29,7 +29,12 @@ namespace RPG.Core
 
 
         #region --Methods-- (Custom PUBLIC) ~for Showing Condition in Editor~
-        public bool HasCondition() => _and.Length > 0;
+        public bool HasCondition()
+        {
+            if (_and == null) return false;
+
+            return _and.Length > 0;
+        }
 
         public string GetConditionText()
         {

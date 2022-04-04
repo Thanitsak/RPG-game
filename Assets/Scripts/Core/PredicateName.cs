@@ -5,5 +5,6 @@ namespace RPG.Core
         HasCompletedQuest,
         HasQuest,
         HasItem,
+        HasGaveReward,
     }
 }

@@ -22,38 +22,12 @@ MonoBehaviour:
   _children: []
   _rect:
     serializedVersion: 2
-    x: 788
-    y: 649
+    x: 670
+    y: 647
     width: 200
     height: 120
   _onTriggerEnter: 
   _onTriggerExit: GiveMomQuest
-  _condition:
-    _and: []
---- !u!114 &-8007926764960691196
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90ecf6047c05b4430a9a93771aa5ea19, type: 3}
-  m_Name: 88c6dc0a-d99e-41c0-a0dd-38231711f7a3
-  m_EditorClassIdentifier: 
-  _speaker: 1
-  _text: Opps, sorry bad memory
-  _questionText: 
-  _children: []
-  _rect:
-    serializedVersion: 2
-    x: 787
-    y: 978
-    width: 200
-    height: 120
-  _onTriggerEnter: 
-  _onTriggerExit: 
   _condition:
     _and: []
 --- !u!114 &-7637737584717590706
@@ -74,8 +48,8 @@ MonoBehaviour:
   _children: []
   _rect:
     serializedVersion: 2
-    x: 791
-    y: 1308
+    x: 1532
+    y: 616
     width: 200
     height: 120
   _onTriggerEnter: 
@@ -101,56 +75,14 @@ MonoBehaviour:
   - 5463e3d4-82d1-4cb5-862a-52eed53fa53c
   _rect:
     serializedVersion: 2
-    x: 470
-    y: 316
+    x: 393
+    y: 244
     width: 200
     height: 120
   _onTriggerEnter: 
   _onTriggerExit: 
   _condition:
-    _and:
-    - _or:
-      - _methodName: 1
-        _parameters:
-        - Help Mom
-        _negate: 1
---- !u!114 &-1921428655648202858
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90ecf6047c05b4430a9a93771aa5ea19, type: 3}
-  m_Name: a8daa53b-5d1b-4ae1-ad66-43ddefb5cdbb
-  m_EditorClassIdentifier: 
-  _speaker: 0
-  _text: I'm already on the case...
-  _questionText: 
-  _children:
-  - 88c6dc0a-d99e-41c0-a0dd-38231711f7a3
-  _rect:
-    serializedVersion: 2
-    x: 468
-    y: 979
-    width: 200
-    height: 120
-  _onTriggerEnter: 
-  _onTriggerExit: 
-  _condition:
-    _and:
-    - _or:
-      - _methodName: 1
-        _parameters:
-        - Help Mom
-        _negate: 0
-    - _or:
-      - _methodName: 0
-        _parameters:
-        - Help Mom
-        _negate: 1
+    _and: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,10 +96,10 @@ MonoBehaviour:
   m_Name: Mom Sick
   m_EditorClassIdentifier: 
   _isShowedNodesAction: 1
-  _isShowedQuestionTextOnAISpeaker: 1
+  _isShowedQuestionText: 1
   _normalNodesSize: {x: 200, y: 120}
-  _showedNodesActionSize: {x: 200, y: 250}
-  _showedQuestionExtraHeightOnAI: 50
+  _showedActionExtraHeight: 130
+  _showedQuestionExtraHeight: 50
   _showedConditionExtraHeight: 75
   _newNodeOffset: {x: 250, y: 0}
   _nodes:
@@ -176,12 +108,13 @@ MonoBehaviour:
   - {fileID: 5995508938878511447}
   - {fileID: 2875053274715746522}
   - {fileID: -8697448208059011366}
-  - {fileID: -1921428655648202858}
-  - {fileID: -8007926764960691196}
   - {fileID: 1378140779234921168}
   - {fileID: -7637737584717590706}
   - {fileID: 7731780814327826773}
   - {fileID: 4085365765669361790}
+  - {fileID: 2069295981338107840}
+  - {fileID: 5903147517877663856}
+  - {fileID: 8891169762830477435}
 --- !u!114 &1378140779234921168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,8 +134,8 @@ MonoBehaviour:
   - 614b649d-8627-40c1-bdb9-ef09f72f5b2b
   _rect:
     serializedVersion: 2
-    x: 466
-    y: 1309
+    x: 1239
+    y: 616
     width: 200
     height: 120
   _onTriggerEnter: 
@@ -219,6 +152,44 @@ MonoBehaviour:
         _parameters:
         - bfa18803-0973-4143-b362-11b5f039ea7c
         _negate: 0
+--- !u!114 &2069295981338107840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90ecf6047c05b4430a9a93771aa5ea19, type: 3}
+  m_Name: 43871b5b-d7a4-481a-a297-5ebeebb9d554
+  m_EditorClassIdentifier: 
+  _speaker: 1
+  _text: Hello... can you help my...
+  _questionText: ...mom?
+  _children:
+  - 1f71943a-af77-4fa7-b16b-59046cd4a0bb
+  - 071dd0af-7d1c-4b58-b235-c3dfd8825af0
+  _rect:
+    serializedVersion: 2
+    x: 937
+    y: 408
+    width: 200
+    height: 120
+  _onTriggerEnter: 
+  _onTriggerExit: 
+  _condition:
+    _and:
+    - _or:
+      - _methodName: 1
+        _parameters:
+        - Help Mom
+        _negate: 0
+    - _or:
+      - _methodName: 0
+        _parameters:
+        - Help Mom
+        _negate: 1
 --- !u!114 &2875053274715746522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,8 +209,8 @@ MonoBehaviour:
   _children: []
   _rect:
     serializedVersion: 2
-    x: 784
-    y: 317
+    x: 661
+    y: 245
     width: 200
     height: 120
   _onTriggerEnter: 
@@ -259,13 +230,13 @@ MonoBehaviour:
   m_Name: e3a4e3cc-820a-4424-9802-82aa957b0553
   m_EditorClassIdentifier: 
   _speaker: 1
-  _text: WOW Thank You So Much!!!
+  _text: I own you! Thank You So Much!!!
   _questionText: 
   _children: []
   _rect:
     serializedVersion: 2
-    x: 794
-    y: 1641
+    x: 911
+    y: 1135
     width: 200
     height: 120
   _onTriggerEnter: 
@@ -290,15 +261,44 @@ MonoBehaviour:
   _children:
   - 512b559b-6ae6-42fc-9a45-20ff01c8d659
   - 8cd1049f-c84c-4c13-9c5e-f88d6ac08706
-  - a8daa53b-5d1b-4ae1-ad66-43ddefb5cdbb
-  - 071dd0af-7d1c-4b58-b235-c3dfd8825af0
-  - 016a3f34-da61-4fc6-84b3-9c09dce1f2ad
   _rect:
     serializedVersion: 2
-    x: 171
-    y: 452
+    x: 78
+    y: 412
     width: 200
     height: 100
+  _onTriggerEnter: 
+  _onTriggerExit: 
+  _condition:
+    _and:
+    - _or:
+      - _methodName: 1
+        _parameters:
+        - Help Mom
+        _negate: 1
+--- !u!114 &5903147517877663856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90ecf6047c05b4430a9a93771aa5ea19, type: 3}
+  m_Name: 1f71943a-af77-4fa7-b16b-59046cd4a0bb
+  m_EditorClassIdentifier: 
+  _speaker: 0
+  _text: I'm already on the case...
+  _questionText: 
+  _children:
+  - 95f85105-fb59-4afd-a62f-0bbc89960bf1
+  _rect:
+    serializedVersion: 2
+    x: 1244
+    y: 234
+    width: 200
+    height: 120
   _onTriggerEnter: 
   _onTriggerExit: 
   _condition:
@@ -322,19 +322,14 @@ MonoBehaviour:
   - 743bbff7-c7ae-4934-813a-2a59e1d740d7
   _rect:
     serializedVersion: 2
-    x: 471
+    x: 394
     y: 649
     width: 200
     height: 120
   _onTriggerEnter: 
   _onTriggerExit: 
   _condition:
-    _and:
-    - _or:
-      - _methodName: 1
-        _parameters:
-        - Help Mom
-        _negate: 1
+    _and: []
 --- !u!114 &7731780814327826773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -347,15 +342,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90ecf6047c05b4430a9a93771aa5ea19, type: 3}
   m_Name: 016a3f34-da61-4fc6-84b3-9c09dce1f2ad
   m_EditorClassIdentifier: 
-  _speaker: 0
-  _text: I have completed the quest!!!
+  _speaker: 1
+  _text: Oh wow! You saved my mom! You really did it!
   _questionText: 
   _children:
   - e3a4e3cc-820a-4424-9802-82aa957b0553
   _rect:
     serializedVersion: 2
-    x: 465
-    y: 1643
+    x: 639
+    y: 1133
     width: 200
     height: 120
   _onTriggerEnter: 
@@ -367,3 +362,29 @@ MonoBehaviour:
         _parameters:
         - Help Mom
         _negate: 0
+--- !u!114 &8891169762830477435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90ecf6047c05b4430a9a93771aa5ea19, type: 3}
+  m_Name: 95f85105-fb59-4afd-a62f-0bbc89960bf1
+  m_EditorClassIdentifier: 
+  _speaker: 1
+  _text: Opps, sorry bad memory
+  _questionText: 
+  _children: []
+  _rect:
+    serializedVersion: 2
+    x: 1530
+    y: 234
+    width: 200
+    height: 120
+  _onTriggerEnter: 
+  _onTriggerExit: 
+  _condition:
+    _and: []

@@ -182,36 +182,24 @@ namespace RPG.Dialogue.Editor
 
         private void DrawNode(DialogueNode node)
         {
-            GUIStyle style = _nodeStyle;
-            Rect nodeRect;
+            // Setting Node Style
+            GUIStyle style = (node.Speaker == DialogueSpeaker.Player) ? _playerNodeStyle : _nodeStyle;
 
-            // Get Width & Height from Dialogue.cs
+            // Setting Node Width/Height
+            Rect nodeRect = new Rect(node.Rect.x, node.Rect.y, _selectedDialogue.NormalNodesSize.x, _selectedDialogue.NormalNodesSize.y);
+
+            // Adding Extra Height for all Node type
             if (_selectedDialogue.IsShowedNodesAction)
-                nodeRect = new Rect(node.Rect.x, node.Rect.y, _selectedDialogue.ShowedNodesActionSize.x, _selectedDialogue.ShowedNodesActionSize.y);
-            else
-                nodeRect = new Rect(node.Rect.x, node.Rect.y, _selectedDialogue.NormalNodesSize.x, _selectedDialogue.NormalNodesSize.y);
+                nodeRect.height += _selectedDialogue.ShowedActionExtraHeight;
 
-            switch (node.Speaker)
-            {
-                case DialogueSpeaker.AI:
-                    // GET 50 from Dialogue.cs
-                    if (_selectedDialogue.IsShowedQuestionTextOnAISpeaker)
-                    {
-                        nodeRect.height += _selectedDialogue.ShowedQuestionExtraHeightOnAI;
-                    }
-                    break;
-
-                case DialogueSpeaker.Player:
-                    style = _playerNodeStyle;
-                    break;
-            }
+            if (_selectedDialogue.IsShowedQuestionText)
+                nodeRect.height += _selectedDialogue.ShowedQuestionExtraHeight;
 
             if (node.HasCondition)
-            {
                 nodeRect.height += _selectedDialogue.ShowedConditionExtraHeight;
-            }
 
             GUILayout.BeginArea(nodeRect, style);
+
 
             // Create Enum DropDown Selection
             node.Speaker = (DialogueSpeaker)EditorGUILayout.EnumPopup($"Speaker : {node.Speaker}", node.Speaker);
@@ -220,16 +208,11 @@ namespace RPG.Dialogue.Editor
             EditorStyles.textArea.wordWrap = true;
             node.Text = EditorGUILayout.TextArea($"{node.Text}", EditorStyles.textArea, GUILayout.ExpandHeight(true));
 
-            // Create Question TextArea for AI
-            switch (node.Speaker)
+            // Create Question TextArea
+            if (_selectedDialogue.IsShowedQuestionText)
             {
-                case DialogueSpeaker.AI:
-                    if (_selectedDialogue.IsShowedQuestionTextOnAISpeaker)
-                    {
-                        EditorGUILayout.LabelField("Question Text");
-                        node.QuestionText = EditorGUILayout.TextArea($"{node.QuestionText}", EditorStyles.textArea, GUILayout.ExpandHeight(true));
-                    }
-                    break;
+                EditorGUILayout.LabelField("Question Text");
+                node.QuestionText = EditorGUILayout.TextArea($"{node.QuestionText}", EditorStyles.textArea, GUILayout.ExpandHeight(true));
             }
 
             // Create OnTriggerEnter & OnTriggerExit TextArea

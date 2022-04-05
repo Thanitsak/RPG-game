@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEditor;
 
@@ -10,18 +11,19 @@ namespace RPG.Dialogue
         #region --Fields-- (Inspector)
         [Header("Show/Hide Toggle")]
         [SerializeField] private bool _isShowedNodesAction = false;
-        [SerializeField] private bool _isShowedQuestionTextOnAISpeaker = true;
+        [SerializeField] private bool _isShowedQuestionText = true;
 
         [Space]
         [Space]
 
         [Header("All Nodes Width & Height, and create Node OffSet")]
         [SerializeField] private Vector2 _normalNodesSize = new Vector2(200, 120);
-        [SerializeField] private Vector2 _showedNodesActionSize = new Vector2(200, 250);
         [Space]
-        [SerializeField] private float _showedQuestionExtraHeightOnAI = 50f;
+        [SerializeField] private float _showedActionExtraHeight = 130f;
         [Space]
-        [SerializeField] private float _showedConditionExtraHeight = 75;
+        [SerializeField] private float _showedQuestionExtraHeight = 50f;
+        [Space]
+        [SerializeField] private float _showedConditionExtraHeight = 75f;
         [Space]
         [SerializeField] private Vector2 _newNodeOffset = new Vector2(250, 0); // No Need to create Public Properties cuz not use in DialogueEditor
 
@@ -36,17 +38,19 @@ namespace RPG.Dialogue
 
         #region --Fields-- (In Class)
         private Dictionary<string, DialogueNode> _nodeLookUpTable = new Dictionary<string, DialogueNode>();
+
+        private List<DialogueNode> _rootNodes = null;
         #endregion
 
 
 
         #region --Properties-- (With Backing Fields)
         public bool IsShowedNodesAction { get { return _isShowedNodesAction; } }
-        public bool IsShowedQuestionTextOnAISpeaker { get { return _isShowedQuestionTextOnAISpeaker; } }
+        public bool IsShowedQuestionText { get { return _isShowedQuestionText; } }
 
         public Vector2 NormalNodesSize { get { return _normalNodesSize; } }
-        public Vector2 ShowedNodesActionSize { get { return _showedNodesActionSize; } }
-        public float ShowedQuestionExtraHeightOnAI { get { return _showedQuestionExtraHeightOnAI; } }
+        public float ShowedActionExtraHeight { get { return _showedActionExtraHeight; } }
+        public float ShowedQuestionExtraHeight { get { return _showedQuestionExtraHeight; } }
         public float ShowedConditionExtraHeight { get { return _showedConditionExtraHeight; } }
 
         public IEnumerable<DialogueNode> Nodes { get { return _nodes; } }
@@ -58,12 +62,14 @@ namespace RPG.Dialogue
         private void Awake()
         {
             UpdateLookUpTable();
+            UpdateRootNodes();
         }
 
 #if UNITY_EDITOR
         private void OnValidate()
         {
             UpdateLookUpTable();
+            UpdateRootNodes();
         }
 #endif
         #endregion
@@ -71,9 +77,12 @@ namespace RPG.Dialogue
 
 
         #region --Methods-- (Custom PUBLIC)
-        public DialogueNode GetRootNode()
+        public IEnumerable<DialogueNode> GetRootNodes()
         {
-            return _nodes[0];
+            if (_rootNodes == null)
+                UpdateRootNodes();
+
+            return _rootNodes;
         }
 
         public IEnumerable<DialogueNode> GetAllChildren(DialogueNode parentNode)
@@ -206,6 +215,20 @@ namespace RPG.Dialogue
             foreach (DialogueNode eachNode in _nodes)
             {
                 eachNode.RemoveChild(nodeToDelete.name);
+            }
+        }
+
+        private void UpdateRootNodes()
+        {
+            _rootNodes = _nodes.ToList(); // Copy without reference
+
+            foreach (DialogueNode eachNodeOutter in _nodes)
+            {
+                foreach (DialogueNode eachNodeInner in _nodes)
+                {
+                    if (GetAllChildren(eachNodeOutter).Contains(eachNodeInner))
+                        _rootNodes.Remove(eachNodeInner);
+                }
             }
         }
         #endregion

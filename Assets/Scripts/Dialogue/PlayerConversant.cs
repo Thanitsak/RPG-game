@@ -28,7 +28,13 @@ namespace RPG.Dialogue
         {
             _aiConversant = newAIConversant;
             _currentDialogue = newDialogue;
-            _currentNode = _currentDialogue.GetRootNode();
+
+            // Randomly get a Node from All the Root
+            DialogueNode[] allRoot = FilterOnCondition(_currentDialogue.GetRootNodes()).ToArray();
+            DialogueNode randRoot = allRoot[UnityEngine.Random.Range(0, allRoot.Length)];
+
+            _previousNode = randRoot; // Incase root is Player Node so GetChoices() and GetQuestText() can work
+            _currentNode = randRoot;
 
             if (!IsPlayerSpeaking())
                 TriggerEnterAction();

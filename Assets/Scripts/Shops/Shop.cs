@@ -3,6 +3,8 @@ using System;
 using UnityEngine;
 using RPG.Inventories;
 using RPG.Control;
+using RPG.Core;
+using RPG.Movement;
 
 namespace RPG.Shops
 {
@@ -21,6 +23,7 @@ namespace RPG.Shops
 
 
         #region --Fields-- (In Class)
+        private ActionScheduler _actionScheduler;
         private Shopper _shopper;
         #endregion
 
@@ -28,6 +31,28 @@ namespace RPG.Shops
 
         #region --Properties-- (With Backing Fields)
         public string ShopTitleName { get { return _shopTitleName; } }
+        #endregion
+
+
+
+        #region --Methods-- (Built In)
+        private void Awake()
+        {
+            _actionScheduler = GameObject.FindWithTag("Player").GetComponent<ActionScheduler>();
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Player"))
+            {
+                if (_shopper == null) return;
+
+                _shopper.SetActiveShop(this);
+                _actionScheduler.StopCurrentAction();
+
+                _shopper = null;
+            }
+        }
         #endregion
 
 
@@ -91,9 +116,9 @@ namespace RPG.Shops
         {
             if (Input.GetMouseButtonDown(0))
             {
-                _shopper = playerController.GetComponentInChildren<Shopper>();
+                playerController.GetComponent<Mover>().StartMoveAction(transform.position, 1f);
 
-                _shopper.SetActiveShop(this);
+                _shopper = playerController.GetComponentInChildren<Shopper>();
             }
 
             return true;

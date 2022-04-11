@@ -8,6 +8,12 @@ namespace RPG.Shops
 {
     public class Shop : MonoBehaviour, IRaycastable
     {
+        #region --Fields-- (Inspector)
+        [SerializeField] private string _shopTitleName;
+        #endregion
+
+
+
         #region --Events-- (Delegate as Action)
         public event Action OnShopUpdated;
         #endregion
@@ -16,6 +22,12 @@ namespace RPG.Shops
 
         #region --Fields-- (In Class)
         private Shopper _shopper;
+        #endregion
+
+
+
+        #region --Properties-- (With Backing Fields)
+        public string ShopTitleName { get { return _shopTitleName; } }
         #endregion
 
 

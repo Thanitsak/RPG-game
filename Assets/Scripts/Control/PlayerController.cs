@@ -90,7 +90,7 @@ namespace RPG.Control
 
             foreach (RaycastHit eachHit in hitsInfo)
             {
-                foreach (IRaycastable eachRaycastable in eachHit.transform.GetComponents<IRaycastable>())
+                foreach (IRaycastable eachRaycastable in eachHit.transform.GetComponents<IRaycastable>()) // No need to do GetComponentsInChildren() cuz these are gameObjects that got hit by doing Casting so if any child gameobject implemented will get call also
                 {
                     if (eachRaycastable.HandleRaycast(this))
                     {

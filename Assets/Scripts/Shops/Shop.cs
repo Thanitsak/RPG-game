@@ -2,13 +2,20 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using RPG.Inventories;
+using RPG.Control;
 
 namespace RPG.Shops
 {
-    public class Shop : MonoBehaviour
+    public class Shop : MonoBehaviour, IRaycastable
     {
         #region --Events-- (Delegate as Action)
         public event Action OnShopUpdated;
+        #endregion
+
+
+
+        #region --Fields-- (In Class)
+        private Shopper _shopper;
         #endregion
 
 
@@ -57,6 +64,27 @@ namespace RPG.Shops
         public void AddToTransaction(InventoryItem item, int quantity)
         {
 
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Interface)
+        CursorType IRaycastable.GetCursorType()
+        {
+            return CursorType.Shop;
+        }
+
+        bool IRaycastable.HandleRaycast(PlayerController playerController)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                _shopper = playerController.GetComponentInChildren<Shopper>();
+
+                _shopper.SetActiveShop(this);
+            }
+
+            return true;
         }
         #endregion
 

@@ -9,5 +9,6 @@ namespace RPG.Control
         Pickup,
         PickupFull,
         Dialogue,
+        Shop
     }
 }

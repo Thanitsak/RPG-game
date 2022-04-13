@@ -30,8 +30,8 @@ namespace RPG.Saving
                 buildIndex = (int)state["lastSceneBuildIndex"];
             }
 
-            //yield return SceneManager.LoadSceneAsync(buildIndex); // IF call this in Awake() this Line Completed after all Awake() but before all Start()
-            yield return Transition.Instance.LoadAsynchronously(buildIndex); // This one will be called after Awake() & Start() because we aren't doing 'yield return' with LoadSceneAsync so the time is not pause
+            //yield return SceneManager.LoadSceneAsync(buildIndex); // ***if this method get call in Awake(), this Line Completed after all Awake() but before all Start()***
+            yield return Transition.Instance.LoadAsynchronously(buildIndex); // ***This one will be called after Awake() & Start() because we aren't doing 'yield return' with SceneManager.LoadSceneAsync so the time is not pause, in Transition.LoadAsynchronously()***
 
             yield return null; // make sure that all others scripts initialize properly first, before load data
 

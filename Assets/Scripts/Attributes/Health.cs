@@ -175,7 +175,7 @@ namespace RPG.Attributes
             return HealthPoints.value;
         }
 
-        void ISaveable.RestoreState(object state) // When level loaded it get called AFTER Awake(), BEFORE Start()
+        void ISaveable.RestoreState(object state)
         {
             HealthPoints.value = (float)state;
 

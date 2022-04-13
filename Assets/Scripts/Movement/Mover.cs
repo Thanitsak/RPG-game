@@ -159,7 +159,7 @@ namespace RPG.Movement
             return data;
         }
 
-        void ISaveable.RestoreState(object state) // When level loaded it get called AFTER Awake(), BEFORE Start()
+        void ISaveable.RestoreState(object state)
         {
             Dictionary<string, object> stateDict = (Dictionary<string, object>)state;
             GetComponent<NavMeshAgent>().Warp(((SerializableVector3)stateDict["position"]).ToVector()); // Using Warp() it also Cancel Old Target Postition that it Need to Move To

@@ -64,14 +64,14 @@ namespace RPG.UI.Shops
         {
             if (_currentShop == null || _shopItem == null) return;
 
-            _currentShop.AddToTransaction(_shopItem.Item, +1);
+            _currentShop.AddToTransaction(_shopItem.InventoryItem, 1);
         }
 
         private void RemoveQuantity()
         {
             if (_currentShop == null || _shopItem == null) return;
 
-            _currentShop.AddToTransaction(_shopItem.Item, -1);
+            _currentShop.AddToTransaction(_shopItem.InventoryItem, -1);
         }
         #endregion
     }

@@ -33,7 +33,8 @@ namespace RPG.UI.Shops
         {
             _shopper = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Shopper>();
 
-            _shopper.OnActiveShopChanged += RefreshShopUI; // Can't do with OnEnable() cuz this will keep adding more and more And Since we can't use OnDisable() to unsubscribe Since this one will be closed by default and with button
+            // Can't do with OnEnable() cuz this will keep adding more and more And Since we can't use OnDisable() to unsubscribe Since this one will be closed by default and with button
+            _shopper.OnActiveShopChanged += RefreshShopUI;
 
             _quitButton.onClick.AddListener(Quit);
         }
@@ -56,13 +57,6 @@ namespace RPG.UI.Shops
 
 
         #region --Methods-- (Custom PRIVATE) ~ShopItemUI~
-        private void RefreshShopItem()
-        {
-            ClearShopItemList();
-
-            BuildShopItemList();
-        }
-
         private void BuildShopItemList()
         {
             foreach (ShopItem eachShopItem in _currentShop.GetFilteredItems())
@@ -84,13 +78,25 @@ namespace RPG.UI.Shops
         #region --Methods-- (Subscriber)
         private void RefreshShopUI()
         {
+            if (_currentShop != null)
+                _currentShop.OnShopItemChanged -= RefreshShopItemUI; // Unsubscribe when there is OLD shop
+
             _currentShop = _shopper.GetActiveShop();
+
             UpdateShopUIPanel();
 
             if (_currentShop == null) return;
+            _currentShop.OnShopItemChanged += RefreshShopItemUI; // Subscribe on currently added shop
             _titleText.text = _currentShop.ShopTitleName;
             
-            RefreshShopItem();
+            RefreshShopItemUI();
+        }
+
+        private void RefreshShopItemUI()
+        {
+            ClearShopItemList();
+
+            BuildShopItemList();
         }
 
         private void Quit()

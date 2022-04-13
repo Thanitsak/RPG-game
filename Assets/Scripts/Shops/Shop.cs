@@ -18,7 +18,7 @@ namespace RPG.Shops
 
 
         #region --Events-- (Delegate as Action)
-        public event Action OnShopUpdated;
+        public event Action OnShopItemChanged;
         #endregion
 
 
@@ -26,6 +26,8 @@ namespace RPG.Shops
         #region --Fields-- (In Class)
         private ActionScheduler _actionScheduler;
         private Shopper _shopper;
+
+        private Dictionary<InventoryItem, int> _transaction = new Dictionary<InventoryItem, int>();
         #endregion
 
 
@@ -40,6 +42,8 @@ namespace RPG.Shops
         private void Awake()
         {
             _actionScheduler = GameObject.FindWithTag("Player").GetComponent<ActionScheduler>();
+
+            InitializeTransactionRecord();
         }
 
         private void OnTriggerEnter(Collider other)
@@ -63,7 +67,7 @@ namespace RPG.Shops
         {
             foreach (StockItemConfig eachStock in _stockItems)
             {
-                yield return new ShopItem(eachStock.item, eachStock.initialStock, GetShopItemPrice(eachStock), 0);
+                yield return new ShopItem(eachStock.inventoryItem, eachStock.initialStock, GetShopItemPrice(eachStock), _transaction[eachStock.inventoryItem]);
             }
         }
 
@@ -104,7 +108,12 @@ namespace RPG.Shops
 
         public void AddToTransaction(InventoryItem item, int quantity)
         {
-            print($"{item.GetDisplayName()} : {quantity}");
+            _transaction[item] += quantity;
+
+            if (_transaction[item] < 0)
+                _transaction[item] = 0;
+
+            OnShopItemChanged?.Invoke();
         }
         #endregion
 
@@ -113,10 +122,22 @@ namespace RPG.Shops
         #region --Methods-- (Custom PRIVATE)
         private int GetShopItemPrice(StockItemConfig stockItem)
         {
-            int defaultPrice = stockItem.item.GetPrice();
+            int defaultPrice = stockItem.inventoryItem.GetPrice();
             float discountAmount = (defaultPrice / 100f) * (-stockItem.buyingDiscountPercentage); // negate so that positive percentage mean deduct out of defaultPrice & negative percentage mean add on to defaultPrice
             
             return (int)Math.Round(defaultPrice + discountAmount, MidpointRounding.AwayFromZero); //2.5 will be 3
+        }
+
+        private void InitializeTransactionRecord()
+        {
+            _transaction.Clear();
+            foreach (StockItemConfig eachStock in _stockItems)
+            {
+                if (!_transaction.ContainsKey(eachStock.inventoryItem))
+                    _transaction.Add(eachStock.inventoryItem, 0);
+                else
+                    Debug.LogError($"Can't add duplicate Stock Item under shop '{transform.parent.name}'");
+            }
         }
         #endregion
 
@@ -147,7 +168,7 @@ namespace RPG.Shops
         [System.Serializable]
         private class StockItemConfig
         {
-            public InventoryItem item;
+            public InventoryItem inventoryItem;
             public int initialStock;
             [Tooltip("Negative Value Mean on top on the product price, make it more expensive. Positive make it cheaper.")]
             [Range(-100f,100f)]

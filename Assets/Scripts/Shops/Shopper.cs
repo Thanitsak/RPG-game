@@ -18,9 +18,14 @@ namespace RPG.Shops
 
 
         #region --Methods-- (Custom PUBLIC)
-        public void SetActiveShop(Shop shop)
+        public void SetActiveShop(Shop shopInput)
         {
-            _activeShop = shop;
+            // Set CurrentShopper back to Null in activeShop when passed in as null
+            if (shopInput == null && _activeShop != null)
+                _activeShop.CurrentShopper = null;
+            
+            _activeShop = shopInput;
+            
             OnActiveShopChanged?.Invoke();
         }
 

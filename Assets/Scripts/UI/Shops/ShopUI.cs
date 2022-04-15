@@ -13,6 +13,7 @@ namespace RPG.UI.Shops
 
         [Header("Panel Stuffs")]
         [SerializeField] private Button _quitButton;
+        [SerializeField] private Button _confirmTransactionButton;
 
         [Header("Spawn Stuffs")]
         [SerializeField] private RowUI _rowPrefab;
@@ -37,6 +38,7 @@ namespace RPG.UI.Shops
             _shopper.OnActiveShopChanged += RefreshShopUI;
 
             _quitButton.onClick.AddListener(Quit);
+            _confirmTransactionButton.onClick.AddListener(ConfirmTransaction);
         }
 
         private void Start()
@@ -102,6 +104,13 @@ namespace RPG.UI.Shops
         private void Quit()
         {
             _shopper.SetActiveShop(null);
+        }
+
+        private void ConfirmTransaction()
+        {
+            if (_currentShop == null) return;
+
+            _currentShop.ConfirmTransaction();
         }
         #endregion
     }

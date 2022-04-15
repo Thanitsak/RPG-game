@@ -52,6 +52,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _titleText: {fileID: 4216216153059855456}
   _quitButton: {fileID: 9069655839965007947}
+  _confirmTransactionButton: {fileID: 8298666603921377828}
   _rowPrefab: {fileID: 45736150991853833, guid: 3083a352da94148a5820c7e3e1e91ffd, type: 3}
   _spawnParent: {fileID: 690274056286608878}
 --- !u!1001 &338915962915198878
@@ -2034,6 +2035,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8298666603921377828 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8619567577500523962, guid: 755577dd1f8e44e0ea2529e9a9481088, type: 3}
+  m_PrefabInstance: {fileID: 338915962915198878}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &9069655839965007947 stripped

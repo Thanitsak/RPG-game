@@ -25,9 +25,14 @@ namespace RPG.Shops
 
         #region --Fields-- (In Class)
         private ActionScheduler _actionScheduler;
-        private Shopper _shopper;
 
         private Dictionary<InventoryItem, int> _transaction = new Dictionary<InventoryItem, int>();
+        #endregion
+
+
+
+        #region --Fields-- (Constant)
+        private const Int16 MaxQuantity = 999;
         #endregion
 
 
@@ -38,24 +43,28 @@ namespace RPG.Shops
 
 
 
+        #region --Properties-- (Auto)
+        public Shopper CurrentShopper { get; set; }
+        #endregion
+
+
+
         #region --Methods-- (Built In)
         private void Awake()
         {
             _actionScheduler = GameObject.FindWithTag("Player").GetComponent<ActionScheduler>();
-
-            InitializeTransactionRecord();
         }
 
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Player"))
             {
-                if (_shopper == null) return;
+                if (CurrentShopper == null) return;
 
-                _shopper.SetActiveShop(this);
+                CurrentShopper.SetActiveShop(this);
                 _actionScheduler.StopCurrentAction();
 
-                _shopper = null;
+                // _currentShopper will be set to null in Shopper.SetActiveShop(null) by quit button in ShopUI
             }
         }
         #endregion
@@ -67,7 +76,10 @@ namespace RPG.Shops
         {
             foreach (StockItemConfig eachStock in _stockItems)
             {
-                yield return new ShopItem(eachStock.inventoryItem, eachStock.initialStock, GetShopItemPrice(eachStock), _transaction[eachStock.inventoryItem]);
+                // IF item does NOT exist this won't throw error and quantity = 0, IF exist quantity = item's value
+                _transaction.TryGetValue(eachStock.inventoryItem, out int quantityInTransaction);
+
+                yield return new ShopItem(eachStock.inventoryItem, eachStock.initialStock, GetShopItemPrice(eachStock), quantityInTransaction);
             }
         }
 
@@ -96,9 +108,31 @@ namespace RPG.Shops
             return true;
         }
 
+        /// <summary>
+        /// Get Called by Buy/Sell button
+        /// </summary>
         public void ConfirmTransaction()
         {
+            Inventory shopperInventory = CurrentShopper.transform.root.GetComponentInChildren<Inventory>();
+            if (shopperInventory == null) return;
 
+            // Transfer TO/FROM inventory
+            var transactionSnapshot = new Dictionary<InventoryItem, int>(_transaction);
+            foreach (var each in transactionSnapshot)
+            {
+                // For Each of Item, Gradually Add one Reward to empty slot (Stackable or Non-Stackable can both be done like this)
+                for (int i = 0; i < each.Value; i++)
+                {
+                    bool success = shopperInventory.AddToFirstEmptySlot(each.Key, 1);
+                    if (success)
+                        AddToTransaction(each.Key, -1);
+                    else
+                        break;
+                }
+            }
+
+            // TODO : Removal from Transaction
+            // TODO : Debting or Crediting player moneys
         }
 
         public float GetTransactionTotal()
@@ -108,10 +142,17 @@ namespace RPG.Shops
 
         public void AddToTransaction(InventoryItem item, int quantity)
         {
+            // Add to Transaction if it doesn't yet exist
+            if (!_transaction.ContainsKey(item))
+                _transaction.Add(item, 0);
+
+            // Add/Remove quantity (if -num then remove)
             _transaction[item] += quantity;
 
-            if (_transaction[item] < 0)
-                _transaction[item] = 0;
+            // Clamping & Remove if its quantity is 0
+            _transaction[item] = Mathf.Clamp(_transaction[item], 0, MaxQuantity);
+            if (_transaction[item] == 0)
+                _transaction.Remove(item);
 
             OnShopItemChanged?.Invoke();
         }
@@ -128,17 +169,18 @@ namespace RPG.Shops
             return (int)Math.Round(defaultPrice + discountAmount, MidpointRounding.AwayFromZero); //2.5 will be 3
         }
 
-        private void InitializeTransactionRecord()
-        {
-            _transaction.Clear();
-            foreach (StockItemConfig eachStock in _stockItems)
-            {
-                if (!_transaction.ContainsKey(eachStock.inventoryItem))
-                    _transaction.Add(eachStock.inventoryItem, 0);
-                else
-                    Debug.LogError($"Can't add duplicate Stock Item under shop '{transform.parent.name}'");
-            }
-        }
+        // TODO : method for checking duplicate stock
+        //private void InitializeTransactionRecord()
+        //{
+        //    _transaction.Clear();
+        //    foreach (StockItemConfig eachStock in _stockItems)
+        //    {
+        //        if (!_transaction.ContainsKey(eachStock.inventoryItem))
+        //            _transaction.Add(eachStock.inventoryItem, 0);
+        //        else
+        //            Debug.LogError($"Can't add duplicate Stock Item under shop '{transform.parent.name}'");
+        //    }
+        //}
         #endregion
 
 
@@ -155,7 +197,7 @@ namespace RPG.Shops
             {
                 playerController.GetComponent<Mover>().StartMoveAction(transform.position, 1f);
 
-                _shopper = playerController.GetComponentInChildren<Shopper>();
+                CurrentShopper = playerController.GetComponentInChildren<Shopper>();
             }
 
             return true;
@@ -169,6 +211,7 @@ namespace RPG.Shops
         private class StockItemConfig
         {
             public InventoryItem inventoryItem;
+            [Range(0, MaxQuantity)]
             public int initialStock;
             [Tooltip("Negative Value Mean on top on the product price, make it more expensive. Positive make it cheaper.")]
             [Range(-100f,100f)]

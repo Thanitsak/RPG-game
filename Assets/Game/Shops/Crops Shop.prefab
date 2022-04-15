@@ -48,10 +48,10 @@ MonoBehaviour:
   _shopTitleName: Emily's Shop
   _stockItems:
   - inventoryItem: {fileID: 11400000, guid: 0a1e4d8c911b24570bb0185bf2df361d, type: 2}
-    initialStock: 5
+    initialStock: 10
     buyingDiscountPercentage: -1.5
   - inventoryItem: {fileID: 11400000, guid: ac01bdfd42f574dbea8c177bbb9de907, type: 2}
-    initialStock: 5
+    initialStock: 10
     buyingDiscountPercentage: 7.15
 --- !u!136 &1930591841519179197
 CapsuleCollider:

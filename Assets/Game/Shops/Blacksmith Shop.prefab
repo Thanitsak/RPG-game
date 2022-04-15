@@ -51,7 +51,7 @@ MonoBehaviour:
     initialStock: 2
     buyingDiscountPercentage: 1.5
   - inventoryItem: {fileID: 11400000, guid: 576ad7dee68df4321b50ffe16da86008, type: 2}
-    initialStock: 1
+    initialStock: 10
     buyingDiscountPercentage: 2.5
   - inventoryItem: {fileID: 11400000, guid: bf577a5d73ad9451d972141311f059d9, type: 2}
     initialStock: 0

@@ -28,6 +28,7 @@ namespace RPG.Shops
         private ActionScheduler _actionScheduler;
 
         private Dictionary<InventoryItem, int> _transaction = new Dictionary<InventoryItem, int>();
+        private Dictionary<InventoryItem, int> _availableQuantity = new Dictionary<InventoryItem, int>();
         #endregion
 
 
@@ -56,6 +57,8 @@ namespace RPG.Shops
             _actionScheduler = GameObject.FindWithTag("Player").GetComponent<ActionScheduler>();
 
             CheckForDuplicateStock();
+
+            InitializeAvailableQuantity();
         }
 
         private void OnTriggerEnter(Collider other)
@@ -87,7 +90,7 @@ namespace RPG.Shops
                 // IF item does NOT exist this won't throw error and quantity = 0, IF exist quantity = item's value
                 _transaction.TryGetValue(eachStock.inventoryItem, out int quantityInTransaction);
 
-                yield return new ShopItem(eachStock.inventoryItem, eachStock.initialStock, GetShopItemPrice(eachStock), quantityInTransaction);
+                yield return new ShopItem(eachStock.inventoryItem, _availableQuantity[eachStock.inventoryItem], GetShopItemPrice(eachStock), quantityInTransaction);
             }
         }
 
@@ -126,6 +129,8 @@ namespace RPG.Shops
             if (shopperInventory == null || shopperCoin == null) return;
 
             // Transfer TO/FROM inventory
+            // Removal from Transaction
+            // Debting or Crediting player moneys
             foreach (ShopItem eachShopItem in GetAllItems())
             {
                 for (int i = 0; i < eachShopItem.QuantityInTransaction; i++)
@@ -134,14 +139,14 @@ namespace RPG.Shops
 
                     bool success = shopperInventory.AddToFirstEmptySlot(eachShopItem.InventoryItem, 1);
                     if (!success) break; // exit early when slot full
-                    
+
                     AddToTransaction(eachShopItem.InventoryItem, -1);
                     shopperCoin.AddCoinPoints(-eachShopItem.Price);
+                    _availableQuantity[eachShopItem.InventoryItem] -= 1;
                 }
             }
 
-            // TODO : Removal from Transaction
-            // TODO : Debting or Crediting player moneys
+            OnShopItemChanged?.Invoke();
         }
 
         public int GetTransactionTotal()
@@ -169,7 +174,7 @@ namespace RPG.Shops
             _transaction[item] += quantity;
 
             // Clamping & Remove if its quantity is 0
-            _transaction[item] = Mathf.Clamp(_transaction[item], 0, MaxQuantity);
+            _transaction[item] = Mathf.Clamp(_transaction[item], 0, _availableQuantity[item]);
             if (_transaction[item] == 0)
                 _transaction.Remove(item);
 
@@ -199,6 +204,15 @@ namespace RPG.Shops
                     Debug.LogError($"At '{transform.parent.name}' - Can't Add Duplicate Stock Item, '{eachStock.inventoryItem.GetDisplayName()}' is already Added");
             }
             tempStockRecord.Clear();
+        }
+
+        private void InitializeAvailableQuantity()
+        {
+            foreach (StockItemConfig eachStock in _stockItems)
+            {
+                if (!_availableQuantity.ContainsKey(eachStock.inventoryItem))
+                    _availableQuantity.Add(eachStock.inventoryItem, eachStock.initialStock);
+            }
         }
         #endregion
 

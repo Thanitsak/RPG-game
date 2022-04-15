@@ -5,6 +5,7 @@ using RPG.Inventories;
 using RPG.Control;
 using RPG.Core;
 using RPG.Movement;
+using RPG.Economy;
 
 namespace RPG.Shops
 {
@@ -121,20 +122,21 @@ namespace RPG.Shops
         public void ConfirmTransaction()
         {
             Inventory shopperInventory = CurrentShopper.transform.root.GetComponentInChildren<Inventory>();
-            if (shopperInventory == null) return;
+            Coin shopperCoin = CurrentShopper.transform.root.GetComponentInChildren<Coin>();
+            if (shopperInventory == null || shopperCoin == null) return;
 
             // Transfer TO/FROM inventory
-            var transactionSnapshot = new Dictionary<InventoryItem, int>(_transaction);
-            foreach (var each in transactionSnapshot)
+            foreach (ShopItem eachShopItem in GetAllItems())
             {
-                // For Each of Item, Gradually Add one Reward to empty slot (Stackable or Non-Stackable can both be done like this)
-                for (int i = 0; i < each.Value; i++)
+                for (int i = 0; i < eachShopItem.QuantityInTransaction; i++)
                 {
-                    bool success = shopperInventory.AddToFirstEmptySlot(each.Key, 1);
-                    if (success)
-                        AddToTransaction(each.Key, -1);
-                    else
-                        break;
+                    if (shopperCoin.CoinPoints < eachShopItem.Price) break; // exit early when don't have enough money
+
+                    bool success = shopperInventory.AddToFirstEmptySlot(eachShopItem.InventoryItem, 1);
+                    if (!success) break; // exit early when slot full
+                    
+                    AddToTransaction(eachShopItem.InventoryItem, -1);
+                    shopperCoin.AddCoinPoints(-eachShopItem.Price);
                 }
             }
 

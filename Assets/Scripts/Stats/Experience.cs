@@ -6,12 +6,6 @@ namespace RPG.Stats
 {
     public class Experience : MonoBehaviour, ISaveable
     {
-        #region --Fields-- (Inspector)
-        [SerializeField] private float _experiencePoints = 0;
-        #endregion
-
-
-
         #region --Events-- (Delegate as Action)
         public event Action OnExperienceGained;
         public event Action OnExperienceLoaded;
@@ -20,7 +14,7 @@ namespace RPG.Stats
 
 
         #region --Properties-- (With Backing Fields)
-        public float ExperiencePoints { get { return _experiencePoints; } private set { _experiencePoints = value; } }
+        public float ExperiencePoints { get; private set; }
         #endregion
 
 

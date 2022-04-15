@@ -280,8 +280,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7799925a85fb2422da4b0f4e36ddccb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _chaseDistance: 1
-  _suspicionTime: 1
+  _chaseDistance: 4
+  _suspicionTime: 1.5
   _aggravateCoolDownTime: 0
   _shoutDistance: 0
   _isPositionFixed: 0

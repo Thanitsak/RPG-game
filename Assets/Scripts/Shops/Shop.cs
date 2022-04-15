@@ -53,6 +53,8 @@ namespace RPG.Shops
         private void Awake()
         {
             _actionScheduler = GameObject.FindWithTag("Player").GetComponent<ActionScheduler>();
+
+            CheckForDuplicateStock();
         }
 
         private void OnTriggerEnter(Collider other)
@@ -169,18 +171,18 @@ namespace RPG.Shops
             return (int)Math.Round(defaultPrice + discountAmount, MidpointRounding.AwayFromZero); //2.5 will be 3
         }
 
-        // TODO : method for checking duplicate stock
-        //private void InitializeTransactionRecord()
-        //{
-        //    _transaction.Clear();
-        //    foreach (StockItemConfig eachStock in _stockItems)
-        //    {
-        //        if (!_transaction.ContainsKey(eachStock.inventoryItem))
-        //            _transaction.Add(eachStock.inventoryItem, 0);
-        //        else
-        //            Debug.LogError($"Can't add duplicate Stock Item under shop '{transform.parent.name}'");
-        //    }
-        //}
+        private void CheckForDuplicateStock()
+        {
+            Dictionary<InventoryItem, int> tempStockRecord = new Dictionary<InventoryItem, int>();
+            foreach (StockItemConfig eachStock in _stockItems)
+            {
+                if (!tempStockRecord.ContainsKey(eachStock.inventoryItem))
+                    tempStockRecord.Add(eachStock.inventoryItem, 0);
+                else
+                    Debug.LogError($"At '{transform.parent.name}' - Can't Add Duplicate Stock Item, '{eachStock.inventoryItem.GetDisplayName()}' is already Added");
+            }
+            tempStockRecord.Clear();
+        }
         #endregion
 
 

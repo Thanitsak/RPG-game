@@ -52,6 +52,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _titleText: {fileID: 4216216153059855456}
   _totalPriceText: {fileID: 8271107790783569115}
+  _notSufficientFundsColorTotalPrice: {r: 0.75686276, g: 0.03529412, b: 0.03529412, a: 1}
   _quitButton: {fileID: 9069655839965007947}
   _confirmTransactionButton: {fileID: 8298666603921377828}
   _rowPrefab: {fileID: 45736150991853833, guid: 3083a352da94148a5820c7e3e1e91ffd, type: 3}

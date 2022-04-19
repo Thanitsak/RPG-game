@@ -12,6 +12,7 @@ namespace RPG.UI.Shops
         [Header("Text Stuffs")]
         [SerializeField] private TMP_Text _titleText;
         [SerializeField] private TMP_Text _totalPriceText;
+        [SerializeField] private Color _notSufficientFundsColorTotalPrice;
 
         [Header("Panel Stuffs")]
         [SerializeField] private Button _quitButton;
@@ -27,6 +28,8 @@ namespace RPG.UI.Shops
         #region --Fields-- (In Class)
         private Shopper _shopper;
         private Shop _currentShop;
+
+        private Color _totalPriceOriginalColor;
         #endregion
 
 
@@ -41,6 +44,8 @@ namespace RPG.UI.Shops
 
             _quitButton.onClick.AddListener(Quit);
             _confirmTransactionButton.onClick.AddListener(ConfirmTransaction);
+
+            _totalPriceOriginalColor = _totalPriceText.color;
         }
 
         private void Start()
@@ -75,6 +80,20 @@ namespace RPG.UI.Shops
             foreach (Transform eachChild in _spawnParent)
                 Destroy(eachChild.gameObject);
         }
+
+        private void UpdateTotalPriceText()
+        {
+            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+            nfi.NumberGroupSeparator = " ";
+            _totalPriceText.text = _currentShop.GetTransactionTotal().ToString("#,0", nfi);
+
+            _totalPriceText.color = _currentShop.HasSufficientFunds() ? _totalPriceOriginalColor : _notSufficientFundsColorTotalPrice;
+        }
+
+        private void UpdateConfirmButtonState()
+        {
+            _confirmTransactionButton.interactable = _currentShop.CanTransact();
+        }
         #endregion
 
 
@@ -102,9 +121,8 @@ namespace RPG.UI.Shops
 
             BuildShopItemList();
 
-            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
-            nfi.NumberGroupSeparator = " ";
-            _totalPriceText.text = _currentShop.GetTransactionTotal().ToString("#,0", nfi);
+            UpdateTotalPriceText();
+            UpdateConfirmButtonState();
         }
 
         private void Quit()

@@ -116,6 +116,10 @@ namespace RPG.Shops
 
         public bool CanTransact()
         {
+            if (IsTransactionEmpty()) return false;
+            if (!HasSufficientFunds()) return false;
+            // Not Enough Inventory Space
+
             return true;
         }
 
@@ -180,6 +184,14 @@ namespace RPG.Shops
 
             OnShopItemChanged?.Invoke();
         }
+
+        public bool HasSufficientFunds()
+        {
+            Coin shopperCoin = CurrentShopper.transform.root.GetComponentInChildren<Coin>();
+            if (shopperCoin == null) return false;
+
+            return shopperCoin.CoinPoints >= GetTransactionTotal();
+        }
         #endregion
 
 
@@ -214,6 +226,8 @@ namespace RPG.Shops
                     _availableQuantity.Add(eachStock.inventoryItem, eachStock.initialStock);
             }
         }
+
+        private bool IsTransactionEmpty() => _transaction.Count == 0;
         #endregion
 
 

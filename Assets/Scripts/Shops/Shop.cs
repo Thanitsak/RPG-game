@@ -118,13 +118,39 @@ namespace RPG.Shops
         {
             if (IsTransactionEmpty()) return false;
             if (!HasSufficientFunds()) return false;
-            // Not Enough Inventory Space
+            if (!HasInventorySpace()) return false;
 
             return true;
         }
 
+        public bool IsTransactionEmpty() => _transaction.Count == 0;
+
+        public bool HasSufficientFunds()
+        {
+            Coin shopperCoin = CurrentShopper.transform.root.GetComponentInChildren<Coin>();
+            if (shopperCoin == null) return false;
+
+            return shopperCoin.CoinPoints >= GetTransactionTotal();
+        }
+
+        public bool HasInventorySpace()
+        {
+            Inventory shopperInventory = CurrentShopper.transform.root.GetComponentInChildren<Inventory>();
+            if (shopperInventory == null) return false;
+
+            // Build InventoryItem List from ShopItem by using its quantity
+            List<InventoryItem> flatInventoryItems = new List<InventoryItem>(); // flat mean convert 2D to 1D (2D in this case is ShopItems each one has different quantity)
+            foreach (ShopItem shopItem in GetAllItems())
+            {
+                for (int i = 0; i < shopItem.QuantityInTransaction; i++)
+                    flatInventoryItems.Add(shopItem.InventoryItem);
+            }
+
+            return shopperInventory.HasSpaceFor(flatInventoryItems);
+        }
+
         /// <summary>
-        /// Get Called by Buy/Sell button
+        /// Get Called by Buy/Sell button. Transfer TO/FROM inventory / Removal from Transaction / Debting or Crediting player moneys
         /// </summary>
         public void ConfirmTransaction()
         {
@@ -132,9 +158,6 @@ namespace RPG.Shops
             Coin shopperCoin = CurrentShopper.transform.root.GetComponentInChildren<Coin>();
             if (shopperInventory == null || shopperCoin == null) return;
 
-            // Transfer TO/FROM inventory
-            // Removal from Transaction
-            // Debting or Crediting player moneys
             foreach (ShopItem eachShopItem in GetAllItems())
             {
                 for (int i = 0; i < eachShopItem.QuantityInTransaction; i++)
@@ -184,14 +207,6 @@ namespace RPG.Shops
 
             OnShopItemChanged?.Invoke();
         }
-
-        public bool HasSufficientFunds()
-        {
-            Coin shopperCoin = CurrentShopper.transform.root.GetComponentInChildren<Coin>();
-            if (shopperCoin == null) return false;
-
-            return shopperCoin.CoinPoints >= GetTransactionTotal();
-        }
         #endregion
 
 
@@ -226,8 +241,6 @@ namespace RPG.Shops
                     _availableQuantity.Add(eachStock.inventoryItem, eachStock.initialStock);
             }
         }
-
-        private bool IsTransactionEmpty() => _transaction.Count == 0;
         #endregion
 
 

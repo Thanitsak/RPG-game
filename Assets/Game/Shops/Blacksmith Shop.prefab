@@ -48,14 +48,17 @@ MonoBehaviour:
   _shopTitleName: Jimbo's Shop
   _stockItems:
   - inventoryItem: {fileID: 11400000, guid: 0a1e4d8c911b24570bb0185bf2df361d, type: 2}
-    initialStock: 2
+    initialStock: 20
     buyingDiscountPercentage: 1.5
   - inventoryItem: {fileID: 11400000, guid: 576ad7dee68df4321b50ffe16da86008, type: 2}
-    initialStock: 10
+    initialStock: 20
     buyingDiscountPercentage: 2.5
-  - inventoryItem: {fileID: 11400000, guid: bf577a5d73ad9451d972141311f059d9, type: 2}
-    initialStock: 0
-    buyingDiscountPercentage: 5
+  - inventoryItem: {fileID: 11400000, guid: 3c8ae78be6d564981a72716a785c0662, type: 2}
+    initialStock: 20
+    buyingDiscountPercentage: 0
+  - inventoryItem: {fileID: 11400000, guid: ac01bdfd42f574dbea8c177bbb9de907, type: 2}
+    initialStock: 20
+    buyingDiscountPercentage: 0
 --- !u!136 &1749949207260801565
 CapsuleCollider:
   m_ObjectHideFlags: 0

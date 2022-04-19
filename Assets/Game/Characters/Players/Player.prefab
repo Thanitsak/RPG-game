@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89b8c8924e4a344fc9fc425db3d7fb35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _starterCoinPoints: 5061
+  _starterCoinPoints: 50610
 --- !u!1 &4053074441117412531
 GameObject:
   m_ObjectHideFlags: 0

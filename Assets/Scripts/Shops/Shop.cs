@@ -52,6 +52,8 @@ namespace RPG.Shops
             set
             {
                 _shopMode = value;
+
+                _transaction.Clear();
                 OnShopItemChanged?.Invoke();
             }
         }
@@ -104,7 +106,7 @@ namespace RPG.Shops
                 // IF item does NOT exist this won't throw error and quantity = 0, IF exist quantity = item's value
                 _transaction.TryGetValue(eachStock.inventoryItem, out int quantityInTransaction);
 
-                yield return new ShopItem(eachStock.inventoryItem, _availableQuantity[eachStock.inventoryItem], GetShopItemPrice(eachStock), quantityInTransaction);
+                yield return new ShopItem(eachStock.inventoryItem, GetAvailableQuantity(eachStock.inventoryItem), GetShopItemPrice(eachStock), quantityInTransaction);
             }
         }
 
@@ -209,7 +211,7 @@ namespace RPG.Shops
             _transaction[item] += quantity;
 
             // Clamping & Remove if its quantity is 0
-            _transaction[item] = Mathf.Clamp(_transaction[item], 0, _availableQuantity[item]);
+            _transaction[item] = Mathf.Clamp(_transaction[item], 0, GetAvailableQuantity(item));
             if (_transaction[item] == 0)
                 _transaction.Remove(item);
 
@@ -237,6 +239,23 @@ namespace RPG.Shops
             float discountAmount = (defaultPrice / 100f) * (-discountPercentage); // negate so that positive percentage mean deduct out of defaultPrice & negative percentage mean add on to defaultPrice
             
             return (int)Math.Round(defaultPrice + discountAmount, MidpointRounding.AwayFromZero); //2.5 will be 3
+        }
+
+        private int GetAvailableQuantity(InventoryItem inventoryItem)
+        {
+            switch (ShopMode)
+            {
+                case ShopMode.Seller:
+                    return _availableQuantity[inventoryItem];
+
+                case ShopMode.Buyer:
+                    Inventory shopperInventory = CurrentShopper.transform.root.GetComponentInChildren<Inventory>();
+                    if (shopperInventory == null) return -1;
+
+                    return shopperInventory.CountItemInAllSlots(inventoryItem);
+            }
+
+            return -1;
         }
 
         private void CheckForDuplicateStock()

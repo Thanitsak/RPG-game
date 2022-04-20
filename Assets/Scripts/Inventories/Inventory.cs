@@ -173,6 +173,27 @@ namespace RPG.Inventories
         }
 
         /// <summary>
+        /// Get the total number of item in all slots.
+        /// </summary>
+        /// <param name="item">The item to find</param>
+        /// <returns>0 if not found in any slots.</returns>
+        public int CountItemInAllSlots(InventoryItem item)
+        {
+            if (!HasItem(item)) return 0;
+
+            int counter = 0;
+            for (int i = 0; i < GetSize(); i++)
+            {
+                if (object.ReferenceEquals(GetItemInSlot(i), item))
+                {
+                    counter += GetNumberInSlot(i);
+                }
+            }
+
+            return counter;
+        }
+
+        /// <summary>
         /// Remove a number of items from the given slot. Will never remove more
         /// that there are.
         /// </summary>

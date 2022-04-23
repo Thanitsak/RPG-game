@@ -39,6 +39,8 @@ namespace RPG.Shops
 
         private Dictionary<InventoryItem, int> _transaction = new Dictionary<InventoryItem, int>();
         private Dictionary<InventoryItem, int> _availableQuantity = new Dictionary<InventoryItem, int>();
+
+        private ItemCategory _currentFilter = ItemCategory.None;
         #endregion
 
 
@@ -63,6 +65,20 @@ namespace RPG.Shops
                 _shopMode = value;
 
                 _transaction.Clear();
+                OnShopItemChanged?.Invoke();
+            }
+        }
+
+        public ItemCategory CurrentFilter
+        {
+            get
+            {
+                return _currentFilter;
+            }
+            set
+            {
+                _currentFilter = value;
+                print($"{_currentFilter} / Shop : {gameObject.transform.parent.name} / Root : {gameObject.transform.root.name}");
                 OnShopItemChanged?.Invoke();
             }
         }
@@ -118,16 +134,6 @@ namespace RPG.Shops
 
                 yield return new ShopItem(eachStock.inventoryItem, GetAvailableQuantity(eachStock.inventoryItem), GetShopItemPrice(eachStock), quantityInTransaction);
             }
-        }
-
-        public void SelectFilter(ItemCategory itemCategory)
-        {
-
-        }
-
-        public ItemCategory GetCurrentFilter()
-        {
-            return ItemCategory.None;
         }
         #endregion
 

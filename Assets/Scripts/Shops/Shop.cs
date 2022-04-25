@@ -97,8 +97,6 @@ namespace RPG.Shops
         {
             _actionScheduler = GameObject.FindWithTag("Player").GetComponent<ActionScheduler>();
 
-            CheckForDuplicateStock();
-
             InitializeAvailableQuantity();
         }
 
@@ -131,15 +129,18 @@ namespace RPG.Shops
 
         public IEnumerable<ShopItem> GetAllItems()
         {
-            int shopperLevel = GetShopperLevel();
-            foreach (StockItemConfig eachStock in _stockItems)
+            Dictionary<InventoryItem, int> prices = GetPrices();
+            Dictionary<InventoryItem, int> availibilities = GetAvailibilities();
+
+            foreach (InventoryItem item in availibilities.Keys)
             {
-                if (shopperLevel < eachStock.levelToUnlock) continue;
+                //if (availibilities[item] <= 0) continue;
 
                 // IF item does NOT exist this won't throw error and quantity = 0, IF exist quantity = item's value
-                _transaction.TryGetValue(eachStock.inventoryItem, out int quantityInTransaction);
+                _transaction.TryGetValue(item, out int quantityInTransaction);
 
-                yield return new ShopItem(eachStock.inventoryItem, GetAvailableQuantity(eachStock.inventoryItem), GetShopItemPrice(eachStock), quantityInTransaction);
+                //yield return new ShopItem(item, GetAvailableQuantity(eachStock.inventoryItem), GetShopItemPrice(eachStock), quantityInTransaction);
+                yield return new ShopItem(item, availibilities[item], prices[item], quantityInTransaction);
             }
         }
         #endregion
@@ -283,17 +284,94 @@ namespace RPG.Shops
             return -1;
         }
 
-        private void CheckForDuplicateStock()
+        private Dictionary<InventoryItem, int> GetPrices()
         {
-            Dictionary<InventoryItem, int> tempStockRecord = new Dictionary<InventoryItem, int>();
-            foreach (StockItemConfig eachStock in _stockItems)
+            Dictionary<InventoryItem, int> prices = new Dictionary<InventoryItem, int>();
+            Dictionary<InventoryItem, int> highestUnlockLevel = new Dictionary<InventoryItem, int>();
+
+            foreach (StockItemConfig stockItem in GetAvailiableConfigs())
             {
-                if (!tempStockRecord.ContainsKey(eachStock.inventoryItem))
-                    tempStockRecord.Add(eachStock.inventoryItem, 0);
-                else
-                    Debug.LogError($"At '{transform.parent.name}' - Can't Add Duplicate Stock Item, '{eachStock.inventoryItem.GetDisplayName()}' is already Added");
+                InventoryItem item = stockItem.inventoryItem;
+
+                if (!prices.ContainsKey(item))
+                    prices.Add(item, 0);
+
+                // ONLY USE discount percentage from stock with HIGHEST levelToUnlock
+                if (!highestUnlockLevel.ContainsKey(item) || stockItem.levelToUnlock > highestUnlockLevel[item])
+                {
+                    highestUnlockLevel[item] = stockItem.levelToUnlock;
+
+                    prices[item] = GetShopItemPrice(stockItem);
+                }   
             }
-            tempStockRecord.Clear();
+            return prices;
+        }
+
+        //private Dictionary<InventoryItem, int> GetPricesCumurateDiscount()
+        //{
+        //    Dictionary<InventoryItem, int> prices = new Dictionary<InventoryItem, int>();
+        //    Dictionary<InventoryItem, float> buyingDiscountPercentages = new Dictionary<InventoryItem, float>();
+
+        //    foreach (StockItemConfig stockItem in GetAvailiableConfigs())
+        //    {
+        //        if (!buyingDiscountPercentages.ContainsKey(stockItem.inventoryItem))
+        //        {
+        //            buyingDiscountPercentages.Add(stockItem.inventoryItem, 0);
+        //        }
+
+        //        buyingDiscountPercentages[stockItem.inventoryItem] += stockItem.buyingDiscountPercentage;
+
+
+        //        float discountPercentage = buyingDiscountPercentages[stockItem.inventoryItem];
+
+        //        int defaultPrice = stockItem.inventoryItem.GetPrice();
+        //        float discountAmount = (defaultPrice / 100f) * (-discountPercentage); // negate so that positive percentage mean deduct out of defaultPrice & negative percentage mean add on to defaultPrice
+
+
+        //        if (!prices.ContainsKey(stockItem.inventoryItem))
+        //        {
+        //            prices.Add(stockItem.inventoryItem, 0);
+        //        }
+
+        //        prices[stockItem.inventoryItem] = (int)Math.Round(defaultPrice + discountAmount, MidpointRounding.AwayFromZero);
+
+        //    }
+        //    return prices;
+        //}
+
+        private Dictionary<InventoryItem, int> GetAvailibilities()
+        {
+            Dictionary<InventoryItem, int> availibilities = new Dictionary<InventoryItem, int>();
+
+            foreach (StockItemConfig stockItem in GetAvailiableConfigs())
+            {
+                if (!availibilities.ContainsKey(stockItem.inventoryItem))
+                {
+                    availibilities.Add(stockItem.inventoryItem, 0);
+                }
+
+                availibilities[stockItem.inventoryItem] += stockItem.initialStock;
+            }
+
+            return availibilities;
+        }
+
+        private IEnumerable<StockItemConfig> GetAvailiableConfigs()
+        {
+            int shopperLevel = GetShopperLevel();
+            foreach (StockItemConfig stockItem in _stockItems)
+            {
+                if (shopperLevel >= stockItem.levelToUnlock)
+                    yield return stockItem;
+            }
+        }
+
+        private int GetShopperLevel()
+        {
+            BaseStats baseStats = CurrentShopper.transform.root.GetComponentInChildren<BaseStats>();
+            if (baseStats == null) return 0;
+
+            return baseStats.GetLevel();
         }
 
         private void InitializeAvailableQuantity()
@@ -331,18 +409,6 @@ namespace RPG.Shops
                 shopperCoin.UpdateCoinPoints(price);
                 _availableQuantity[inventoryItem] += 1;
             }
-        }
-        #endregion
-
-
-
-        #region --Methods-- (Custom PRIVATE)
-        private int GetShopperLevel()
-        {
-            BaseStats baseStats = CurrentShopper.transform.root.GetComponentInChildren<BaseStats>();
-            if (baseStats == null) return 0;
-
-            return baseStats.GetLevel();
         }
         #endregion
 

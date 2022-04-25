@@ -40,7 +40,7 @@ namespace RPG.Shops
         private ActionScheduler _actionScheduler;
 
         private Dictionary<InventoryItem, int> _transaction = new Dictionary<InventoryItem, int>();
-        private Dictionary<InventoryItem, int> _availableQuantity = new Dictionary<InventoryItem, int>();
+        private Dictionary<InventoryItem, int> _quantitySold = new Dictionary<InventoryItem, int>();
         #endregion
 
 
@@ -96,8 +96,6 @@ namespace RPG.Shops
         private void Awake()
         {
             _actionScheduler = GameObject.FindWithTag("Player").GetComponent<ActionScheduler>();
-
-            InitializeAvailableQuantity();
         }
 
         private void OnTriggerEnter(Collider other)
@@ -134,7 +132,7 @@ namespace RPG.Shops
 
             foreach (InventoryItem item in availibilities.Keys)
             {
-                //if (availibilities[item] <= 0) continue;
+                //if (availibilities[item] <= 0) continue; **UNCOMMENT this to not showing empty item**
 
                 // IF item does NOT exist this won't throw error and quantity = 0, IF exist quantity = item's value
                 _transaction.TryGetValue(item, out int quantityInTransaction);
@@ -216,12 +214,10 @@ namespace RPG.Shops
         {
             int totalPrice = 0;
 
-            foreach (StockItemConfig eachStock in _stockItems)
+            Dictionary<InventoryItem, int> prices = GetPrices();
+            foreach (InventoryItem item in _transaction.Keys)
             {
-                if (!_transaction.ContainsKey(eachStock.inventoryItem)) continue;
-
-                int quantityInTransaction = _transaction[eachStock.inventoryItem];
-                totalPrice += quantityInTransaction * GetShopItemPrice(eachStock);
+                totalPrice += _transaction[item] * prices[item];
             }
 
             return totalPrice;
@@ -237,7 +233,8 @@ namespace RPG.Shops
             _transaction[item] += quantity;
 
             // Clamping & Remove if its quantity is 0
-            _transaction[item] = Mathf.Clamp(_transaction[item], 0, GetAvailableQuantity(item));
+            Dictionary<InventoryItem, int> availiability = GetAvailibilities();
+            _transaction[item] = Mathf.Clamp(_transaction[item], 0, availiability[item]);
             if (_transaction[item] == 0)
                 _transaction.Remove(item);
 
@@ -248,42 +245,6 @@ namespace RPG.Shops
 
 
         #region --Methods-- (Custom PRIVATE)
-        private int GetShopItemPrice(StockItemConfig stockItem)
-        {
-            float discountPercentage = 0f;
-            switch (ShopMode)
-            {
-                case ShopMode.Seller:
-                    discountPercentage = stockItem.buyingDiscountPercentage;
-                    break;
-                case ShopMode.Buyer:
-                    discountPercentage = stockItem.sellingDiscountPercentage;
-                    break;
-            }
-
-            int defaultPrice = stockItem.inventoryItem.GetPrice();
-            float discountAmount = (defaultPrice / 100f) * (-discountPercentage); // negate so that positive percentage mean deduct out of defaultPrice & negative percentage mean add on to defaultPrice
-            
-            return (int)Math.Round(defaultPrice + discountAmount, MidpointRounding.AwayFromZero); //2.5 will be 3
-        }
-
-        private int GetAvailableQuantity(InventoryItem inventoryItem)
-        {
-            switch (ShopMode)
-            {
-                case ShopMode.Seller:
-                    return _availableQuantity[inventoryItem];
-
-                case ShopMode.Buyer:
-                    Inventory shopperInventory = CurrentShopper.transform.root.GetComponentInChildren<Inventory>();
-                    if (shopperInventory == null) return -1;
-
-                    return shopperInventory.CountItemInAllSlots(inventoryItem);
-            }
-
-            return -1;
-        }
-
         private Dictionary<InventoryItem, int> GetPrices()
         {
             Dictionary<InventoryItem, int> prices = new Dictionary<InventoryItem, int>();
@@ -301,58 +262,46 @@ namespace RPG.Shops
                 {
                     highestUnlockLevel[item] = stockItem.levelToUnlock;
 
-                    prices[item] = GetShopItemPrice(stockItem);
+                    float discountPercentage = 0f;
+                    if (ShopMode == ShopMode.Seller)
+                        discountPercentage = stockItem.buyingDiscountPercentage;
+                    else if (ShopMode == ShopMode.Buyer)
+                        discountPercentage = stockItem.sellingDiscountPercentage;
+
+                    int defaultPrice = stockItem.inventoryItem.GetPrice();
+                    float discountAmount = (defaultPrice / 100f) * (-discountPercentage); // negate so that positive percentage mean deduct out of defaultPrice & negative percentage mean add on to defaultPrice
+
+                    prices[item] = (int)Math.Round(defaultPrice + discountAmount, MidpointRounding.AwayFromZero); //2.5 will be 3
                 }   
             }
             return prices;
         }
 
-        //private Dictionary<InventoryItem, int> GetPricesCumurateDiscount()
-        //{
-        //    Dictionary<InventoryItem, int> prices = new Dictionary<InventoryItem, int>();
-        //    Dictionary<InventoryItem, float> buyingDiscountPercentages = new Dictionary<InventoryItem, float>();
-
-        //    foreach (StockItemConfig stockItem in GetAvailiableConfigs())
-        //    {
-        //        if (!buyingDiscountPercentages.ContainsKey(stockItem.inventoryItem))
-        //        {
-        //            buyingDiscountPercentages.Add(stockItem.inventoryItem, 0);
-        //        }
-
-        //        buyingDiscountPercentages[stockItem.inventoryItem] += stockItem.buyingDiscountPercentage;
-
-
-        //        float discountPercentage = buyingDiscountPercentages[stockItem.inventoryItem];
-
-        //        int defaultPrice = stockItem.inventoryItem.GetPrice();
-        //        float discountAmount = (defaultPrice / 100f) * (-discountPercentage); // negate so that positive percentage mean deduct out of defaultPrice & negative percentage mean add on to defaultPrice
-
-
-        //        if (!prices.ContainsKey(stockItem.inventoryItem))
-        //        {
-        //            prices.Add(stockItem.inventoryItem, 0);
-        //        }
-
-        //        prices[stockItem.inventoryItem] = (int)Math.Round(defaultPrice + discountAmount, MidpointRounding.AwayFromZero);
-
-        //    }
-        //    return prices;
-        //}
-
         private Dictionary<InventoryItem, int> GetAvailibilities()
         {
             Dictionary<InventoryItem, int> availibilities = new Dictionary<InventoryItem, int>();
 
+            Inventory shopperInventory = CurrentShopper.transform.root.GetComponentInChildren<Inventory>();
+            if (shopperInventory == null) return availibilities;
+
             foreach (StockItemConfig stockItem in GetAvailiableConfigs())
             {
-                if (!availibilities.ContainsKey(stockItem.inventoryItem))
+                InventoryItem item = stockItem.inventoryItem;
+
+                if (ShopMode == ShopMode.Seller)
                 {
-                    availibilities.Add(stockItem.inventoryItem, 0);
+                    if (!availibilities.ContainsKey(item))
+                    {
+                        _quantitySold.TryGetValue(item, out int sold);
+                        availibilities[item] = -sold;
+                    }
+                    availibilities[item] += stockItem.initialStock;
                 }
-
-                availibilities[stockItem.inventoryItem] += stockItem.initialStock;
+                else if (ShopMode == ShopMode.Buyer)
+                {
+                    availibilities[item] = shopperInventory.CountItemInAllSlots(item);
+                }
             }
-
             return availibilities;
         }
 
@@ -374,15 +323,6 @@ namespace RPG.Shops
             return baseStats.GetLevel();
         }
 
-        private void InitializeAvailableQuantity()
-        {
-            foreach (StockItemConfig eachStock in _stockItems)
-            {
-                if (!_availableQuantity.ContainsKey(eachStock.inventoryItem))
-                    _availableQuantity.Add(eachStock.inventoryItem, eachStock.initialStock);
-            }
-        }
-
         private void BuyItemRepeatedly(Inventory shopperInventory, Coin shopperCoin, InventoryItem inventoryItem, int quantity, int price)
         {
             for (int i = 0; i < quantity; i++)
@@ -394,7 +334,10 @@ namespace RPG.Shops
 
                 UpdateTransaction(inventoryItem, -1);
                 shopperCoin.UpdateCoinPoints(-price);
-                _availableQuantity[inventoryItem] -= 1;
+
+                if (!_quantitySold.ContainsKey(inventoryItem))
+                    _quantitySold[inventoryItem] = 0;
+                _quantitySold[inventoryItem] += 1;
             }
         }
 
@@ -407,7 +350,10 @@ namespace RPG.Shops
 
                 UpdateTransaction(inventoryItem, -1);
                 shopperCoin.UpdateCoinPoints(price);
-                _availableQuantity[inventoryItem] += 1;
+
+                if (!_quantitySold.ContainsKey(inventoryItem))
+                    _quantitySold[inventoryItem] = 0;
+                _quantitySold[inventoryItem] -= 1;
             }
         }
         #endregion

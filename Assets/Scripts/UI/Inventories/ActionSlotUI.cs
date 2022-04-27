@@ -1,6 +1,7 @@
 ﻿using RPG.Utils.UI.Dragging;
 using RPG.Inventories;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace RPG.UI.Inventories
 {
@@ -27,6 +28,8 @@ namespace RPG.UI.Inventories
         {
             _store = GameObject.FindGameObjectWithTag("Player").GetComponent<ActionStore>();
             _store.OnStoreUpdated += UpdateIcon;
+
+            GetComponent<Button>().onClick.AddListener(UseAbilitiesWithButton);
         }
         #endregion
 
@@ -65,6 +68,11 @@ namespace RPG.UI.Inventories
         private void UpdateIcon()
         {
             _icon.SetItem(GetItem(), GetNumber());
+        }
+
+        private void UseAbilitiesWithButton()
+        {
+            _store.Use(_index, _store.gameObject);
         }
         #endregion
     }

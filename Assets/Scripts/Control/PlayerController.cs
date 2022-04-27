@@ -4,6 +4,7 @@ using UnityEngine.AI;
 using RPG.Movement;
 using RPG.Attributes;
 using RPG.Core;
+using RPG.Inventories;
 
 namespace RPG.Control
 {
@@ -17,6 +18,11 @@ namespace RPG.Control
         [SerializeField] private float _maxDestinationLength = 40f;
         [SerializeField] private CursorMapping[] _cursorMappings = null;
         [SerializeField] private float _raycastRadius = 0.5f;
+
+        [Space]
+
+        [Tooltip("How many currently active Action Slots UI in the game that player can use?")]
+        [SerializeField] private int _actionSlotsAmount = 6;
         #endregion
 
 
@@ -25,6 +31,7 @@ namespace RPG.Control
         private Camera _camera;
         private Mover _mover;
         private Health _health;
+        private ActionStore _actionStore;
 
         private bool _isDraggingUI = false;
         #endregion
@@ -37,6 +44,7 @@ namespace RPG.Control
             _camera = Camera.main;
             _mover = GetComponent<Mover>();
             _health = GetComponent<Health>();
+            _actionStore = GetComponentInChildren<ActionStore>();
         }
 
         private void Update()
@@ -48,10 +56,25 @@ namespace RPG.Control
                 return;
             }
 
+            UseAbilitiesWithKeys();
+
             if (InteractWithComponent()) return;
             if (InteractWithMovement()) return;
 
             SetCursor(CursorType.None);
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Custom PRIVATE) ~Abilities Stuff~
+        private void UseAbilitiesWithKeys()
+        {
+            for (int i = 0; i < _actionSlotsAmount; i++)
+            {
+                if (Input.GetKeyDown(KeyCode.Alpha1 + i))
+                    _actionStore.Use(i, gameObject);
+            }
         }
         #endregion
 

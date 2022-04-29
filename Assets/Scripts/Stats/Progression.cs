@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace RPG.Stats
 {
-    [CreateAssetMenu(fileName = "Progression", menuName = "RPG/Stats/New Progression")]
+    [CreateAssetMenu(fileName = "Untitled Progression", menuName = "RPG/Stats/New Progression", order = 0)]
     public class Progression : ScriptableObject
     {
         #region --Fields-- (Inspector)

@@ -4,7 +4,7 @@ using RPG.Stats;
 
 namespace RPG.Inventories.Enhancement
 {
-    [CreateAssetMenu(menuName = "RPG/Inventory Item/Stats Equipable Item")]
+    [CreateAssetMenu(fileName = "Untitled Stat Modifier", menuName = "RPG/Game Item/New Stat Modifier (Equipable)", order = 112)]
     public class StatsEquipableItem : EquipableItem, IModifierProvider
     {
         #region --Fields-- (Inspector)

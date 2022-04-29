@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace RPG.Inventories.Enhancement
 {
-    [CreateAssetMenu(fileName = "Drop Library", menuName = "RPG/Stats/New Drop Library")]
+    [CreateAssetMenu(fileName = "Untitled Drop Library", menuName = "RPG/Stats/New Drop Library", order = 1)]
     public class DropLibrary : ScriptableObject
     {
         #region --Fields-- (Inspector)

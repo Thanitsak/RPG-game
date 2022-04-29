@@ -9,7 +9,7 @@ namespace RPG.Inventories
     /// This class should be used as a base. Subclasses must implement the `Use`
     /// method.
     /// </remarks>
-    [CreateAssetMenu(menuName = ("RPG/Inventory Item/Action Item"))]
+    [CreateAssetMenu(fileName = "Untitled (Action)", menuName = "RPG/Game Item/New (Action)", order = 101)]
     public class ActionItem : InventoryItem
     {
         #region --Fields-- (Inspector)

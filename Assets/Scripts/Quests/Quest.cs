@@ -4,7 +4,7 @@ using RPG.Inventories;
 
 namespace RPG.Quests
 {
-    [CreateAssetMenu(fileName = "Unnamed Quest", menuName = "RPG/Quest/New Quest")]
+    [CreateAssetMenu(fileName = "Untitled Quest", menuName = "RPG/Quest/New Quest", order = 3)]
     public class Quest : ScriptableObject
     {
         #region --Fields-- (Inspector)

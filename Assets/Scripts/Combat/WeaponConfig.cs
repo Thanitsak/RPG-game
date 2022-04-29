@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace RPG.Combat
 {
-    [CreateAssetMenu(fileName = "Weapon", menuName = "RPG/Weapons/Make New Weapon", order = 0)]
+    [CreateAssetMenu(fileName = "Untitled Weapon", menuName = "RPG/Game Item/New Weapon (Equipable)", order = 113)]
     public class WeaponConfig : EquipableItem, IModifierProvider
     {
         #region --Fields-- (Inspector)

@@ -5,7 +5,7 @@ using UnityEditor;
 
 namespace RPG.Dialogue
 {
-    [CreateAssetMenu(fileName = "Unnamed Dialogue", menuName = "RPG/Dialogue/New Dialogue")]
+    [CreateAssetMenu(fileName = "Untitled Dialogue", menuName = "RPG/Dialogue/New Dialogue", order = 2)]
     public class Dialogue : ScriptableObject, ISerializationCallbackReceiver
     {
         #region --Fields-- (Inspector)

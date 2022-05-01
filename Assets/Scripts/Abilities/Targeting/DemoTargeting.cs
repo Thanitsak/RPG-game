@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace RPG.Abilities.Targeting
@@ -6,7 +8,7 @@ namespace RPG.Abilities.Targeting
     public class DemoTargeting : TargetingStrategy
     {
         #region --Methods-- (Override)
-        public override void StartTargeting(GameObject user)
+        public override void StartTargeting(GameObject user, Action<IEnumerable<GameObject>> onFinished)
         {
             Debug.Log("Demo Targeting Started");
         }

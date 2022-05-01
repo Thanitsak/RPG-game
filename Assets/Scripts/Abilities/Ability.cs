@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using RPG.Inventories;
 
@@ -17,7 +18,19 @@ namespace RPG.Abilities
         {
             if (_targetingStrategy == null) return;
 
-            _targetingStrategy.StartTargeting(user);
+            _targetingStrategy.StartTargeting(user, OnTargetAquired);
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Subscriber)
+        private void OnTargetAquired(IEnumerable<GameObject> targets)
+        {
+            foreach (GameObject target in targets)
+            {
+                Debug.Log(target.name);
+            }
         }
         #endregion
     }

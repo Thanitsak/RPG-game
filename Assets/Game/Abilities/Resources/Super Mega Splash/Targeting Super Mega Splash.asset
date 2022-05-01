@@ -14,3 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cursorTexture: {fileID: 2800000, guid: 9ee5febc9c797aa45a8619f4542d6eee, type: 3}
   _cursorHotspot: {x: 0, y: 0}
+  _areaAffectRadius: 4
+  _availableDistance: 500
+  _affectStarterLayer:
+    serializedVersion: 2
+    m_Bits: 64

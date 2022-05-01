@@ -35,6 +35,7 @@ namespace RPG.Control
 
         private bool _isDraggingUI = false;
         private CursorType _currentCursorType = CursorType.None;
+        private bool _resetCurrentCursor = false;
         #endregion
 
 
@@ -69,7 +70,9 @@ namespace RPG.Control
 
 
         #region --Methods-- (Custom PUBLIC)
-        public void ResetCursorType() => _currentCursorType = CursorType.None;
+        public void ResetCursorType() => _resetCurrentCursor = true;
+
+        public Ray GetMouseRay() => _camera.ScreenPointToRay(Input.mousePosition); // get ray direction from camera to a screen point
         #endregion
 
 
@@ -151,7 +154,7 @@ namespace RPG.Control
 
         private RaycastHit[] RaycastAllSorted()
         {
-            // Draw the ray GET ALL, WON'T GET BLOCK & SORTED with Hit Distance
+            // Draw the ray GET ALL, WON'T GET BLOCK, then SORTED with Hit Distance
             RaycastHit[] hits = Physics.SphereCastAll(GetMouseRay(), _raycastRadius);
 
             float[] distances = new float[hits.Length];
@@ -181,8 +184,6 @@ namespace RPG.Control
             target = Vector3.zero;
             return false;
         }
-
-        private Ray GetMouseRay() => _camera.ScreenPointToRay(Input.mousePosition); // get ray direction from camera to a screen point
         #endregion
 
 
@@ -190,9 +191,10 @@ namespace RPG.Control
         #region --Methods-- (Custom PRIVATE) ~Cursor Stuff~
         private void SetCursor(CursorType cursorType)
         {
-            if (_currentCursorType == cursorType) return;
+            if (_currentCursorType == cursorType && _resetCurrentCursor == false) return;
             _currentCursorType = cursorType;
-
+            _resetCurrentCursor = false;
+            
             CursorMapping mapping = GetCursorMapping(cursorType);
             Cursor.SetCursor(mapping.texture, mapping.hotspot, CursorMode.Auto);
         }

@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using RPG.Control;
 
@@ -10,12 +12,21 @@ namespace RPG.Abilities.Targeting
         #region --Fields-- (Inspector)
         [SerializeField] private Texture2D _cursorTexture;
         [SerializeField] private Vector2 _cursorHotspot;
+
+        [Space]
+
+        [Tooltip("Area Range for this Affect")]
+        [SerializeField] private float _areaAffectRadius = 4f;
+        [Tooltip("How far can this Affect Start")]
+        [SerializeField] private float _availableDistance = 500f;
+        [Tooltip("Layer that the Affect will start on (Usually only on Terrain layer)")]
+        [SerializeField] private LayerMask _affectStarterLayer;
         #endregion
 
 
 
         #region --Methods-- (Custom PRIVATE)
-        private IEnumerator Targeting(GameObject user, PlayerController playerController)
+        private IEnumerator Targeting(GameObject user, PlayerController playerController, Action<IEnumerable<GameObject>> onFinished)
         {
             playerController.enabled = false;
 
@@ -32,10 +43,26 @@ namespace RPG.Abilities.Targeting
                     // If enable while mouse is down, InteractWithMovement will triggered
                     playerController.enabled = true;
 
+                    onFinished?.Invoke( GetGameObjectsInRadius(playerController) );
+
                     yield break;
                 }
 
                 yield return null;
+            }
+        }
+
+        private IEnumerable<GameObject> GetGameObjectsInRadius(PlayerController playerController)
+        {
+            // Cast a ray from mouse to the Ground ONLY, then do SphereCast from there.
+            if (Physics.Raycast(playerController.GetMouseRay(), out RaycastHit raycastHit, _availableDistance, _affectStarterLayer))
+            {
+                RaycastHit[] hits = Physics.SphereCastAll(raycastHit.point, _areaAffectRadius, Vector3.up, 0f);
+
+                foreach (RaycastHit hit in hits)
+                {
+                    yield return hit.collider.gameObject;
+                }
             }
         }
         #endregion
@@ -43,10 +70,10 @@ namespace RPG.Abilities.Targeting
 
 
         #region --Methods-- (Override)
-        public override void StartTargeting(GameObject user)
+        public override void StartTargeting(GameObject user, Action<IEnumerable<GameObject>> onFinished)
         {
             PlayerController playerController = user.transform.root.GetComponentInChildren<PlayerController>();
-            playerController.StartCoroutine( Targeting(user, playerController) );
+            playerController.StartCoroutine( Targeting(user, playerController, onFinished) );
         }
         #endregion
     }

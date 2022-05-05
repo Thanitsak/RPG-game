@@ -61,6 +61,7 @@ namespace RPG.Abilities.Targeting
                         playerController.ResetCursorType();
                         playerController.enabled = true; // If enable while mouse is down, InteractWithMovement will triggered
 
+                        data.TargetedPoint = hit.point;
                         data.Targets = GetGameObjectsInRadius(hit.point);
                         onFinished?.Invoke();
 
@@ -98,7 +99,7 @@ namespace RPG.Abilities.Targeting
         public override void StartTargeting(AbilityData data, Action onFinished)
         {
             PlayerController playerController = data.User.transform.root.GetComponentInChildren<PlayerController>();
-            playerController.StartCoroutine( Targeting(data, playerController, onFinished) );
+            data.StartCoroutine( Targeting(data, playerController, onFinished) );
         }
         #endregion
     }

@@ -6,6 +6,7 @@ namespace RPG.Core
     {
         #region --Fields-- (Inspector)
         [SerializeField] private AudioClip[] _audioClips;
+        [SerializeField] private bool _playOnAwake = false;
         #endregion
 
 
@@ -20,6 +21,12 @@ namespace RPG.Core
         private void Awake()
         {
             _audioSource = GetComponent<AudioSource>();
+        }
+
+        private void Start()
+        {
+            if (_playOnAwake)
+                PlayRandomClip();
         }
         #endregion
 

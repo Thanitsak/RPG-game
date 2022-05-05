@@ -13,11 +13,11 @@ namespace RPG.Abilities.Filters
 
 
         #region --Methods-- (Override)
-        public override IEnumerable<GameObject> Filter(AbilityData dataToFilter)
+        public override IEnumerable<GameObject> Filter(IEnumerable<GameObject> targetsToFilter)
         {
             _gameObjectsDatabase.Clear(); // have to clear out each time otherwise second time no object will be returned
 
-            foreach (GameObject eachObject in dataToFilter.Targets)
+            foreach (GameObject eachObject in targetsToFilter)
             {
                 if (!_gameObjectsDatabase.Contains(eachObject))
                 {

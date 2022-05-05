@@ -31,7 +31,7 @@ namespace RPG.Abilities
         {
             foreach (FilterStrategy eachFilter in _filterStrategies)
             {
-                data.Targets = eachFilter.Filter(data);
+                data.Targets = eachFilter.Filter(data.Targets);
             }
 
             foreach (EffectStrategy eachEffect in _effectStrategies)

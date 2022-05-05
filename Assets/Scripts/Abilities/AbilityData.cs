@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace RPG.Abilities
 {
-    public class AbilityData : MonoBehaviour
+    public class AbilityData
     {
         #region --Properties-- (Auto)
         public GameObject User { get; private set; }

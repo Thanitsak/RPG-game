@@ -1,12 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
+using RPG.Inventories;
 
 namespace RPG.Abilities
 {
     public class CooldownStore : MonoBehaviour
     {
         #region --Fields-- (In Class)
-        private Dictionary<Ability, float> _cooldownTimers = new Dictionary<Ability, float>();
+        private Dictionary<InventoryItem, float> _cooldownTimers = new Dictionary<InventoryItem, float>();
+        private Dictionary<InventoryItem, float> _cooldownInitials = new Dictionary<InventoryItem, float>();
         #endregion
 
 
@@ -14,7 +16,7 @@ namespace RPG.Abilities
         #region --Methods-- (Built In)
         private void Update()
         {
-            var keys = new List<Ability>(_cooldownTimers.Keys);
+            var keys = new List<InventoryItem>(_cooldownTimers.Keys);
             foreach (Ability key in keys)
             {
                 _cooldownTimers[key] -= Time.deltaTime;
@@ -22,6 +24,7 @@ namespace RPG.Abilities
                 if (_cooldownTimers[key] <= 0f)
                 {
                     _cooldownTimers.Remove(key);
+                    _cooldownInitials.Remove(key);
                 }
             }
         }
@@ -30,16 +33,24 @@ namespace RPG.Abilities
 
 
         #region --Methods-- (Custom PUBLIC)
-        public void StartTimer(Ability ability, float cooldownTime)
+        public void StartTimer(InventoryItem item, float cooldownTime)
         {
-            _cooldownTimers.Add(ability, cooldownTime);
+            _cooldownTimers.Add(item, cooldownTime);
+            _cooldownInitials.Add(item, cooldownTime);
         }
 
-        public float GetTimeRemaining(Ability ability)
+        public float GetTimeRemaining(InventoryItem item)
         {
-            if (!_cooldownTimers.ContainsKey(ability)) return 0f;
+            if (item == null || !_cooldownTimers.ContainsKey(item)) return 0f;
 
-            return _cooldownTimers[ability];
+            return _cooldownTimers[item];
+        }
+
+        public float GetFractionRemaining(InventoryItem item)
+        {
+            if (item == null || !_cooldownInitials.ContainsKey(item)) return 0f;
+
+            return Mathf.InverseLerp(0f, _cooldownInitials[item], _cooldownTimers[item]);
         }
         #endregion
     }

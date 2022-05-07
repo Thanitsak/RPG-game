@@ -2,6 +2,7 @@
 using RPG.Inventories;
 using UnityEngine;
 using UnityEngine.UI;
+using RPG.Abilities;
 
 namespace RPG.UI.Inventories
 {
@@ -13,12 +14,15 @@ namespace RPG.UI.Inventories
         #region --Fields-- (Inspector)
         [SerializeField] private InventoryItemIcon _icon = null;
         [SerializeField] private int _index = 0;
+        [SerializeField] private Image _cooldownOverlayImage;
         #endregion
 
 
 
         #region --Fields-- (In Class)
         private ActionStore _store;
+
+        private CooldownStore _cooldownStore;
         #endregion
 
 
@@ -26,10 +30,17 @@ namespace RPG.UI.Inventories
         #region --Methods-- (Built In)
         private void Awake()
         {
-            _store = GameObject.FindGameObjectWithTag("Player").GetComponent<ActionStore>();
+            _store = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<ActionStore>();
+            _cooldownStore = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<CooldownStore>();
+
             _store.OnStoreUpdated += UpdateIcon;
 
             GetComponent<Button>().onClick.AddListener(UseAbilitiesWithButton);
+        }
+
+        private void Update()
+        {
+            _cooldownOverlayImage.fillAmount = _cooldownStore.GetFractionRemaining(GetItem());
         }
         #endregion
 

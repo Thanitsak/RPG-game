@@ -170,7 +170,7 @@ namespace RPG.Utils.UI.Dragging
         void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
         {
             _startPosition = transform.position;
-            _originalParent = transform.parent;
+            _originalParent = transform.parent; // records the original parent...
             // Else won't get the drop event.
             GetComponent<CanvasGroup>().blocksRaycasts = false;
             transform.SetParent(_parentCanvas.transform, true);
@@ -185,7 +185,7 @@ namespace RPG.Utils.UI.Dragging
         {
             transform.position = _startPosition;
             GetComponent<CanvasGroup>().blocksRaycasts = true;
-            transform.SetParent(_originalParent, true);
+            transform.SetParent(_originalParent, true); // ...and resets it on end drag.
 
             IDragDestination<T> container;
             if (!Utilities.IsPointerOverUIObject())

@@ -33,24 +33,24 @@ namespace RPG.Abilities
 
 
         #region --Methods-- (Custom PUBLIC)
-        public void StartTimer(InventoryItem item, float cooldownTime)
+        public void StartTimer(InventoryItem ability, float cooldownTime)
         {
-            _cooldownTimers.Add(item, cooldownTime);
-            _cooldownInitials.Add(item, cooldownTime);
+            _cooldownTimers.Add(ability, cooldownTime);
+            _cooldownInitials.Add(ability, cooldownTime);
         }
 
-        public float GetTimeRemaining(InventoryItem item)
+        public float GetTimeRemaining(InventoryItem ability)
         {
-            if (item == null || !_cooldownTimers.ContainsKey(item)) return 0f;
+            if (ability == null || !_cooldownTimers.ContainsKey(ability)) return 0f;
 
-            return _cooldownTimers[item];
+            return _cooldownTimers[ability];
         }
 
-        public float GetFractionRemaining(InventoryItem item)
+        public float GetFractionRemaining(InventoryItem ability)
         {
-            if (item == null || !_cooldownInitials.ContainsKey(item)) return 0f;
+            if (ability == null || !_cooldownInitials.ContainsKey(ability)) return 0f;
 
-            return Mathf.InverseLerp(0f, _cooldownInitials[item], _cooldownTimers[item]);
+            return Mathf.InverseLerp(0f, _cooldownInitials[ability], _cooldownTimers[ability]);
         }
         #endregion
     }

@@ -30,8 +30,9 @@ namespace RPG.UI.Inventories
         #region --Methods-- (Built In)
         private void Awake()
         {
-            _store = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<ActionStore>();
-            _cooldownStore = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<CooldownStore>();
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            _store = player.GetComponentInChildren<ActionStore>();
+            _cooldownStore = player.GetComponentInChildren<CooldownStore>();
 
             _store.OnStoreUpdated += UpdateIcon;
 

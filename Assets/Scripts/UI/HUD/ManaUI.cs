@@ -48,7 +48,7 @@ namespace RPG.UI.HUD
         {
             var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
             nfi.NumberGroupSeparator = " ";
-            _manaPointsText.text = _playerMana.ManaPoints.ToString("#,0", nfi);
+            _manaPointsText.text = _playerMana.ManaPoints.value.ToString("#,0", nfi);
         }
         #endregion
     }

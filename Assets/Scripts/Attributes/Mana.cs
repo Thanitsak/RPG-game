@@ -1,26 +1,32 @@
 using System;
 using UnityEngine;
+using RPG.Stats;
+using RPG.Utils;
 
 namespace RPG.Attributes
 {
     public class Mana : MonoBehaviour
     {
-        #region --Fields-- (Inspector)
-        [Min(1f)]
-        [SerializeField] private float _regenerateSpeed = 10f;
-        #endregion
-
-
-
         #region --Events-- (Delegate as Action)
         public event Action OnManaPointsUpdated;
         #endregion
 
 
 
+        #region --Fields-- (In Class)
+        private BaseStats _baseStats;
+        #endregion
+
+
+
         #region --Properties-- (Auto)
-        public float ManaPoints { get; private set; }
-        public float MaxManaPoints { get; private set; } = 200;
+        public AutoInit<float> ManaPoints { get; private set; }
+        #endregion
+
+
+
+        #region --Properties-- (With Backing Fields)
+        public float MaxManaPoints { get { return _baseStats.GetMana(); } }
         #endregion
 
 
@@ -28,7 +34,14 @@ namespace RPG.Attributes
         #region --Methods-- (Built In)
         private void Awake()
         {
-            ManaPoints = MaxManaPoints;
+            _baseStats = transform.root.GetComponentInChildren<BaseStats>();
+
+            ManaPoints = new AutoInit<float>(GetInitialMana);
+        }
+
+        private void Start()
+        {
+            ManaPoints.ForceInit();
         }
 
         private void Update()
@@ -42,9 +55,9 @@ namespace RPG.Attributes
         #region --Methods-- (Custom PUBLIC)
         public bool UseMana(float amount)
         {
-            if (amount > ManaPoints) return false;
+            if (amount > ManaPoints.value) return false;
 
-            ManaPoints -= amount;
+            ManaPoints.value -= amount;
             OnManaPointsUpdated?.Invoke();
 
             return true;
@@ -56,13 +69,19 @@ namespace RPG.Attributes
         #region --Methods-- (Custom PRIVATE)
         private void RegenerateMana()
         {
-            if (ManaPoints >= MaxManaPoints) return;
+            if (ManaPoints.value >= MaxManaPoints) return;
 
-            ManaPoints += Time.deltaTime * _regenerateSpeed;
-            ManaPoints = Mathf.Clamp(ManaPoints, 0f, MaxManaPoints);
+            ManaPoints.value += Time.deltaTime * _baseStats.GetManaRegenRate();
+            ManaPoints.value = Mathf.Clamp(ManaPoints.value, 0f, MaxManaPoints);
 
             OnManaPointsUpdated?.Invoke();
         }
+        #endregion
+
+
+
+        #region --Methods-- (Subscriber)
+        private float GetInitialMana() => MaxManaPoints;
         #endregion
     }
 }

@@ -34,7 +34,7 @@ namespace RPG.Abilities
             if (_cooldownStore == null || _cooldownStore.GetTimeRemaining(this) > 0f) return;
 
             _mana = user.transform.root.GetComponentInChildren<Mana>();
-            if (_mana == null || _manaCost > _mana.ManaPoints) return;
+            if (_mana == null || _manaCost > _mana.ManaPoints.value) return;
 
             AbilityData data = new AbilityData(user);
             _targetingStrategy.StartTargeting(data, () => OnTargetAquired(data));

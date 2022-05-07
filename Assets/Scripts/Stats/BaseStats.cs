@@ -73,6 +73,10 @@ namespace RPG.Stats
 
         public float GetDamage() => GetStat(StatType.Damage);
 
+        public float GetMana() => GetStat(StatType.Mana);
+
+        public float GetManaRegenRate() => GetStat(StatType.ManaRegenRate);
+
         public int GetLevel() => _currentLevel.value;
         #endregion
 

@@ -22,4 +22,13 @@ MonoBehaviour:
   _price: 100
   _category: 3
   _consumable: 1
-  _targetingStrategy: {fileID: 11400000, guid: 572dfe8c58614493884399a947745211, type: 2}
+  _targetingStrategy: {fileID: 11400000, guid: 0df1769ac92a2406b9eefdfe5bc30e51, type: 2}
+  _filterStrategies:
+  - {fileID: 11400000, guid: 929e95fe325644a388265b3c1b8366a7, type: 2}
+  - {fileID: 11400000, guid: eebd16368a21e44829773e418800582f, type: 2}
+  _effectStrategies:
+  - {fileID: 11400000, guid: fb03a8aad704341a8bf90aede0c08844, type: 2}
+  - {fileID: 11400000, guid: 7d54f2c9320584aaab966d66445a564e, type: 2}
+  - {fileID: 11400000, guid: f3103962e54cd4480a30f3a080a433d3, type: 2}
+  _cooldownTime: 1
+  _manaCost: 10

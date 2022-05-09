@@ -54,14 +54,14 @@ namespace RPG.Core
         /// <param name="target">Target to rotate to</param>
         /// <param name="rotateSpeed">DO NOT pass in Time.deltaTime Since this method already handle that</param>
         /// <param name="precisionRate">0f mean exact match / 1f mean far off. Typically use 0.01f or 0.001f or pretty close use 0.0000001f</param>
-        /// <returns>Return true if it's close enough otherwise false.</returns>
+        /// <returns>Return False if it's close enough otherwise True.</returns>
         public static bool SmoothRotateTo(Transform transform, Vector3 targetPosition, float rotateSpeed, float precisionRate)
         {
             Vector3 direction = targetPosition - transform.position;
             Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0f, direction.z), Vector3.up);
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, rotateSpeed * Time.deltaTime);
 
-            return IsApproximate(transform.rotation, lookRotation, precisionRate);
+            return !IsApproximate(transform.rotation, lookRotation, precisionRate);
         }
 
         public static void SmoothRotateTo(Transform transform, Quaternion targetRotation, float rotateSpeed)
@@ -79,7 +79,7 @@ namespace RPG.Core
         /// <param name="q1">Quaternion 1st to compare</param>
         /// <param name="q2">Quaternion 2nd to compare</param>
         /// <param name="precision">0f mean exact match / 1f mean far off. Typically use 0.01f or 0.001f or pretty close use 0.0000001f</param>
-        /// <returns>Return true if it's close enough otherwise false.</returns>
+        /// <returns>Return True if it's close enough otherwise False.</returns>
         public static bool IsApproximate(Quaternion q1, Quaternion q2, float precision)
         {
             return Mathf.Abs(Quaternion.Dot(q1, q2)) >= 1 - precision;

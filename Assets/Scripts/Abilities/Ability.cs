@@ -1,6 +1,7 @@
 using UnityEngine;
 using RPG.Inventories;
 using RPG.Attributes;
+using RPG.Core;
 
 namespace RPG.Abilities
 {
@@ -21,6 +22,7 @@ namespace RPG.Abilities
         #region --Fields-- (In Class)
         private CooldownStore _cooldownStore;
         private Mana _mana;
+        private ActionScheduler _actionScheduler;
         #endregion
 
 
@@ -36,16 +38,22 @@ namespace RPG.Abilities
             _mana = user.transform.root.GetComponentInChildren<Mana>();
             if (_mana == null || _manaCost > _mana.ManaPoints.value) return;
 
+            _actionScheduler = user.transform.root.GetComponentInChildren<ActionScheduler>();
+            if (_actionScheduler == null) return;
+
             AbilityData data = new AbilityData(user);
-            _targetingStrategy.StartTargeting(data, () => OnTargetAquired(data));
+            _actionScheduler.StartAction(data);
+
+            _targetingStrategy.StartTargeting(data, () => OnTargetFinished(data));
         }
         #endregion
 
 
 
         #region --Methods-- (Subscriber)
-        private void OnTargetAquired(AbilityData data)
+        private void OnTargetFinished(AbilityData data)
         {
+            if (data.IsAbilityCancelled) return; // Guard check
             if (_mana.UseMana(_manaCost) == false) return;
 
             _cooldownStore.StartTimer(this, _cooldownTime);

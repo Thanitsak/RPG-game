@@ -12,6 +12,8 @@ namespace RPG.Abilities.Effects
         [SerializeField] private float _delay = 0f;
         [Tooltip("Effects to be delayed (can even include other delay composite effect)")]
         [SerializeField] private EffectStrategy[] _effectsToDelay;
+        [Tooltip("Incase Ability is Cancelled should this delayed effects will still be called? Abort these effects? false mean Don't Abort (still call), true mean abort (don't call)")]
+        [SerializeField] private bool _abortIfCancelled = false;
         #endregion
 
 
@@ -20,6 +22,8 @@ namespace RPG.Abilities.Effects
         private IEnumerator DelayedEffect(AbilityData data, Action<string> onFinished)
         {
             yield return new WaitForSeconds(_delay);
+
+            if (_abortIfCancelled && data.IsAbilityCancelled) yield break;
 
             foreach (EffectStrategy eachEffect in _effectsToDelay)
             {

@@ -36,16 +36,9 @@ namespace RPG.Abilities.Targeting
         #region --Methods-- (Custom PRIVATE)
         private IEnumerator Targeting(AbilityData data, PlayerController playerController, Action onFinished)
         {
-            playerController.enabled = false;
+            SetupStuffs(playerController);
 
-            if (_targetingPrefabInstance == null)
-                _targetingPrefabInstance = Instantiate(_targetingPrefab);
-            else
-                _targetingPrefabInstance.SetActive(true);
-
-            _targetingPrefabInstance.transform.localScale = new Vector3(_areaAffectRadius * 2f, 1f, _areaAffectRadius * 2f); // *2 because scale needs diameter value not just radius.
-
-            while (true)
+            while (data.IsAbilityCancelled == false)
             {
                 Cursor.SetCursor(_cursorTexture, _cursorHotspot, CursorMode.Auto);
 
@@ -58,14 +51,11 @@ namespace RPG.Abilities.Targeting
                     {
                         yield return new WaitWhile(() => Input.GetMouseButton(0)); // This will return as clicked for couple of frames, so wait until mouse is up.
 
-                        playerController.ResetCursorType();
-                        playerController.enabled = true; // If enable while mouse is down, InteractWithMovement will triggered
+                        ResetStuffsBack(playerController); // If enable playerController while mouse is down, InteractWithMovement will triggered
 
                         data.TargetedPoint = hit.point;
                         data.Targets = GetGameObjectsInRadius(hit.point);
                         onFinished?.Invoke();
-
-                        _targetingPrefabInstance.SetActive(false);
 
                         yield break;
                     }
@@ -79,6 +69,28 @@ namespace RPG.Abilities.Targeting
 
                 yield return null;
             }
+
+            // When Ability is Cancelled
+            ResetStuffsBack(playerController);
+        }
+
+        private void SetupStuffs(PlayerController playerController)
+        {
+            playerController.enabled = false;
+
+            if (_targetingPrefabInstance == null)
+                _targetingPrefabInstance = Instantiate(_targetingPrefab);
+            else
+                _targetingPrefabInstance.SetActive(true);
+
+            _targetingPrefabInstance.transform.localScale = new Vector3(_areaAffectRadius * 2f, 1f, _areaAffectRadius * 2f); // *2 because scale needs diameter value not just radius.
+        }
+
+        private void ResetStuffsBack(PlayerController playerController)
+        {
+            playerController.ResetCursorType();
+            playerController.enabled = true; 
+            _targetingPrefabInstance.SetActive(false);
         }
 
         private IEnumerable<GameObject> GetGameObjectsInRadius(Vector3 point)

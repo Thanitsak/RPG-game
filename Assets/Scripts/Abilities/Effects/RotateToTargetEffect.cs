@@ -17,12 +17,10 @@ namespace RPG.Abilities.Effects
 
 
         #region --Methods-- (Custom PRIVATE)
-        private IEnumerator KeepRotating(Transform user, Vector3 target, Action<string> onFinished)
+        private IEnumerator KeepRotating(AbilityData data, Action<string> onFinished)
         {
-            float timer = 0f; // Need timer Incase Player move while rotation is not finish, this can stop rotating once it reaches 1 sec
-            while (Utilities.SmoothRotateTo(user, target, _rotationSpeed, _precisionRate) == false && timer < 1f)
+            while (Utilities.SmoothRotateTo(data.User.transform, data.TargetedPoint, _rotationSpeed, _precisionRate) && data.IsAbilityCancelled == false) // when ability is cancelled via move, attack or die this will stop rotating
             {
-                timer += Time.deltaTime;
                 yield return null;
             }
 
@@ -35,7 +33,7 @@ namespace RPG.Abilities.Effects
         #region --Methods-- (Override)
         public override void StartEffect(AbilityData data, Action<string> onFinished)
         {
-            data.StartCoroutine( KeepRotating(data.User.transform, data.TargetedPoint, onFinished) );
+            data.StartCoroutine( KeepRotating(data, onFinished) );
         }
         #endregion
     }

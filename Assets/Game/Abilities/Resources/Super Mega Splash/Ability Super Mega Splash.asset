@@ -27,10 +27,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1e80509ebec564016ab05e0eaa2edf1d, type: 2}
   - {fileID: 11400000, guid: eebd16368a21e44829773e418800582f, type: 2}
   _effectStrategies:
-  - {fileID: 11400000, guid: 55fa7217867b44b07bd9dce30e25931e, type: 2}
-  - {fileID: 11400000, guid: f838b3d1768b0496599463a73508b1f1, type: 2}
-  - {fileID: 11400000, guid: c00cf29eac90642bdabc49c54c547403, type: 2}
   - {fileID: 11400000, guid: 92c50d8ef9775494d8db5a939235e45c, type: 2}
   - {fileID: 11400000, guid: 79cd419d213174d87a41e9df86c62ca8, type: 2}
+  - {fileID: 11400000, guid: 01780ed05272a45b1904df1bfe574443, type: 2}
   _cooldownTime: 2
   _manaCost: 50

@@ -14,12 +14,32 @@ namespace RPG.Abilities.Effects
         [SerializeField] private float _damage = 0f;
         [Tooltip("Using Hands Transform that provided in Fighter script. (to add more spawning point, Check WeaponConfig for how to do that.)")]
         [SerializeField] private bool _isRightHanded = true;
+        [Tooltip("Should this Projectile only Launch when there are Targets OR just launch to the TargetPoint? true mean just launch to target point otherwise false")]
+        [SerializeField] private bool _useTargetPoint = true;
         #endregion
 
 
 
         #region --Methods-- (Custom PRIVATE)
         private Transform GetTransform(Transform rightHand, Transform leftHand) => _isRightHanded ? rightHand : leftHand;
+
+        private void SpawnProjectileForTargets(AbilityData data, Transform handTransform)
+        {
+            foreach (GameObject target in data.Targets)
+            {
+                Health health = target.GetComponentInChildren<Health>();
+                if (health == null || health.IsDead) continue;
+
+                Projectile projectileCloned = Instantiate(_projectile, handTransform.position, handTransform.rotation);
+                projectileCloned.SetTarget(data.User, _damage, health);
+            }
+        }
+
+        private void SpawnProjectileForTargetPoint(AbilityData data, Transform handTransform)
+        {
+            Projectile projectileCloned = Instantiate(_projectile, handTransform.position, handTransform.rotation);
+            projectileCloned.SetTarget(data.User, _damage, data.TargetedPoint);
+        }
         #endregion
 
 
@@ -31,13 +51,13 @@ namespace RPG.Abilities.Effects
             if (fighter == null) return;
             Transform handTransform = GetTransform(fighter.RightHandTransform, fighter.LeftHandTransform);
 
-            foreach (GameObject target in data.Targets)
+            if (_useTargetPoint)
             {
-                Health health = target.GetComponentInChildren<Health>();
-                if (health == null || health.IsDead) continue;
-
-                Projectile projectileCloned = Instantiate(_projectile, handTransform.position, handTransform.rotation);
-                projectileCloned.SetTarget(data.User, health, _damage);
+                SpawnProjectileForTargetPoint(data, handTransform);
+            }
+            else
+            {
+                SpawnProjectileForTargets(data, handTransform);
             }
 
             onFinished?.Invoke(name);

@@ -22,10 +22,8 @@ MonoBehaviour:
   _price: 750
   _category: 5
   _consumable: 0
-  _targetingStrategy: {fileID: 11400000, guid: e13a1a16e5f5e46e193603211b6c6c5e, type: 2}
-  _filterStrategies:
-  - {fileID: 11400000, guid: 1e80509ebec564016ab05e0eaa2edf1d, type: 2}
-  - {fileID: 11400000, guid: eebd16368a21e44829773e418800582f, type: 2}
+  _targetingStrategy: {fileID: 11400000, guid: 572dfe8c58614493884399a947745211, type: 2}
+  _filterStrategies: []
   _effectStrategies:
   - {fileID: 11400000, guid: 17e8763908a584c0b94651eb9643f997, type: 2}
   _cooldownTime: 3

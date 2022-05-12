@@ -27,6 +27,7 @@ namespace RPG.Combat
 
         #region --Fields-- (In Class)
         private Health _target = null;
+        private Vector3 _targetPoint;
         private float _damage = 0f;
         private GameObject _attacker = null;
         #endregion
@@ -42,9 +43,7 @@ namespace RPG.Combat
 
         private void Update()
         {
-            if (_target == null) return;
-
-            if (_isHoming && !_target.IsDead)
+            if (_target != null && _isHoming && !_target.IsDead)
                 transform.LookAt(GetAimLocation());
 
             transform.Translate(Vector3.forward * _speed * Time.deltaTime);
@@ -52,9 +51,13 @@ namespace RPG.Combat
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.GetComponent<Health>() != _target || _target.IsDead) return;
+            Health health = other.GetComponent<Health>();
+            if (health == null || health.IsDead) return; // Make sure the hit gameObject's Health is Not null AND Not Yet Dead
+            if (_target != null && _target != health) return; // Make sure Specified Target (Incase not null) is Same as the hit gameObject's Health
+            if (other.gameObject == _attacker) return; // Make sure Projectile is Not colliding with ourselves
 
-            _target.TakeDamage(_attacker, _damage);
+            health.TakeDamage(_attacker, _damage);
+
             _onProjectileHit?.Invoke();
 
             if (_hitEffect != null)
@@ -74,11 +77,22 @@ namespace RPG.Combat
 
 
         #region --Methods-- (Custom PUBLIC)
-        public void SetTarget(GameObject attacker, Health target, float damage)
+        public void SetTarget(GameObject attacker, float damage, Health target)
         {
-            _target = target;
-            _damage = damage;
+            SetTarget(attacker, damage, target, default);
+        }
+
+        public void SetTarget(GameObject attacker, float damage, Vector3 targetPoint)
+        {
+            SetTarget(attacker, damage, null, targetPoint);
+        }
+
+        public void SetTarget(GameObject attacker, float damage, Health target=null, Vector3 targetPoint=default)
+        {
             _attacker = attacker;
+            _damage = damage;
+            _target = target;
+            _targetPoint = targetPoint;
 
             Destroy(gameObject, _maxLifeTime);
         }
@@ -89,6 +103,8 @@ namespace RPG.Combat
         #region --Methods-- (Custom PRIVATE)
         private Vector3 GetAimLocation()
         {
+            if (_target == null) return _targetPoint;
+
             // Make it shoot at middle of Target body
             CapsuleCollider targetCapsule = _target.GetComponent<CapsuleCollider>();
             if (targetCapsule == null)

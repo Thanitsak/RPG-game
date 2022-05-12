@@ -30,7 +30,11 @@ namespace RPG.Abilities
         #region --Methods-- (Override)
         public override void Use(GameObject user)
         {
-            if (_targetingStrategy == null || _filterStrategies.Length == 0 || _effectStrategies.Length == 0) return;
+            if (_targetingStrategy == null || _effectStrategies.Length == 0)
+            {
+                Debug.LogWarning($"This is not allowed: TargetingStrategy is Not Provided OR EffectStrategy is Not Provided, only FilterStrategy can be Empty.");
+                return;
+            }
             
             _cooldownStore = user.transform.root.GetComponentInChildren<CooldownStore>();
             if (_cooldownStore == null || _cooldownStore.GetTimeRemaining(this) > 0f) return;

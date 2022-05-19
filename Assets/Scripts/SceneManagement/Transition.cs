@@ -6,6 +6,11 @@ using TMPro;
 
 namespace RPG.SceneManagement
 {
+    /// <summary>
+    /// This component provides the methods to load scene with transitions also Asynchronously.
+    ///
+    /// This component should be created once and shared between all subsequent scenes.
+    /// </summary>
     public class Transition : MonoBehaviour
     {
         public enum Types

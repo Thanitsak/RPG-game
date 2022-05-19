@@ -4,6 +4,11 @@ using RPG.Saving;
 
 namespace RPG.SceneManagement
 {
+    /// <summary>
+    /// This component provides the methods to save and load a scene.
+    ///
+    /// This component should be created once and shared between all subsequent scenes.
+    /// </summary>
     public class SavingWrapper : MonoBehaviour
     {
         #region --Fields-- (Inspector)

@@ -22,8 +22,9 @@ namespace RPG.Core
         public static event Action OnHUDRefreshed;
         public static event Action OnInGameRefreshed;
         public static event Action OnTraitRefreshed;
+        public static event Action OnShopRefreshed;
+
         // More check at UI SUB FOLDER
-        //public static event Action OnShopRefreshed;
         #endregion
 
 
@@ -59,7 +60,7 @@ namespace RPG.Core
             _experience.OnExperienceLoadDone += RefreshAllUI;
 
             _experience.OnExperienceGained += RefreshHUDUI;
-            _baseStats.OnLevelUpDone += () => { RefreshHUDUI(); RefreshTraitUI(); }; // Need to refresh TraitUI as well since there will be more TraitPoints given to player
+            _baseStats.OnLevelUpDone += () => { RefreshHUDUI(); RefreshTraitUI(); RefreshShopUI(); }; // Need to RefreshTraitUI as well since there will be more TraitPoints given to player / RefreshShopUI incase open shop while level up
             _health.OnHealthChanged += RefreshHUDUI; // Not Subscribe with RefreshInGameUI bcuz that HealthBar is individually gets Invoke on their Health component not with Player
             _mana.OnManaPointsUpdated += RefreshHUDUI;
             _coin.OnCoinPointsUpdated += RefreshHUDUI;
@@ -73,7 +74,7 @@ namespace RPG.Core
             _experience.OnExperienceLoadDone -= RefreshAllUI;
 
             _experience.OnExperienceGained -= RefreshHUDUI;
-            _baseStats.OnLevelUpDone -= () => { RefreshHUDUI(); RefreshTraitUI(); };
+            _baseStats.OnLevelUpDone -= () => { RefreshHUDUI(); RefreshTraitUI(); RefreshShopUI(); };
             _health.OnHealthChanged -= RefreshHUDUI;
             _mana.OnManaPointsUpdated -= RefreshHUDUI;
             _coin.OnCoinPointsUpdated -= RefreshHUDUI;
@@ -92,6 +93,7 @@ namespace RPG.Core
             RefreshInGameUI();
             RefreshHUDUI();
             RefreshTraitUI();
+            RefreshShopUI();
             print("Refreshed All UI");
         }
 
@@ -100,13 +102,19 @@ namespace RPG.Core
         public static void RefreshHUDUI()
         {
             OnHUDRefreshed?.Invoke();
-            print("Refreshed HUD UI " + OnHUDRefreshed.GetInvocationList().Length);
+            //print("Refreshed HUD UI " + OnHUDRefreshed?.GetInvocationList().Length);
         }
 
         public static void RefreshTraitUI()
         {
             OnTraitRefreshed?.Invoke();
-            print("Refreshed Trait UI " + OnTraitRefreshed.GetInvocationList().Length);
+            print("Refreshed Trait UI " + OnTraitRefreshed?.GetInvocationList().Length);
+        }
+
+        public static void RefreshShopUI()
+        {
+            OnShopRefreshed?.Invoke();
+            print("Refreshed Shop UI " + OnShopRefreshed?.GetInvocationList().Length);
         }
         #endregion
 
@@ -118,6 +126,7 @@ namespace RPG.Core
             OnHUDRefreshed = null;
             OnInGameRefreshed = null;
             OnTraitRefreshed = null;
+            OnShopRefreshed = null;
         }
         #endregion
     }

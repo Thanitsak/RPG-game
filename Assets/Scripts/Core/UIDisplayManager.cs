@@ -5,6 +5,7 @@ using RPG.Economy;
 using RPG.Traits;
 using RPG.Stats;
 using RPG.Inventories;
+using RPG.Quests;
 
 namespace RPG.Core
 {
@@ -27,6 +28,7 @@ namespace RPG.Core
         public static event Action OnInventoryBagRefreshed;
         public static event Action OnInventoryEquipmentRefreshed;
         public static event Action OnInventoryActionRefreshed;
+        public static event Action OnQuestRefreshed;
 
         // More check at UI SUB FOLDER
         #endregion
@@ -45,6 +47,8 @@ namespace RPG.Core
         private Inventory _inventory;
         private Equipment _equipment;
         private ActionStore _actionStore;
+
+        private QuestList _questList;
         #endregion
 
 
@@ -65,6 +69,8 @@ namespace RPG.Core
             _inventory = player.GetComponentInChildren<Inventory>();
             _equipment = player.GetComponentInChildren<Equipment>();
             _actionStore = player.GetComponentInChildren<ActionStore>();
+
+            _questList = player.GetComponentInChildren<QuestList>();
         }
 
         private void OnEnable()
@@ -83,6 +89,9 @@ namespace RPG.Core
             _inventory.OnInventoryUpdated += () => { RefreshInventoryBagUI(); };
             _equipment.OnEquipmentUpdated += () => { RefreshInventoryEquipmentUI(); RefreshHUDUI(); RefreshShopUI(); }; // RefreshShopUI incase open shop while equip new item
             _actionStore.OnStoreUpdated += () => { RefreshInventoryActionUI(); };
+
+            // QUEST SYSTEM
+            _questList.OnQuestListUpdated += RefreshQuestUI;
         }
 
         private void OnDisable()
@@ -105,6 +114,7 @@ namespace RPG.Core
             RefreshInventoryBagUI();
             RefreshInventoryEquipmentUI();
             RefreshInventoryActionUI();
+            RefreshQuestUI();
             print("Refreshed All UI");
         }
 
@@ -145,6 +155,12 @@ namespace RPG.Core
             OnInventoryActionRefreshed?.Invoke();
             //print("Refreshed Inventory Action UI " + OnInventoryActionRefreshed?.GetInvocationList().Length);
         }
+
+        public static void RefreshQuestUI()
+        {
+            OnQuestRefreshed?.Invoke();
+            //print("Refreshed Quest UI " + OnQuestRefreshed?.GetInvocationList().Length);
+        }
         #endregion
 
 
@@ -159,6 +175,7 @@ namespace RPG.Core
             OnInventoryBagRefreshed = null;
             OnInventoryEquipmentRefreshed = null;
             OnInventoryActionRefreshed = null;
+            OnQuestRefreshed = null;
         }
         #endregion
     }

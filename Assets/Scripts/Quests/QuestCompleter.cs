@@ -14,7 +14,7 @@ namespace RPG.Quests
         #region --Methods-- (Subscriber) ~UnityEvent~
         public void CompleteQuestObjective()
         {
-            QuestList questList = GameObject.FindGameObjectWithTag("Player").GetComponent<QuestList>();
+            QuestList questList = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<QuestList>();
 
             questList.AddCompletedObjective(_questWithObjective, _objectiveToComplete);
         }

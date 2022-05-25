@@ -1,5 +1,6 @@
-using RPG.Quests;
 using UnityEngine;
+using RPG.Quests;
+using RPG.Core;
 
 namespace RPG.UI.Quests
 {
@@ -20,9 +21,9 @@ namespace RPG.UI.Quests
         #region --Methods-- (Built In)
         private void Awake()
         {
-            _questList = GameObject.FindGameObjectWithTag("Player").GetComponent<QuestList>();
+            _questList = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<QuestList>();
 
-            _questList.OnQuestListUpdated += UpdateQuestListUI; // Can't do with OnEnable() cuz this will keep adding more and more And Since we can't use OnDisable() to unsubscribe Since this one will be closed by default and with button
+            UIDisplayManager.OnQuestRefreshed += UpdateQuestListUI; // Can't do with OnEnable() cuz this will keep adding more and more And Since we can't use OnDisable() to unsubscribe Since this one will be closed by default and with button
         }
 
         private void Start()

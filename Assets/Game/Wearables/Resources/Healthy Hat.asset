@@ -26,6 +26,8 @@ MonoBehaviour:
   _additiveModifiers:
   - statType: 0
     value: 20
+  - statType: 0
+    value: 20
   _percentageModifiers:
   - statType: 0
     value: 2

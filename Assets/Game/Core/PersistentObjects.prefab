@@ -106,6 +106,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 3842778628920563605}
     m_Modifications:
     - target: {fileID: 2973058752861066321, guid: 0ba9bb087f33c47e3b6fce7159738ca0, type: 3}
@@ -157,6 +158,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ba9bb087f33c47e3b6fce7159738ca0, type: 3}
 --- !u!4 &3853419575208449264 stripped
 Transform:
@@ -168,6 +170,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 3842778628920563605}
     m_Modifications:
     - target: {fileID: 1257920511, guid: 519dab94825f34bcf801366fbd6545c3, type: 3}
@@ -227,6 +230,7 @@ PrefabInstance:
       value: LevelTransitions
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 519dab94825f34bcf801366fbd6545c3, type: 3}
 --- !u!4 &3842778629091428355 stripped
 Transform:

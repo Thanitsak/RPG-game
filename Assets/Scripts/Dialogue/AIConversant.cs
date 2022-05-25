@@ -66,7 +66,7 @@ namespace RPG.Dialogue
             {
                 playerController.GetComponent<Mover>().StartMoveAction(transform.position, 1f);
 
-                _playerConversant = playerController.GetComponent<PlayerConversant>();
+                _playerConversant = playerController.GetComponentInChildren<PlayerConversant>();
             }
             return true;
         }

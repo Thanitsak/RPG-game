@@ -6,6 +6,7 @@ using RPG.Traits;
 using RPG.Stats;
 using RPG.Inventories;
 using RPG.Quests;
+using RPG.Dialogue;
 
 namespace RPG.Core
 {
@@ -29,8 +30,7 @@ namespace RPG.Core
         public static event Action OnInventoryEquipmentRefreshed;
         public static event Action OnInventoryActionRefreshed;
         public static event Action OnQuestRefreshed;
-
-        // More check at UI SUB FOLDER
+        public static event Action OnDialogueRefreshed;
         #endregion
 
 
@@ -49,6 +49,8 @@ namespace RPG.Core
         private ActionStore _actionStore;
 
         private QuestList _questList;
+
+        private PlayerConversant _playerConversant;
         #endregion
 
 
@@ -71,18 +73,23 @@ namespace RPG.Core
             _actionStore = player.GetComponentInChildren<ActionStore>();
 
             _questList = player.GetComponentInChildren<QuestList>();
+
+            _playerConversant = player.GetComponentInChildren<PlayerConversant>();
         }
 
         private void OnEnable()
         {
+            // Main Loader
             _experience.OnExperienceLoadDone += RefreshAllUI;
 
+            // HUD SYSTEM
             _experience.OnExperienceGained += RefreshHUDUI;
             _baseStats.OnLevelUpDone += () => { RefreshHUDUI(); RefreshTraitUI(); RefreshShopUI(); }; // Need to RefreshTraitUI as well since there will be more TraitPoints given to player / RefreshShopUI incase open shop while level up
             _health.OnHealthChanged += RefreshHUDUI; // Not Subscribe with RefreshInGameUI bcuz that HealthBar is individually gets Invoke on their Health component not with Player
             _mana.OnManaPointsUpdated += RefreshHUDUI;
             _coin.OnCoinPointsUpdated += RefreshHUDUI;
 
+            // TRAIT SYSTEM
             _traitStore.OnPointsChanged += () => { RefreshHUDUI(); RefreshTraitUI(); };
 
             // INVENTORY SYSTEM
@@ -92,6 +99,9 @@ namespace RPG.Core
 
             // QUEST SYSTEM
             _questList.OnQuestListUpdated += RefreshQuestUI;
+
+            // DIALOGUE SYSTEM
+            _playerConversant.OnDialogueUpdated += RefreshDialogueUI;
         }
 
         private void OnDisable()
@@ -115,6 +125,7 @@ namespace RPG.Core
             RefreshInventoryEquipmentUI();
             RefreshInventoryActionUI();
             RefreshQuestUI();
+            RefreshDialogueUI();
             print("Refreshed All UI");
         }
 
@@ -161,6 +172,12 @@ namespace RPG.Core
             OnQuestRefreshed?.Invoke();
             //print("Refreshed Quest UI " + OnQuestRefreshed?.GetInvocationList().Length);
         }
+
+        public static void RefreshDialogueUI()
+        {
+            OnDialogueRefreshed?.Invoke();
+            //print("Refreshed Dialogue UI " + OnDialogueRefreshed?.GetInvocationList().Length);
+        }
         #endregion
 
 
@@ -176,6 +193,7 @@ namespace RPG.Core
             OnInventoryEquipmentRefreshed = null;
             OnInventoryActionRefreshed = null;
             OnQuestRefreshed = null;
+            OnDialogueRefreshed = null;
         }
         #endregion
     }

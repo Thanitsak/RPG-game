@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
-using RPG.Dialogue;
 using TMPro;
+using RPG.Dialogue;
+using RPG.Core;
 
 namespace RPG.UI.Dialogue
 {
@@ -48,7 +49,7 @@ namespace RPG.UI.Dialogue
         #region --Methods-- (Built In)
         private void Awake()
         {
-            _playerConversant = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerConversant>();
+            _playerConversant = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerConversant>();
 
             _nextButton.onClick.AddListener(Next);
             _quitButton.onClick.AddListener(Quit);
@@ -56,7 +57,7 @@ namespace RPG.UI.Dialogue
 
         private void OnEnable()
         {
-            _playerConversant.OnDialogueUpdated += UpdateDialogueUI;
+            UIDisplayManager.OnDialogueRefreshed += UpdateDialogueUI;
         }
 
         private void Start()
@@ -66,7 +67,7 @@ namespace RPG.UI.Dialogue
 
         private void OnDisable()
         {
-            _playerConversant.OnDialogueUpdated -= UpdateDialogueUI;
+            UIDisplayManager.OnDialogueRefreshed -= UpdateDialogueUI;
         }
         #endregion
 

@@ -107,7 +107,7 @@ namespace RPG.Utils.UI.Tooltips
             {
                 ClearTooltip();
             }
-
+            
             if (_tooltip == null && CanCreateTooltip())
             {
                 _tooltip = Instantiate(_tooltipPrefab, parentCanvas.transform);
@@ -131,6 +131,12 @@ namespace RPG.Utils.UI.Tooltips
 
         void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
         {
+            Vector3[] slotCorners = new Vector3[4];
+            GetComponent<RectTransform>().GetWorldCorners(slotCorners); // Read 4 Corners of this Hovered UI (slot UI, Quest UI). Start Clockwise from bottom left, top left, top right, bottom right
+
+            Rect rect = new Rect(slotCorners[0], slotCorners[2] - slotCorners[0]); // Position of minimum corner, Width and Height
+            if (rect.Contains(eventData.position)) return;
+
             ClearTooltip();
         }
         #endregion

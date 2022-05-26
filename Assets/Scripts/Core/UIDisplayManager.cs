@@ -90,7 +90,7 @@ namespace RPG.Core
             _coin.OnCoinPointsUpdated += RefreshHUDUI;
 
             // TRAIT SYSTEM
-            _traitStore.OnPointsChanged += () => { RefreshHUDUI(); RefreshTraitUI(); };
+            _traitStore.OnPointsChanged += () => { RefreshHUDUI(); RefreshTraitUI(); RefreshShopUI(); }; // RefreshShopUI incase open shop while commit trait point
 
             // INVENTORY SYSTEM
             _inventory.OnInventoryUpdated += () => { RefreshInventoryBagUI(); };

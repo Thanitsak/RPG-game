@@ -45,11 +45,132 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _questToGive: {fileID: 11400000, guid: 61b4ceafcf6d143da8ccabae4598c6cd, type: 2}
+--- !u!1 &8694455246568142129
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4102980720357049203}
+  - component: {fileID: 1110661110365162876}
+  - component: {fileID: 4872364953433676531}
+  - component: {fileID: 4156908371470087866}
+  - component: {fileID: 6059336894417688271}
+  m_Layer: 0
+  m_Name: Dialogue System
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4102980720357049203
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8694455246568142129}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7206508865189981829}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &1110661110365162876
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8694455246568142129}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 1.75
+  m_Height: 0
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.5, z: 0}
+--- !u!114 &4872364953433676531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8694455246568142129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af3c5eb34e29747e491dbf2a0d69c3e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _profileImage: {fileID: 21300000, guid: 9221a33849c62451f8c1384e7f22c9ba, type: 3}
+  _speakerName: Betty
+  _dialogue: {fileID: 11400000, guid: e951ae69ffe574e6fb750dfdc5ec44ec, type: 2}
+--- !u!114 &4156908371470087866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8694455246568142129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91a78e599e44845a2a3026f7e77be0e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _actionString: Attack
+  _onTriggerHappen:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: RPG.Combat.AggroGroup, Assembly-CSharp
+        m_MethodName: Activate
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+--- !u!114 &6059336894417688271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8694455246568142129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91a78e599e44845a2a3026f7e77be0e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _actionString: GiveMomQuest
+  _onTriggerHappen:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1536168036078127709}
+        m_TargetAssemblyTypeName: RPG.Quests.QuestGiver, Assembly-CSharp
+        m_MethodName: GiveQuest
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &318205541062432623
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1230804437610166928, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
@@ -158,7 +279,7 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: 45a1587c400ca1e4988f4542fc149544, type: 3}
     - target: {fileID: 6947039788277725674, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 6947039788277725674, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
       propertyPath: m_LocalPosition.x
@@ -206,26 +327,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2218599637383506606, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 6947039788277725674, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5846559242665327431}
+    - targetCorrespondingSourceObject: {fileID: 6947039788277725674, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1723644781475524344}
+    - targetCorrespondingSourceObject: {fileID: 6947039788277725674, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4102980720357049203}
+    - targetCorrespondingSourceObject: {fileID: 6947039788277725674, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8378161208671480879}
   m_SourcePrefab: {fileID: 100100000, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
 --- !u!1 &7206508865189981825 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6947039788277725678, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
   m_PrefabInstance: {fileID: 318205541062432623}
   m_PrefabAsset: {fileID: 0}
---- !u!136 &3235003394727880583
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7206508865189981825}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 1.75
-  m_Height: 0
-  m_Direction: 1
-  m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!136 &5744154795779786971
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -240,34 +360,6 @@ CapsuleCollider:
   m_Height: 3
   m_Direction: 1
   m_Center: {x: 0, y: 1.5, z: 0}
---- !u!114 &747133200128367175
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7206508865189981825}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91a78e599e44845a2a3026f7e77be0e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _actionString: GiveMomQuest
-  _onTriggerHappen:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1536168036078127709}
-        m_TargetAssemblyTypeName: RPG.Quests.QuestGiver, Assembly-CSharp
-        m_MethodName: GiveQuest
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &1298076366201621555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,22 +395,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25a5a288e8ef343b9aa2a7014b020edd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5121869522722036979
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7206508865189981825}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91a78e599e44845a2a3026f7e77be0e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _actionString: Attack
-  _onTriggerHappen:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &8054575160550748056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -333,21 +409,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scatterDistance: 3
   _dropLibrary: {fileID: 11400000, guid: 870e1f21bb9834a35b379eb3f9c741b7, type: 2}
---- !u!114 &8477258203785216921
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7206508865189981825}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af3c5eb34e29747e491dbf2a0d69c3e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _profileImage: {fileID: 21300000, guid: 9221a33849c62451f8c1384e7f22c9ba, type: 3}
-  _speakerName: Betty
-  _dialogue: {fileID: 11400000, guid: e951ae69ffe574e6fb750dfdc5ec44ec, type: 2}
 --- !u!4 &7206508865189981829 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6947039788277725674, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
@@ -358,6 +419,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 7206508865189981829}
     m_Modifications:
     - target: {fileID: 180650, guid: c80d63d739f7231458975214a486d247, type: 3}
@@ -410,6 +472,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 9554418, guid: c80d63d739f7231458975214a486d247, type: 3}
+    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: c80d63d739f7231458975214a486d247, type: 3}
 --- !u!4 &5846559242665295335 stripped
 Transform:
@@ -421,11 +484,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 409486, guid: c80d63d739f7231458975214a486d247, type: 3}
   m_PrefabInstance: {fileID: 5846559242664914289}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &5846559242665327431 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 415286, guid: c80d63d739f7231458975214a486d247, type: 3}
+  m_PrefabInstance: {fileID: 5846559242664914289}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7398300094403865910
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 7206508865189981829}
     m_Modifications:
     - target: {fileID: 4568392359285853605, guid: 7c5ee5a3fffee4e19b365cc07b79ff31, type: 3}
@@ -485,4 +554,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c5ee5a3fffee4e19b365cc07b79ff31, type: 3}
+--- !u!4 &1723644781475524344 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8162659387163509710, guid: 7c5ee5a3fffee4e19b365cc07b79ff31, type: 3}
+  m_PrefabInstance: {fileID: 7398300094403865910}
+  m_PrefabAsset: {fileID: 0}

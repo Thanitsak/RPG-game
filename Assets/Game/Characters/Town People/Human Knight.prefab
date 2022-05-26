@@ -92,11 +92,190 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _questWithObjective: {fileID: 11400000, guid: 61b4ceafcf6d143da8ccabae4598c6cd, type: 2}
   _objectiveToComplete: 1
+--- !u!1 &7737765159656934731
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7557013861960020714}
+  - component: {fileID: 2045575264705595901}
+  - component: {fileID: 3731818843271040398}
+  - component: {fileID: 1653674805437996402}
+  - component: {fileID: 8730881058638280707}
+  - component: {fileID: 5379301734556875528}
+  - component: {fileID: 3572598256831629975}
+  m_Layer: 0
+  m_Name: Dialogue System
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7557013861960020714
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7737765159656934731}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8190621187077453735}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &2045575264705595901
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7737765159656934731}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 1.75
+  m_Height: 0
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.5, z: 0}
+--- !u!114 &3731818843271040398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7737765159656934731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af3c5eb34e29747e491dbf2a0d69c3e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _profileImage: {fileID: 21300000, guid: 88a1cbcfc07604b8bb6294fbbbcff649, type: 3}
+  _speakerName: Human Knight
+  _dialogue: {fileID: 11400000, guid: 0eba5a5ba2c7e414b8b28617201dc014, type: 2}
+--- !u!114 &1653674805437996402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7737765159656934731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91a78e599e44845a2a3026f7e77be0e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _actionString: Attack
+  _onTriggerHappen:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: RPG.Combat.AggroGroup, Assembly-CSharp
+        m_MethodName: Activate
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+--- !u!114 &8730881058638280707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7737765159656934731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91a78e599e44845a2a3026f7e77be0e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _actionString: GiveRewardASword
+  _onTriggerHappen:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3877085180433775704}
+        m_TargetAssemblyTypeName: RPG.Quests.RewardGiver, Assembly-CSharp
+        m_MethodName: GiveRewardFromItself
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &5379301734556875528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7737765159656934731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91a78e599e44845a2a3026f7e77be0e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _actionString: CompleteMomQuestFindHer
+  _onTriggerHappen:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7094579434904181541}
+        m_TargetAssemblyTypeName: RPG.Quests.QuestCompleter, Assembly-CSharp
+        m_MethodName: CompleteQuestObjective
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &3572598256831629975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7737765159656934731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91a78e599e44845a2a3026f7e77be0e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _actionString: CompleteMomQuestGetMedicine
+  _onTriggerHappen:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4924501886306631418}
+        m_TargetAssemblyTypeName: RPG.Quests.QuestCompleter, Assembly-CSharp
+        m_MethodName: CompleteQuestObjective
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &1279648412580859469
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1230804437610166928, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
@@ -209,7 +388,7 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: 45a1587c400ca1e4988f4542fc149544, type: 3}
     - target: {fileID: 6947039788277725674, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 6947039788277725674, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
       propertyPath: m_LocalPosition.x
@@ -261,6 +440,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2218599637383506606, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 6947039788277725674, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6439116124261953275}
+    - targetCorrespondingSourceObject: {fileID: 6947039788277725674, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 804846205282500539}
+    - targetCorrespondingSourceObject: {fileID: 6947039788277725674, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7557013861960020714}
+    - targetCorrespondingSourceObject: {fileID: 6947039788277725674, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5543694865810710635}
+    - targetCorrespondingSourceObject: {fileID: 6947039788277725674, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5797805359653074402}
+    - targetCorrespondingSourceObject: {fileID: 6947039788277725674, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5300358040555829363}
   m_SourcePrefab: {fileID: 100100000, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
 --- !u!1 &8190621187077453731 stripped
 GameObject:
@@ -279,20 +477,6 @@ CapsuleCollider:
   m_Enabled: 1
   m_Radius: 0.75
   m_Height: 3
-  m_Direction: 1
-  m_Center: {x: 0, y: 1.5, z: 0}
---- !u!136 &5924634939530062292
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8190621187077453731}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 1.75
-  m_Height: 0
   m_Direction: 1
   m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!114 &1967921251542421130
@@ -321,78 +505,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25a5a288e8ef343b9aa2a7014b020edd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5229950884667499448
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8190621187077453731}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91a78e599e44845a2a3026f7e77be0e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _actionString: Attack
-  _onTriggerHappen:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &5683638813509775138
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8190621187077453731}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91a78e599e44845a2a3026f7e77be0e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _actionString: GiveRewardASword
-  _onTriggerHappen:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3877085180433775704}
-        m_TargetAssemblyTypeName: RPG.Quests.RewardGiver, Assembly-CSharp
-        m_MethodName: GiveRewardFromItself
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &6211858227867013756
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8190621187077453731}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91a78e599e44845a2a3026f7e77be0e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _actionString: CompleteMomQuestFindHer
-  _onTriggerHappen:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7094579434904181541}
-        m_TargetAssemblyTypeName: RPG.Quests.QuestCompleter, Assembly-CSharp
-        m_MethodName: CompleteQuestObjective
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &7448526118805178949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -416,49 +528,6 @@ MonoBehaviour:
   _waypointReachDistance: 1
   _guardReachDistance: 0.2
   _guardRotateSpeed: 10
---- !u!114 &7768764906655603191
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8190621187077453731}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af3c5eb34e29747e491dbf2a0d69c3e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _profileImage: {fileID: 21300000, guid: 88a1cbcfc07604b8bb6294fbbbcff649, type: 3}
-  _speakerName: Human Knight
-  _dialogue: {fileID: 11400000, guid: 0eba5a5ba2c7e414b8b28617201dc014, type: 2}
---- !u!114 &8295320667325248695
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8190621187077453731}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91a78e599e44845a2a3026f7e77be0e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _actionString: CompleteMomQuestGetMedicine
-  _onTriggerHappen:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4924501886306631418}
-        m_TargetAssemblyTypeName: RPG.Quests.QuestCompleter, Assembly-CSharp
-        m_MethodName: CompleteQuestObjective
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!4 &8190621187077453735 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6947039788277725674, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
@@ -469,6 +538,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 8190621187077453735}
     m_Modifications:
     - target: {fileID: 169454, guid: 8597f95fd90a4844484d54b8070331d5, type: 3}
@@ -521,6 +591,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 9528682, guid: 8597f95fd90a4844484d54b8070331d5, type: 3}
+    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 8597f95fd90a4844484d54b8070331d5, type: 3}
 --- !u!4 &6439116124261878099 stripped
 Transform:
@@ -532,11 +603,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 442692, guid: 8597f95fd90a4844484d54b8070331d5, type: 3}
   m_PrefabInstance: {fileID: 6439116124261568893}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &6439116124261953275 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 425862, guid: 8597f95fd90a4844484d54b8070331d5, type: 3}
+  m_PrefabInstance: {fileID: 6439116124261568893}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7284221428097432331
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 8190621187077453735}
     m_Modifications:
     - target: {fileID: 3213431883178050424, guid: 41291ab81a98d4379a8687f71f613094, type: 3}
@@ -600,6 +677,7 @@ PrefabInstance:
       value: Reward Giver ASword
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 41291ab81a98d4379a8687f71f613094, type: 3}
 --- !u!114 &3877085180433775704 stripped
 MonoBehaviour:
@@ -612,11 +690,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a44e891661807440ea4ca9bb415a5631, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &5300358040555829363 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3213431883178050424, guid: 41291ab81a98d4379a8687f71f613094, type: 3}
+  m_PrefabInstance: {fileID: 7284221428097432331}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8821694235881028725
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 8190621187077453735}
     m_Modifications:
     - target: {fileID: 4568392359285853605, guid: 7c5ee5a3fffee4e19b365cc07b79ff31, type: 3}
@@ -676,4 +760,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c5ee5a3fffee4e19b365cc07b79ff31, type: 3}
+--- !u!4 &804846205282500539 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8162659387163509710, guid: 7c5ee5a3fffee4e19b365cc07b79ff31, type: 3}
+  m_PrefabInstance: {fileID: 8821694235881028725}
+  m_PrefabAsset: {fileID: 0}

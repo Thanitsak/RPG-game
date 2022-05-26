@@ -126,7 +126,7 @@ namespace RPG.Core
             RefreshInventoryActionUI();
             RefreshQuestUI();
             RefreshDialogueUI();
-            print("Refreshed All UI");
+            //print("Refreshed All UI");
         }
 
         public static void RefreshInGameUI() => OnInGameRefreshed?.Invoke(); // Incase need to update HealthBar for all Characters

@@ -37,10 +37,10 @@ namespace RPG.Combat
             {
                 eachFighter.enabled = status;
 
-                CombatTarget combatTarget = eachFighter.GetComponent<CombatTarget>();
+                CombatTarget combatTarget = eachFighter.GetComponentInChildren<CombatTarget>();
                 if (combatTarget != null) combatTarget.enabled = status;
 
-                AIConversant aiConversant = eachFighter.GetComponent<AIConversant>();
+                AIConversant aiConversant = eachFighter.GetComponentInChildren<AIConversant>();
                 if (aiConversant != null) aiConversant.enabled = !status;
             }
         }

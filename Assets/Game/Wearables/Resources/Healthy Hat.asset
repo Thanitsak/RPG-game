@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _itemID: f52bc728f5144-435a-a4bf-440f52bc728f
   _displayName: Healthy Hat
-  _description: '+20 Health / +2% Bonus on Top
+  _description: '+20 Health / +2% Health Bonus on Top / +20 Mana Limit
 
-    This hat feels sooo comfyyy!'
+    This
+    hat feels sooo comfyyy!'
   _icon: {fileID: 21300000, guid: a6d1118f239904a668126198564cc6a1, type: 3}
   _pickup: {fileID: 5895303352902229890, guid: 632357b0906104c6483a866e6e8043ef, type: 3}
   _stackable: 1
@@ -26,7 +27,7 @@ MonoBehaviour:
   _additiveModifiers:
   - statType: 0
     value: 20
-  - statType: 0
+  - statType: 4
     value: 20
   _percentageModifiers:
   - statType: 0

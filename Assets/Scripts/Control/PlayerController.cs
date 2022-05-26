@@ -139,7 +139,7 @@ namespace RPG.Control
 
             foreach (RaycastHit eachHit in hitsInfo)
             {
-                foreach (IRaycastable eachRaycastable in eachHit.transform.GetComponents<IRaycastable>()) // No need to do GetComponentsInChildren() cuz these are gameObjects that got hit by doing Casting so if any child gameobject implemented will get call also
+                foreach (IRaycastable eachRaycastable in eachHit.transform.GetComponentsInChildren<IRaycastable>()) // Need from its Children as well Because if parent has Collider it will stuck there even though its Child got a Collider + implemented IRaycastable
                 {
                     if (eachRaycastable.HandleRaycast(this))
                     {

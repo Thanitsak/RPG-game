@@ -6,6 +6,19 @@ using RPG.Core;
 
 namespace RPG.Dialogue
 {
+    /// <summary>
+    /// *Attachment Level Position Under A GameObject*
+    /// 
+    /// PlayerConversant.cs
+    /// - can be placed anywhere as a child of 'Player' GameObject. (due to using .root when getting its component, CAN use .root since under a single root there is only a 'Player' GameObject)
+    ///
+    /// AIConversant.cs
+    /// - MUST be placed 1 level underneath as a child of 'AI' GameObject. (due to using .parent when getting its component, CAN'T use .root since under a single root there are many 'AI' GameObjects)
+    /// - Have to Be Strict becuase itself class use transform.parent.GetComponent<Health>() & PlayerConversant.cs use _aiConversant.transform.parent.GetComponentsInChildren<IPredicateEvaluator>()
+    /// 
+    /// DialogueTrigger.cs
+    /// - can be in same place as AIConversant.cs but Not as Strict as AIConversant.cs
+    /// </summary>
     public class PlayerConversant : MonoBehaviour
     {
         #region --Events-- (Delegate as Action)
@@ -162,10 +175,10 @@ namespace RPG.Dialogue
         {
             List<IPredicateEvaluator> _classesThatImplemented = new List<IPredicateEvaluator>();
 
-            foreach (IPredicateEvaluator each in GetComponentsInChildren<IPredicateEvaluator>()) // Get from Player GameObject
+            foreach (IPredicateEvaluator each in transform.root.GetComponentsInChildren<IPredicateEvaluator>()) // Get from Player GameObject (Ex-Invenotry.cs, QuestList.cs)
                 _classesThatImplemented.Add(each);
 
-            foreach (IPredicateEvaluator each in _aiConversant.GetComponentsInChildren<IPredicateEvaluator>()) // Get from AI GameObject that Player is talking to
+            foreach (IPredicateEvaluator each in _aiConversant.transform.parent.GetComponentsInChildren<IPredicateEvaluator>()) // Get from AI GameObject that Player is talking to (Ex-RewardGiver.cs)
                 _classesThatImplemented.Add(each);
 
             return _classesThatImplemented;
@@ -195,7 +208,7 @@ namespace RPG.Dialogue
         {
             if (actionString == "") return;
 
-            foreach (DialogueTrigger eachDialogueTrigger in _aiConversant.GetComponentsInChildren<DialogueTrigger>())
+            foreach (DialogueTrigger eachDialogueTrigger in _aiConversant.transform.parent.GetComponentsInChildren<DialogueTrigger>())
             {
                 eachDialogueTrigger.Trigger(actionString);
             }

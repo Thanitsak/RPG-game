@@ -48,6 +48,7 @@ namespace RPG.SceneManagement
 
 
         #region --Methods-- (Custom PUBLIC) ~Transitions~
+        // Return Coroutine here because Caller can choose to do 'yield return StartTransition();' code below won't go on OR just 'StartTransition();' code below will go on. Caller must be under IEnumerator type method.
         public Coroutine StartTransition(Types types, float transitioningSpeed)
         {
             _animators[GetIndex(types)].speed = transitioningSpeed;

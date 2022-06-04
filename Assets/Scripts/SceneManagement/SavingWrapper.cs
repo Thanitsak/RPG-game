@@ -12,18 +12,19 @@ namespace RPG.SceneManagement
     public class SavingWrapper : MonoBehaviour
     {
         #region --Fields-- (Inspector)
-        [Header("Transition")]
-        [SerializeField] private Transition.Types _transitionType = Transition.Types.Fade;
+        [Header("LoadLastScene Transition Settings")]
+        [SerializeField] private Transition.Types _llsTransitionType = Transition.Types.Fade;
         [Tooltip("When Start Loading to Other Scene (1 = normal speed)")]
-        [SerializeField] private float _startTransitionSpeed = 2f;
+        [SerializeField] private float _llsTtartTransitionSpeed = 2f;
         [Tooltip("When End Loading at Other Scene (1 = normal speed)")]
-        [SerializeField] private float _endTransitionSpeed = 0.75f;
+        [SerializeField] private float _llsEndTransitionSpeed = 0.75f;
         #endregion
 
 
 
         #region --Fields-- (In Class)
         private const string _defaultSaveFile = "save";
+        private SavingSystem _savingSystem;
 
         public static SavingWrapper Instance { get; private set; }
         #endregion
@@ -33,14 +34,9 @@ namespace RPG.SceneManagement
         #region --Methods-- (Built In)
         private void Awake() => Instance = this;
 
-        private IEnumerator Start()
+        private void Start()
         {
-            //yield return Transition.Instance.StartTransition(_transitionType, _startTransitionSpeed);
-
-            //yield return GetComponent<SavingSystem>().LoadLastScene(_defaultSaveFile);
-
-            //yield return Transition.Instance.EndTransition(_transitionType, _endTransitionSpeed);
-            yield break;
+            _savingSystem = GetComponent<SavingSystem>();
         }
 
         private void Update()
@@ -65,19 +61,37 @@ namespace RPG.SceneManagement
 
 
         #region --Methods-- (Custom PUBLIC)
+        public void ContinueGame()
+        {
+            StartCoroutine( LoadLastSceneWithTransition() );
+        }
+
         public void Save()
         {
-            GetComponent<SavingSystem>().Save(_defaultSaveFile);
+            _savingSystem.Save(_defaultSaveFile);
         }
 
         public void Load()
         {
-            GetComponent<SavingSystem>().Load(_defaultSaveFile);
+            _savingSystem.Load(_defaultSaveFile);
         }
 
         public void Delete()
         {
-            GetComponent<SavingSystem>().Delete(_defaultSaveFile);
+            _savingSystem.Delete(_defaultSaveFile);
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Custom PRIVATE)
+        private IEnumerator LoadLastSceneWithTransition()
+        {
+            yield return Transition.Instance.StartTransition(_llsTransitionType, _llsTtartTransitionSpeed);
+
+            yield return _savingSystem.LoadLastScene(_defaultSaveFile);
+
+            yield return Transition.Instance.EndTransition(_llsTransitionType, _llsEndTransitionSpeed);
         }
         #endregion
     }

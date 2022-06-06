@@ -1,7 +1,7 @@
 using System.Collections;
 using System;
 using UnityEngine;
-using RPG.Core;
+using RPG.Utils.Core;
 
 namespace RPG.Abilities.Effects
 {

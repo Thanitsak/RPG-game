@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using RPG.Movement;
 using RPG.Attributes;
-using RPG.Core;
+using RPG.Utils.Core;
 using RPG.Inventories;
 
 namespace RPG.Control

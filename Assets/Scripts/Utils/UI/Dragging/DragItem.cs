@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
-using RPG.Core;
+using RPG.Utils.Core;
 
 namespace RPG.Utils.UI.Dragging
 {

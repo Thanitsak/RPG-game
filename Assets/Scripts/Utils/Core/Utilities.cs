@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace RPG.Core
+namespace RPG.Utils.Core
 {
     public class Utilities : MonoBehaviour
     {

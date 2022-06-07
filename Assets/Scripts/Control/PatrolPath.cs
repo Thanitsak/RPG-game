@@ -11,7 +11,7 @@ namespace RPG.Control
 
 
 
-        #region --Methods-- (Build In)
+        #region --Methods-- (Built In)
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.cyan;

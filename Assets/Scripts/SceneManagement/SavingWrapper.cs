@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using RPG.Saving;
+using RPG.Utils;
 
 namespace RPG.SceneManagement
 {
@@ -18,25 +19,33 @@ namespace RPG.SceneManagement
         [SerializeField] private float _llsTtartTransitionSpeed = 2f;
         [Tooltip("When End Loading at Other Scene (1 = normal speed)")]
         [SerializeField] private float _llsEndTransitionSpeed = 0.75f;
+
+        [Header("LoadFirstScene Transition Settings")]
+        [SerializeField] private int _lfsBuildIndexToLoad = 1;
         #endregion
 
 
 
         #region --Fields-- (In Class)
-        private const string _defaultSaveFile = "save";
-        private SavingSystem _savingSystem;
+        private AutoInit<SavingSystem> _savingSystem;
 
         public static SavingWrapper Instance { get; private set; }
         #endregion
 
 
 
-        #region --Methods-- (Built In)
-        private void Awake() => Instance = this;
+        #region --Fields-- (Constant)
+        private const string _currentSaveKey = "CurrentSaveKey";
+        #endregion
 
-        private void Start()
+
+
+        #region --Methods-- (Built In)
+        private void Awake()
         {
-            _savingSystem = GetComponent<SavingSystem>();
+            Instance = this;
+
+            _savingSystem = new AutoInit<SavingSystem>(() => GetComponent<SavingSystem>()); // Use AutoInit so that when other classes use public methods in their Start() SavingSystem won't be null
         }
 
         private void Update()
@@ -63,35 +72,52 @@ namespace RPG.SceneManagement
         #region --Methods-- (Custom PUBLIC)
         public void ContinueGame()
         {
-            StartCoroutine( LoadLastSceneWithTransition() );
+            if (!PlayerPrefs.HasKey(_currentSaveKey)) return; // Don't Have current save Key yet!
+            if (!CurrentSaveFileExists()) return; // Actual SaveFile is NOT Exists!
+
+            StartCoroutine(LoadLastSceneWithTransition());
+        }
+        public IEnumerator LoadLastSceneWithTransition()
+        {
+            yield return Transition.Instance.StartTransition(_llsTransitionType, _llsTtartTransitionSpeed);
+            yield return _savingSystem.value.LoadLastScene(GetCurrentSaveName());
+            yield return Transition.Instance.EndTransition(_llsTransitionType, _llsEndTransitionSpeed);
         }
 
-        public void Save()
+        public void StartNewGame(string saveFileName)
         {
-            _savingSystem.Save(_defaultSaveFile);
+            if (string.IsNullOrEmpty(saveFileName)) return;
+
+            SetCurrentSaveName(saveFileName);
+            StartCoroutine(LoadFirstSceneWithTransition());
+        }
+        public IEnumerator LoadFirstSceneWithTransition()
+        {
+            yield return Transition.Instance.StartTransition(_llsTransitionType, _llsTtartTransitionSpeed);
+            yield return Transition.Instance.LoadAsynchronously(_lfsBuildIndexToLoad);
+            yield return Transition.Instance.EndTransition(_llsTransitionType, _llsEndTransitionSpeed);
         }
 
-        public void Load()
-        {
-            _savingSystem.Load(_defaultSaveFile);
-        }
+        public void Save() => _savingSystem.value.Save(GetCurrentSaveName());
 
-        public void Delete()
-        {
-            _savingSystem.Delete(_defaultSaveFile);
-        }
+        public void Load() => _savingSystem.value.Load(GetCurrentSaveName()); 
+
+        public void Delete() => _savingSystem.value.Delete(GetCurrentSaveName());
+
+        public bool CurrentSaveFileExists() => _savingSystem.value.SaveFileExists(GetCurrentSaveName());
         #endregion
 
 
 
         #region --Methods-- (Custom PRIVATE)
-        private IEnumerator LoadLastSceneWithTransition()
+        private void SetCurrentSaveName(string currentSaveName)
         {
-            yield return Transition.Instance.StartTransition(_llsTransitionType, _llsTtartTransitionSpeed);
+            PlayerPrefs.SetString(_currentSaveKey, currentSaveName);
+        }
 
-            yield return _savingSystem.LoadLastScene(_defaultSaveFile);
-
-            yield return Transition.Instance.EndTransition(_llsTransitionType, _llsEndTransitionSpeed);
+        private string GetCurrentSaveName()
+        {
+            return PlayerPrefs.GetString(_currentSaveKey);
         }
         #endregion
     }

@@ -16,6 +16,7 @@ namespace RPG.Saving
     /// </summary>
     public class SavingSystem : MonoBehaviour
     {
+        #region --Methods-- (Custom PUBLIC)
         /// <summary>
         /// Will load the last scene that was saved and restore the state. This
         /// must be run as a coroutine.
@@ -64,8 +65,16 @@ namespace RPG.Saving
             RestoreState(LoadFile(saveFile));
         }
 
-        // PRIVATE
+        public bool SaveFileExists(string saveFile)
+        {
+            string path = GetPathFromSaveFile(saveFile);
+            return File.Exists(path);
+        }
+        #endregion
 
+        
+
+        #region --Methods-- (Custom PRIVATE)
         private Dictionary<string, object> LoadFile(string saveFile)
         {
             string path = GetPathFromSaveFile(saveFile);
@@ -117,5 +126,6 @@ namespace RPG.Saving
         {
             return Path.Combine(Application.persistentDataPath, saveFile + ".sav");
         }
+        #endregion
     }
 }

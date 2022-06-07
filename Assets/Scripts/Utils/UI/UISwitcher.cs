@@ -13,7 +13,7 @@ namespace RPG.Utils.UI
 
 
 
-        #region --Methods-- (Build In)
+        #region --Methods-- (Built In)
         private void Start()
         {
             SwitchTo(_starterGameObject);
@@ -22,7 +22,7 @@ namespace RPG.Utils.UI
 
 
 
-        #region --Methods-- (Custom PUBLIC)
+        #region --Methods-- (Subscriber) ~UnityEvent~
         public void SwitchTo(GameObject target)
         {
             if (target.transform.parent != gameObject.transform) return; // Guard check only allow for children to use

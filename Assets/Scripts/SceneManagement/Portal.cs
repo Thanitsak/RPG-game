@@ -56,7 +56,7 @@ namespace RPG.SceneManagement
 
             DontDestroyOnLoad(gameObject);
 
-            PlayerController playerOnOldScene = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+            PlayerController playerOnOldScene = GameObject.FindWithTag("Player").GetComponentInChildren<PlayerController>();
             playerOnOldScene.enabled = false;
 
             // Wait until StartTransition DONE
@@ -67,7 +67,7 @@ namespace RPG.SceneManagement
             // Wait until LoadScene DONE
             yield return Transition.Instance.LoadAsynchronously(_sceneIndexToLoad);
 
-            PlayerController playerOnNEWScene = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+            PlayerController playerOnNEWScene = GameObject.FindWithTag("Player").GetComponentInChildren<PlayerController>();
             playerOnNEWScene.enabled = false;
 
             SavingWrapper.Instance.Load();

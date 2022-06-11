@@ -20,8 +20,8 @@ namespace RPG.Cinematics
         #region --Methods-- (Built In)
         private void Awake()
         {
-            _actionScheduler = GameObject.FindWithTag("Player").GetComponent<ActionScheduler>();
-            _playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+            _actionScheduler = GameObject.FindWithTag("Player").GetComponentInChildren<ActionScheduler>();
+            _playerController = GameObject.FindWithTag("Player").GetComponentInChildren<PlayerController>();
 
             _playableDirector = GetComponent<PlayableDirector>();
         }

@@ -70,7 +70,7 @@ namespace RPG.SceneManagement
             PlayerController playerOnNEWScene = GameObject.FindWithTag("Player").GetComponentInChildren<PlayerController>();
             playerOnNEWScene.enabled = false;
 
-            SavingWrapper.Instance.Load();
+            SavingWrapper.Instance.LoadCurrentSave();
             Portal otherPortal = GetOtherPortal();
             UpdatePlayer(otherPortal);
             SavingWrapper.Instance.Save();

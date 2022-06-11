@@ -56,7 +56,7 @@ namespace RPG.UI.Menu
         #region --Methods-- (Subscriber)
         private void LoadGame(string fileName)
         {
-            SavingWrapper.Instance.LoadGame(fileName);
+            SavingWrapper.Instance.LoadFromSaveFile(fileName);
         }
         #endregion
     }

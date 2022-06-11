@@ -21,6 +21,9 @@ namespace RPG.SceneManagement
         [Tooltip("When End Loading at Other Scene (1 = normal speed)")]
         [SerializeField] private float _llsEndTransitionSpeed = 0.75f;
 
+        [Header("LoadMenuScene Transition Settings")]
+        [SerializeField] private int _lmsBuildIndexToLoad = 0;
+
         [Header("LoadFirstScene Transition Settings")]
         [SerializeField] private int _lfsBuildIndexToLoad = 1;
         #endregion
@@ -49,23 +52,23 @@ namespace RPG.SceneManagement
             _savingSystem = new AutoInit<SavingSystem>(() => GetComponent<SavingSystem>()); // Use AutoInit so that when other classes use public methods in their Start() SavingSystem won't be null
         }
 
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.S))
-            {
-                Save();
-            }
+        //private void Update()
+        //{
+        //    if (Input.GetKeyDown(KeyCode.S))
+        //    {
+        //        Save();
+        //    }
 
-            if (Input.GetKeyDown(KeyCode.L))
-            {
-                Load();
-            }
+        //    if (Input.GetKeyDown(KeyCode.L))
+        //    {
+        //        LoadCurrentSave();
+        //    }
 
-            if (Input.GetKeyDown(KeyCode.D))
-            {
-                Delete();
-            }
-        }
+        //    if (Input.GetKeyDown(KeyCode.D))
+        //    {
+        //        DeleteCurrentSave();
+        //    }
+        //}
         #endregion
 
 
@@ -78,12 +81,6 @@ namespace RPG.SceneManagement
 
             StartCoroutine(LoadLastSceneWithTransition());
         }
-        public IEnumerator LoadLastSceneWithTransition()
-        {
-            yield return Transition.Instance.StartTransition(_llsTransitionType, _llsTtartTransitionSpeed);
-            yield return _savingSystem.value.LoadLastScene(GetCurrentSaveName());
-            yield return Transition.Instance.EndTransition(_llsTransitionType, _llsEndTransitionSpeed);
-        }
 
         public void StartNewGame(string fileName)
         {
@@ -92,14 +89,8 @@ namespace RPG.SceneManagement
             SetCurrentSaveName(fileName);
             StartCoroutine(LoadFirstSceneWithTransition());
         }
-        public IEnumerator LoadFirstSceneWithTransition()
-        {
-            yield return Transition.Instance.StartTransition(_llsTransitionType, _llsTtartTransitionSpeed);
-            yield return Transition.Instance.LoadAsynchronously(_lfsBuildIndexToLoad);
-            yield return Transition.Instance.EndTransition(_llsTransitionType, _llsEndTransitionSpeed);
-        }
 
-        public void LoadGame(string fileName)
+        public void LoadFromSaveFile(string fileName)
         {
             if (string.IsNullOrEmpty(fileName)) return;
 
@@ -107,11 +98,16 @@ namespace RPG.SceneManagement
             ContinueGame();
         }
 
+        public void LoadMenuScene()
+        {
+            StartCoroutine(LoadMenuSceneWithTransition());
+        }
+
         public void Save() => _savingSystem.value.Save(GetCurrentSaveName());
 
-        public void Load() => _savingSystem.value.Load(GetCurrentSaveName()); 
+        public void LoadCurrentSave() => _savingSystem.value.Load(GetCurrentSaveName()); 
 
-        public void Delete() => _savingSystem.value.Delete(GetCurrentSaveName());
+        public void DeleteCurrentSave() => _savingSystem.value.Delete(GetCurrentSaveName());
 
         public bool CurrentSaveFileExists() => _savingSystem.value.SaveFileExists(GetCurrentSaveName());
 
@@ -120,7 +116,32 @@ namespace RPG.SceneManagement
 
 
 
-        #region --Methods-- (Custom PRIVATE)
+        #region --Methods-- (Custom PRIVATE) ~Loading With Transition~
+        private IEnumerator LoadLastSceneWithTransition()
+        {
+            yield return Transition.Instance.StartTransition(_llsTransitionType, _llsTtartTransitionSpeed);
+            yield return _savingSystem.value.LoadLastScene(GetCurrentSaveName());
+            yield return Transition.Instance.EndTransition(_llsTransitionType, _llsEndTransitionSpeed);
+        }
+
+        private IEnumerator LoadFirstSceneWithTransition()
+        {
+            yield return Transition.Instance.StartTransition(_llsTransitionType, _llsTtartTransitionSpeed);
+            yield return Transition.Instance.LoadAsynchronously(_lfsBuildIndexToLoad);
+            yield return Transition.Instance.EndTransition(_llsTransitionType, _llsEndTransitionSpeed);
+        }
+
+        private IEnumerator LoadMenuSceneWithTransition()
+        {
+            yield return Transition.Instance.StartTransition(_llsTransitionType, _llsTtartTransitionSpeed);
+            yield return Transition.Instance.LoadAsynchronously(_lmsBuildIndexToLoad);
+            yield return Transition.Instance.EndTransition(_llsTransitionType, _llsEndTransitionSpeed);
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Custom PRIVATE) ~PlayerPrefs Saving~
         // **Current Save is mainly for Continue Game to work (so it knows what save file is currently used)**
         private void SetCurrentSaveName(string currentFileName)
         {

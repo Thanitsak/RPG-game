@@ -10,6 +10,7 @@ namespace RPG.UI.Menu
         #region --Fields-- (Inspector)
         [Header("Menu Panel - some buttons directly subscribe to UISwitcher's method")]
         [SerializeField] private Button _continueButton;
+        [SerializeField] private Button _quitButton;
 
         [Header("CreateGame Panel - some buttons directly subscribe to UISwitcher's method")]
         [SerializeField] private Button _createNewGameButton;
@@ -30,6 +31,7 @@ namespace RPG.UI.Menu
             _continueButton.gameObject.SetActive(SavingWrapper.Instance.CurrentSaveFileExists());
 
             _continueButton.onClick.AddListener(ContinueGame);
+            _quitButton.onClick.AddListener(QuitGame);
 
             _newGameInputField.onEndEdit.AddListener(UpdateInputText); // .onEndEdit take subscriber method with Parameter as string
             _createNewGameButton.onClick.AddListener(StartNewGame);
@@ -46,7 +48,11 @@ namespace RPG.UI.Menu
 
         private void QuitGame()
         {
-
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
         }
 
         private void UpdateInputText(string inputText)
@@ -64,6 +70,6 @@ namespace RPG.UI.Menu
 
             SavingWrapper.Instance.StartNewGame(_inputText);
         }
-        #endregion
+#endregion
     }
 }

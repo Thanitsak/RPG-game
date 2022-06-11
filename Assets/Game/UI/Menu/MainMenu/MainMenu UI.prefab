@@ -1596,6 +1596,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _continueButton: {fileID: 5980114925475622957}
+  _quitButton: {fileID: 2182663707709311202}
   _createNewGameButton: {fileID: 314479312103633869}
   _newGameInputField: {fileID: 5312069272589922169}
 --- !u!1 &4739281971446552414

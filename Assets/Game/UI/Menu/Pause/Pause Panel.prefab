@@ -1076,6 +1076,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eef7641c19e9b461ab5c16711ba2d35a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _saveButton: {fileID: 445426111569648162}
+  _saveAndQuitButton: {fileID: 2996110350812680127}
 --- !u!224 &1982881437906901132 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1065652966158351304, guid: 425edb38c21d64cdaac7b5ab7385b646, type: 3}

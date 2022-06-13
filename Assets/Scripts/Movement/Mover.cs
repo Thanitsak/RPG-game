@@ -46,6 +46,8 @@ namespace RPG.Movement
         {
             if (_health.IsDead && _agent.enabled)
                 _agent.enabled = false;
+            else if (!_health.IsDead && !_agent.enabled)
+                _agent.enabled = true;
 
             AnimateCharacter();
         }

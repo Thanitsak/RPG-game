@@ -1,13 +1,18 @@
+using System;
+using UnityEngine.Events;
 using UnityEngine;
 using RPG.Saving;
 using RPG.Stats;
 using RPG.Core;
 using RPG.Utils;
-using UnityEngine.Events;
-using System;
+using RPG.Control;
 
 namespace RPG.Attributes
 {
+    /// <summary>
+    /// BEWARE this script will search through from the root to all the children for Respawner script
+    /// so for Player it's fine cuz only one script under the root, but for Enemies many scripts are under the root.
+    /// </summary>
     public class Health : MonoBehaviour, ISaveable
     {
         #region --Fields-- (Inspector)
@@ -37,19 +42,22 @@ namespace RPG.Attributes
 
         private Animator _animator;
         private BaseStats _baseStats;
+        private Respawner _respawner;
+
+        private bool _wasDeadLastFrame = false;
         #endregion
 
 
 
         #region --Properties-- (Auto)
         public AutoInit<float> HealthPoints { get; private set; }
-        public bool IsDead { get; private set; } = false;
         #endregion
 
 
 
         #region --Properties-- (With Backing Fields)
-        public float MaxHealthPoints { get { return _baseStats.GetHealth(); } }
+        public float MaxHealthPoints { get => _baseStats.GetHealth(); }
+        public bool IsDead { get => HealthPoints.value <= 0f; }
         #endregion
 
 
@@ -60,6 +68,7 @@ namespace RPG.Attributes
             _actionScheduler = GetComponent<ActionScheduler>();
             _animator = GetComponent<Animator>();
             _baseStats = GetComponent<BaseStats>();
+            _respawner = transform.root.GetComponentInChildren<Respawner>();
 
             HealthPoints = new AutoInit<float>(GetInitialHealth);
         }
@@ -93,16 +102,17 @@ namespace RPG.Attributes
             if (IsDead) return;
 
             HealthPoints.value = Mathf.Max(0f, HealthPoints.value - damage);
-            if (HealthPoints.value <= 0f)
+            if (IsDead)
             {
-                _onDie?.Invoke();
-
-                DeathBehaviour();
-
                 AwardExperience(attacker);
+                _onDie?.Invoke();
+            }
+            else
+            {
+                _onTakeDamage?.Invoke(damage);
             }
 
-            _onTakeDamage?.Invoke(damage);
+            UpdateState();
             OnHealthChanged?.Invoke();
         }
 
@@ -114,6 +124,7 @@ namespace RPG.Attributes
         {
             HealthPoints.value = Mathf.Clamp(HealthPoints.value + healAmount, 0f, MaxHealthPoints);
 
+            UpdateState();
             OnHealthChanged?.Invoke();
         }
 
@@ -136,6 +147,7 @@ namespace RPG.Attributes
             float regenHealthPoints = (MaxHealthPoints * regeneratePercentage) / 100f;
             HealthPoints.value = Mathf.Max(HealthPoints.value, regenHealthPoints);
 
+            UpdateState();
             OnHealthChanged?.Invoke();
         }
         #endregion
@@ -151,15 +163,19 @@ namespace RPG.Attributes
             experience.GainExperience(_baseStats.GetExperienceReward());
         }
 
-        private void DeathBehaviour()
+        private void UpdateState()
         {
-            if (IsDead) return;
+            if (!_wasDeadLastFrame && IsDead) // NavMeshAgent Get disabled in Mover class | Can walk through because Is Kinematic need to be turn on
+            {
+                _animator.SetTrigger("Die");
+                _actionScheduler.StopCurrentAction();
+            }
+            if (_wasDeadLastFrame && !IsDead) // NavMeshAgent Get Enabled in Mover class so that player can walk on NavMesh again without error
+            {
+                _animator.Rebind();
+            }
 
-            IsDead = true;
-
-            _animator.SetTrigger("Die");
-            _actionScheduler.StopCurrentAction();
-            // NavMeshAgent Get disabled in Mover class | Can walk through because Is Kinematic need to be turn on
+            _wasDeadLastFrame = IsDead;
         }
         #endregion
 
@@ -181,11 +197,11 @@ namespace RPG.Attributes
         {
             HealthPoints.value = (float)state;
 
-            if (HealthPoints.value <= 0f)
-            {
-                DeathBehaviour();
-            }
+            // Respawn only for Player when save & exit while player is dead
+            if (_respawner != null && IsDead) // Check for not null so that Enemy won't trigger this (no enemy has Respawner component)
+                _respawner.Respawn();
 
+            UpdateState();
             OnHealthChanged?.Invoke();
         }
         #endregion

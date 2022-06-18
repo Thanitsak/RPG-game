@@ -13,7 +13,7 @@ namespace RPG.Dialogue
     /// - can be placed anywhere as a child of 'Player' GameObject. (due to using .root when getting its component, CAN use .root since under a single root there is only a 'Player' GameObject)
     ///
     /// AIConversant.cs
-    /// - MUST be placed 1 level underneath as a child of 'AI' GameObject. (due to using .parent when getting its component, CAN'T use .root since under a single root there are many 'AI' GameObjects)
+    /// - MUST be placed 1 level underneath as a child of 'AI' GameObject. (due to using .parent when getting its component, CAN'T use .root since under a single root contains many 'AI' GameObjects)
     /// - Have to Be Strict becuase itself class use transform.parent.GetComponent<Health>() & PlayerConversant.cs use _aiConversant.transform.parent.GetComponentsInChildren<IPredicateEvaluator>()
     /// 
     /// DialogueTrigger.cs

@@ -186,7 +186,7 @@ Transform:
   - {fileID: 3923784625103370523}
   - {fileID: 249451227075283178}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!195 &6947039788277725675
 NavMeshAgent:
@@ -271,7 +271,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b37fe99a7b8384663bacc6153988a10b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healthRegeneratePercentage: 100
+  _onLevelUpHealthRegenPercentage: 100
+  _onDieHealthRegenPercentage: 50
   _onTakeDamage:
     m_PersistentCalls:
       m_Calls:

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 using RPG.Combat;
 using RPG.Core;
 using RPG.Movement;
@@ -17,7 +18,7 @@ namespace RPG.Control
         [SerializeField] private float _aggravateCoolDownTime = 8f;
         [SerializeField] private float _shoutDistance = 6f;
         [Space]
-        [Tooltip("This is for Shooting Unit, unlike Guard this box means it won't chase player. TODO Tick This Box & set ChaseDistance SAME AS WeaponRange that the Enemy Equip")]
+        [Tooltip("This is for Shooting Unit, unlike Guard this box make Shooting Unit NOT chasing player. Set up by -> Tick this Box & set ChaseDistance SAME AS WeaponRange that the Enemy Equip")]
         [SerializeField] private bool _isPositionFixed = false;
 
         [Header("Patrol")]
@@ -43,10 +44,12 @@ namespace RPG.Control
         private Fighter _fighter;
         private Health _health;
         private Mover _mover;
+        private NavMeshAgent _navMeshAgent;
 
         private AutoInit<Vector3> _guardPosition;
         private AutoInit<Quaternion> _guardRotation;
 
+        // STATE
         private float _timeSinceLastSawPlayer = Mathf.Infinity;
         private int _currentWaypointIndex = 0;
         private float _timeSinceArrivedAtWaypoint = Mathf.Infinity;
@@ -65,13 +68,12 @@ namespace RPG.Control
             _fighter = GetComponent<Fighter>();
             _health = GetComponent<Health>();
             _mover = GetComponent<Mover>();
+            _navMeshAgent = GetComponentInChildren<NavMeshAgent>();
 
+            // Can remove AutoInit, but just keep it incase we need in the future
             _guardPosition = new AutoInit<Vector3>(GetInitialGuardPosition);
             _guardRotation = new AutoInit<Quaternion>(GetInitialGuardRotation);
-        }
-
-        private void Start()
-        {
+            // doing ForceInit() early because Mover.cs might do Loaded Save first and move to diff location, then ForceInit() will mess up the default location. (Anyway Restore always run after Awake() and Start() but just to make sure)
             _guardPosition.ForceInit();
             _guardRotation.ForceInit();
         }
@@ -109,6 +111,21 @@ namespace RPG.Control
         public void Aggravate()
         {
             _timeSinceAggravated = 0f;
+        }
+
+        public void ResetWhenRespawn()
+        {
+            if (_health.IsDead) return; // Check so that it won't move dead body 
+
+            _timeSinceLastSawPlayer = Mathf.Infinity;
+            _currentWaypointIndex = 0;
+            _timeSinceArrivedAtWaypoint = Mathf.Infinity;
+            _timeSinceAggravated = Mathf.Infinity;
+            _canShout = true;
+
+            _navMeshAgent.Warp(_guardPosition.value);
+
+            // ALSO get Regenerate Health on Respawner.cs
         }
         #endregion
 

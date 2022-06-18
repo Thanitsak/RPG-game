@@ -91,7 +91,6 @@ MonoBehaviour:
   _respawnOnDeadAtStart: 1
   _spawnLocation: {fileID: 0}
   _waitTimer: 2
-  _healthRegeneratePercentage: 40
   _playerTransform: {fileID: 3202932936223335231}
   _playerCinemachineBrain: {fileID: 0}
   _transitionType: 1
@@ -590,6 +589,10 @@ PrefabInstance:
     - target: {fileID: 4989239459153347107, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
       propertyPath: _healthRegneratePercentage
       value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4989239459153347107, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
+      propertyPath: _onDieHealthRegenPercentage
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 4989239459153347107, guid: 58df80d8498834bdc838433c906b5b40, type: 3}
       propertyPath: _onDie.m_PersistentCalls.m_Calls.Array.size

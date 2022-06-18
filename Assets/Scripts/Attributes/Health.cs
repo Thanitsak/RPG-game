@@ -8,12 +8,23 @@ using RPG.Utils;
 
 namespace RPG.Attributes
 {
+    /// <summary>
+    /// *Attachment Level Position Under A GameObject*
+    /// 
+    /// Health.cs
+    /// - MUST be placed ...
+    /// - Have to Be Strict becuase many classes Get Othehr Components base on Health component, SO Attachment level is matters
+    /// - ex. any script that use GetComponent<Health> with out searching for its Children. Have to find more with Searching For References of Health.cs
+    /// </summary>
     public class Health : MonoBehaviour, ISaveable
     {
         #region --Fields-- (Inspector)
-        [Tooltip("How much health will restore to player in percentage")]
+        [Tooltip("When Level Up - How much health will restore to the character in percentage")]
         [Range(1f, 100f)]
-        [SerializeField] private float _healthRegeneratePercentage = 100f;
+        [SerializeField] private float _onLevelUpHealthRegenPercentage = 100f;
+        [Tooltip("When Die - How much health will restore to the character in percentage")]
+        [Range(0f, 100f)]
+        [SerializeField] private float _onDieHealthRegenPercentage = 50f;
         #endregion
 
 
@@ -55,6 +66,9 @@ namespace RPG.Attributes
         #region --Properties-- (With Backing Fields)
         public float MaxHealthPoints { get => _baseStats.GetHealth(); }
         public bool IsDead { get => HealthPoints.value <= 0f; }
+
+        public float OnLevelUpHealthRegenPercentage { get => _onLevelUpHealthRegenPercentage; }
+        public float OnDieHealthRegenPercentage { get => _onDieHealthRegenPercentage; }
         #endregion
 
 
@@ -71,7 +85,7 @@ namespace RPG.Attributes
 
         private void OnEnable()
         {
-            _baseStats.OnLevelUpSetup += () => RegenerateHealth(_healthRegeneratePercentage); // see at Action declaration why this Action
+            _baseStats.OnLevelUpSetup += () => RegenerateHealth(OnLevelUpHealthRegenPercentage); // see at Action declaration why this Action
         }
 
         private void Start()
@@ -81,7 +95,7 @@ namespace RPG.Attributes
 
         private void OnDisable()
         {
-            _baseStats.OnLevelUpSetup -= () => RegenerateHealth(_healthRegeneratePercentage);
+            _baseStats.OnLevelUpSetup -= () => RegenerateHealth(OnLevelUpHealthRegenPercentage);
         }
         #endregion
 
@@ -113,7 +127,19 @@ namespace RPG.Attributes
         }
 
         /// <summary>
-        /// Heal the GameObject
+        /// Regenerate the Health (take Highest from either Current Health or Regenered Health)
+        /// </summary>
+        public void RegenerateHealth(float regeneratePercentage)
+        {
+            float regenHealthPoints = (MaxHealthPoints * regeneratePercentage) / 100f;
+            HealthPoints.value = Mathf.Max(HealthPoints.value, regenHealthPoints);
+
+            UpdateState();
+            OnHealthChanged?.Invoke();
+        }
+
+        /// <summary>
+        /// Heal Up the GameObject (+On Top)
         /// </summary>
         /// <param name="healAmount">ONLY positive value are expected to heal, to do damage use different method.</param>
         public void Heal(float healAmount)
@@ -124,6 +150,14 @@ namespace RPG.Attributes
             OnHealthChanged?.Invoke();
         }
 
+        /// <summary>
+        /// Heal Up the GameObject (+On Top as Percentage of MaxHealth)
+        /// </summary>
+        public void HealAsPercentage(float healPercentage)
+        {
+            Heal((MaxHealthPoints * healPercentage) / 100f);
+        }
+
         public float GetPercentage()
         {
             return GetPercentageDecimal() * 100f;
@@ -132,19 +166,6 @@ namespace RPG.Attributes
         public float GetPercentageDecimal()
         {
             return Mathf.InverseLerp(0f, MaxHealthPoints, HealthPoints.value);
-        }
-        #endregion
-
-
-
-        #region --Methods-- (Custom PUBLIC) ~Subscriber~
-        public void RegenerateHealth(float regeneratePercentage)
-        {
-            float regenHealthPoints = (MaxHealthPoints * regeneratePercentage) / 100f;
-            HealthPoints.value = Mathf.Max(HealthPoints.value, regenHealthPoints);
-
-            UpdateState();
-            OnHealthChanged?.Invoke();
         }
         #endregion
 

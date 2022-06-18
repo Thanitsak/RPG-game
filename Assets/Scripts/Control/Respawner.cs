@@ -7,6 +7,11 @@ using RPG.SceneManagement;
 
 namespace RPG.Control
 {
+    /// <summary>
+    /// --DESIGNED for only a Single Instance of this to be created--
+    /// --Placed under Player GameObject and not for any Enemies, bcuz this will
+    /// get Health component from the root and deals as Player's Health--
+    /// </summary>
     public class Respawner : MonoBehaviour
     {
         #region --Fields-- (Inspector)
@@ -15,9 +20,6 @@ namespace RPG.Control
         [Header("Respawn Settings")]
         [SerializeField] private Transform _spawnLocation;
         [SerializeField] private float _waitTimer = 2f;
-        [Tooltip("How much health will restore to player in percentage")]
-        [Range(1f, 100f)]
-        [SerializeField] private float _healthRegeneratePercentage = 40f;
 
         [Header("Settings for Player's Cinemachine (so it won't shake when warp)")]
         [Tooltip("Player GameObject Transform")]
@@ -67,10 +69,13 @@ namespace RPG.Control
         #region --Methods-- (Custom PRIVATE)
         private IEnumerator RespawnRoutine()
         {
+            SavingWrapper.Instance.Save(); // Save when player is die rightaway, TODO : BUG check in Trello for more
             yield return new WaitForSeconds(_waitTimer);
 
             yield return Transition.Instance.StartTransition(_transitionType, _startTransitionSpeed);
             ResetPlayer();
+            ResetEnemies();
+            SavingWrapper.Instance.Save(); // Another Save so player don't have to Wait
             yield return Transition.Instance.EndTransition(_transitionType, _endTransitionSpeed);
 
             _current = null;
@@ -81,11 +86,27 @@ namespace RPG.Control
             Vector3 warpAmount = _spawnLocation.position - _playerTransform.position;
 
             _navMeshAgent.Warp(_spawnLocation.position);
-            _health.RegenerateHealth(_healthRegeneratePercentage);
+            // Regenerate Health
+            _health.RegenerateHealth(_health.OnDieHealthRegenPercentage);
 
             // Make Camera not Shaking when Warp by warn Cinemachine that we are about to warp by large amount
             if (_playerCinemachineBrain != null && _playerCinemachineBrain.ActiveVirtualCamera.Follow == _playerTransform) // Make sure this is Player Follower Camera
                 _playerCinemachineBrain.ActiveVirtualCamera.OnTargetObjectWarped(_playerTransform, warpAmount);
+        }
+
+        private void ResetEnemies()
+        {
+            foreach (AIController enemy in FindObjectsOfType<AIController>())
+            {
+                enemy.ResetWhenRespawn();
+
+                // Regenerate Health
+                Health enemyHealth = enemy.GetComponentInChildren<Health>();
+                if (enemyHealth == null) continue;
+
+                if (enemy.transform.CompareTag("Enemy") && !enemyHealth.IsDead) // Don't Regen on Dead Enemy (cruel if also include dead ones)
+                    enemyHealth.RegenerateHealth(enemyHealth.OnDieHealthRegenPercentage);
+            }
         }
         #endregion
 
@@ -95,9 +116,7 @@ namespace RPG.Control
         public void RespawnAtStart()
         {
             if (_health.IsDead && _respawnOnDeadAtStart)
-            {
                 Respawn(); // Need to do this cuz when save & exit while player is dead, nothing will trigger Respawn
-            }
         }
         #endregion
 

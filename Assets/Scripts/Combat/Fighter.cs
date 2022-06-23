@@ -217,6 +217,14 @@ namespace RPG.Combat
 
             float damage = _baseStats.GetDamage();
 
+            // If target has 'defence' point, it will be used to reduce this character damage
+            BaseStats targetBaseStats = _target.GetComponentInChildren<BaseStats>();
+            if (targetBaseStats != null)
+            {
+                float defence = targetBaseStats.GetDefence();
+                damage = damage / (1 + (defence / damage)); // reducing the 'damage' using 'defence'. 
+            }
+
             if (_currentWeapon.value != null)
             {
                 _currentWeapon.value.OnHit();

@@ -86,12 +86,12 @@ MonoBehaviour:
     buyingDiscountPercentage: 10
     sellingDiscountPercentage: 50
     levelToUnlock: 2
-  - inventoryItem: {fileID: 11400000, guid: 3c8ae78be6d564981a72716a785c0662, type: 2}
+  - inventoryItem: {fileID: 11400000, guid: 8501cf421160d4d25a04e4482a5fd000, type: 2}
     initialStock: 5
     buyingDiscountPercentage: 0
     sellingDiscountPercentage: 20
     levelToUnlock: 1
-  - inventoryItem: {fileID: 11400000, guid: 3c8ae78be6d564981a72716a785c0662, type: 2}
+  - inventoryItem: {fileID: 11400000, guid: 8501cf421160d4d25a04e4482a5fd000, type: 2}
     initialStock: 10
     buyingDiscountPercentage: 10
     sellingDiscountPercentage: 50
@@ -154,6 +154,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 1749949207358926666}
     m_Modifications:
     - target: {fileID: 186628, guid: de2903b41abad344e9e0fdcc90ba392f, type: 3}
@@ -209,6 +210,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: de2903b41abad344e9e0fdcc90ba392f, type: 3}
 --- !u!1 &1749949206401518826 stripped
 GameObject:
@@ -241,6 +243,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 1749949207358926666}
     m_Modifications:
     - target: {fileID: 2403528781288907899, guid: 5907fea5f3de04fb2a59ec71fdc376af, type: 3}
@@ -296,6 +299,7 @@ PrefabInstance:
       value: 083f87f2-e297-4fe3-987d-daa224b4151c
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 5907fea5f3de04fb2a59ec71fdc376af, type: 3}
 --- !u!4 &4112381542071331821 stripped
 Transform:

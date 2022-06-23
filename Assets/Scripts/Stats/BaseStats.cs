@@ -67,6 +67,7 @@ namespace RPG.Stats
         public float GetHealth() => GetStat(StatType.Health);
         public float GetExperienceReward() => GetStat(StatType.ExperienceReward);
         public float GetDamage() => GetStat(StatType.Damage);
+        public float GetDefence() => GetStat(StatType.Defence);
 
         public float GetMana() => GetStat(StatType.Mana);
         public float GetManaRegenRate() => GetStat(StatType.ManaRegenRate);

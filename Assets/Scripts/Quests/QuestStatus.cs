@@ -23,6 +23,8 @@ namespace RPG.Quests
         public QuestStatus(Quest quest)
         {
             _quest = quest;
+
+            if (_quest == null) UnityEngine.Debug.LogError("QuestStatus is created with null Quest.");
         }
 
         public QuestStatus(object objectState)
@@ -32,6 +34,8 @@ namespace RPG.Quests
 
             _quest = Quest.GetByName(questStatusRecord.questName);
             _completedObjectives = questStatusRecord.completedObjectives;
+
+            if (_quest == null) UnityEngine.Debug.LogError("QuestStatus is created with null Quest.");
         }
         #endregion
 
@@ -54,7 +58,16 @@ namespace RPG.Quests
 
         public bool IsObjectiveCompleted(string compareObjective) => _completedObjectives.Contains(compareObjective);
 
-        public bool IsQuestCompleted() => Quest.Objectives.Count() == CompletedCount;
+        public bool IsQuestCompleted()
+        {
+            if (Quest == null)
+            {
+                UnityEngine.Debug.LogError($"IsQuestCompleted() will always return false, because Quest is null.");
+                return false;
+            }
+
+            return Quest.Objectives.Count() == CompletedCount;
+        }
         #endregion
 
 

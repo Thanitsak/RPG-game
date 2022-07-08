@@ -28,6 +28,12 @@ namespace RPG.UI.Quests
         #region --Methods-- (Custom PUBLIC)
         public void Setup(QuestStatus questStatus)
         {
+            if (questStatus.Quest == null)
+            {
+                Debug.LogError($"Can't Setup QuestItemUI, because Quest under questStatus is null.");
+                return;
+            }
+
             _questStatus = questStatus;
 
             _title.text = questStatus.Quest.Title;

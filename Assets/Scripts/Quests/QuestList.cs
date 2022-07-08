@@ -72,8 +72,12 @@ namespace RPG.Quests
         private QuestStatus GetQuestStatus(Quest questToGet)
         {
             foreach (QuestStatus eachQuestStatus in QuestStatuses)
+            {
+                if (questToGet == null) Debug.LogError($"GetQuestStatus() will always return null, because questToGet is null.");
+
                 if (eachQuestStatus.Quest == questToGet)
                     return eachQuestStatus;
+            }
 
             return null;
         }

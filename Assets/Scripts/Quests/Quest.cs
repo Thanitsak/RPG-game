@@ -18,6 +18,12 @@ namespace RPG.Quests
 
 
 
+        #region --Fields-- (In Class)
+        private static Dictionary<string, Quest> _questLookupCache;
+        #endregion
+
+
+
         #region --Properties-- (With Backing Up)
         public string Title { get { return _title; } }
         public string Description { get { return _description; } }
@@ -29,9 +35,28 @@ namespace RPG.Quests
 
 
         #region --Methods-- (Custom PUBLIC) ~STATIC~
-        public static Quest GetByName(string name)
+        public static Quest GetByName(string questName)
         {
-            return Resources.Load<Quest>(name);
+            if (_questLookupCache == null)
+            {
+                _questLookupCache = new Dictionary<string, Quest>();
+                Quest[] questList = Resources.LoadAll<Quest>("");
+                foreach (Quest quest in questList)
+                {
+                    if (_questLookupCache.ContainsKey(quest.name))
+                    {
+                        Debug.LogError($"Quest are duplicate! For: {quest.name} and {questName}.");
+                        continue;
+                    }
+
+                    _questLookupCache.Add(quest.name, quest);
+                }
+                if (questList.Length == 0) Debug.LogError($"Resources can't find any Quest ScriptableObject, so return as null.");
+            }
+            if (questName != null && !_questLookupCache.ContainsKey(questName)) Debug.LogError($"Resources can't find a Quest ScriptableObject: {questName}, so will return as null.");
+            if (questName == null || !_questLookupCache.ContainsKey(questName)) return null;
+
+            return _questLookupCache[questName];
         }
         #endregion
 

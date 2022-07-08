@@ -56,20 +56,22 @@ namespace RPG.Inventories
             if (_itemLookupCache == null)
             {
                 _itemLookupCache = new Dictionary<string, InventoryItem>();
-                var itemList = Resources.LoadAll<InventoryItem>("");
-                foreach (var item in itemList)
+                InventoryItem[] itemList = Resources.LoadAll<InventoryItem>("");
+                foreach (InventoryItem item in itemList)
                 {
                     if (_itemLookupCache.ContainsKey(item._itemID))
                     {
-                        Debug.LogError(string.Format("Looks like there's a duplicate GameDevTV.UI.InventorySystem ID for objects: {0} and {1}", _itemLookupCache[item._itemID], item));
+                        Debug.LogError($"Looks like there's a duplicate InventoryItem ID for objects: {_itemLookupCache[item._itemID]} and {item}");
                         continue;
                     }
 
                     _itemLookupCache[item._itemID] = item;
                 }
+                if (itemList.Length == 0) Debug.LogError($"Resources can't find any InventoryItem, so will always return null.");
             }
-
+            if (itemID != null && !_itemLookupCache.ContainsKey(itemID)) Debug.LogError($"Resources can't find an InventoryItem: {itemID}, so will return as null.");
             if (itemID == null || !_itemLookupCache.ContainsKey(itemID)) return null;
+
             return _itemLookupCache[itemID];
         }
 

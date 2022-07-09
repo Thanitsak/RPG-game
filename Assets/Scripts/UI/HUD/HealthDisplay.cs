@@ -1,3 +1,4 @@
+using System.Globalization;
 using UnityEngine;
 using TMPro;
 using RPG.Attributes;
@@ -46,7 +47,10 @@ namespace RPG.UI.HUD
         #region --Methods-- (Subscriber)
         private void UpdateHealthDisplay()
         {
-            _healthText.text = $"{_health.HealthPoints.value:N0}/{_health.MaxHealthPoints:N0}";
+            var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+            nfi.NumberGroupSeparator = " ";
+            
+            _healthText.text = $"{_health.HealthPoints.value.ToString("#,0", nfi):N0}/{_health.MaxHealthPoints.ToString("#,0", nfi):N0}";
             //_healthText.text = $"{_health.GetPercentage():N0}%";
         }
         #endregion

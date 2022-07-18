@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using RPG.Inventories;
+using RPG.Utils.Core;
 
 namespace RPG.Quests
 {
@@ -63,10 +64,21 @@ namespace RPG.Quests
 
 
         #region --Methods-- (Custom PUBLIC)
-        public bool IsObjectiveExist(string objectiveToCheck)
+        public Objective GetObjective(string objectiveID)
+        {
+            if (!IsObjectiveExist(objectiveID)) return null;
+
+            foreach (Objective eachObjective in Objectives)
+                if (eachObjective.referenceID == objectiveID)
+                    return eachObjective;
+
+            return null;
+        }
+
+        public bool IsObjectiveExist(string objectiveID)
         {
             foreach (Objective eachObjective in Objectives)
-                if (eachObjective.referenceID == objectiveToCheck)
+                if (eachObjective.referenceID == objectiveID)
                     return true;
 
             return false;
@@ -79,8 +91,12 @@ namespace RPG.Quests
         [System.Serializable]
         public class Objective
         {
+            [Tooltip("This will be used at : " +
+                "\n- 'QuestCompleter' components" +
+                "\n- at any 'condition' that checks for HasCompletedObjective")]
             public string referenceID;
             public string description;
+            public Condition completionCondition;
         }
 
         [System.Serializable]

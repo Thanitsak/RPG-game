@@ -42,6 +42,9 @@ namespace RPG.Quests
 
 
         #region --Methods-- (Custom PUBLIC)
+        /// <summary>
+        /// The Added Objective String MUST be completed! This method WILL NOT do a Check for Conditional Ones. (used by QuestList.cs)
+        /// </summary>
         public bool AddCompletedObjective(string objectiveToAdd)
         {
             if (IsObjectiveCompleted(objectiveToAdd)) return false;

@@ -22,6 +22,6 @@ MonoBehaviour:
   - referenceID: 2
     description: Go talk to James
   _rewards:
-  - rewardItem: {fileID: 11400000, guid: 3c8ae78be6d564981a72716a785c0662, type: 2}
+  - rewardItem: {fileID: 11400000, guid: 9150124a622854bd28bfab3a1dd21b9b, type: 2}
     number: 1
-    description: + 1 Shield
+    description: + 1 Wooden Shields

@@ -26,6 +26,15 @@ namespace RPG.Quests
 
 
 
+        #region --Methods-- (Built In)
+        private void Update()
+        {
+            AutoAddCompletedConditionalObjective();
+        }
+        #endregion
+
+
+
         #region --Methods-- (Custom PUBLIC)
         public bool AddQuest(Quest questToGive)
         {
@@ -39,21 +48,23 @@ namespace RPG.Quests
             return true;
         }
 
-        public bool AddCompletedObjective(Quest quest, string objective)
+        public bool AddCompletedObjective(Quest quest, string objectiveID)
         {
             if (!IsQuestExist(quest)) return false;
             
             QuestStatus questStatus = GetQuestStatus(quest);
             if (questStatus == null) return false;
-
-            if (questStatus.IsObjectiveCompleted(objective)) return false;
-
-            questStatus.AddCompletedObjective(objective);
-
+            
+            if (questStatus.IsObjectiveCompleted(objectiveID)) return false;
+            
+            Quest.Objective objective = quest.GetObjective(objectiveID);
+            if (objective == null) return false;
+            if (objective.completionCondition.HasCondition() && !IsObjectiveConditionSatisfy(objective)) return false;
+            
+            questStatus.AddCompletedObjective(objectiveID);
+            
             if (questStatus.IsQuestCompleted())
-            {
                 RewardGiver.GiveReward(quest.Rewards);
-            }
 
             OnQuestListUpdated?.Invoke();
 
@@ -64,6 +75,38 @@ namespace RPG.Quests
 
 
         #region --Methods-- (Custom PRIVATE)
+        private void AutoAddCompletedConditionalObjective()
+        {
+            foreach (QuestStatus questStatus in _questStatuses)
+            {
+                if (questStatus.IsQuestCompleted()) continue;
+
+                foreach (Quest.Objective objective in questStatus.Quest.Objectives)
+                {
+                    if (!objective.completionCondition.HasCondition()) continue; // filter out the one WITHOUT condition
+                    if (questStatus.IsObjectiveCompleted(objective.referenceID)) continue; // filter out COMPLETED one
+
+                    if (IsObjectiveConditionSatisfy(objective))
+                    {
+                        AddCompletedObjective(questStatus.Quest, objective.referenceID);
+                    }
+                }
+            }
+        }
+
+        private bool IsObjectiveConditionSatisfy(Quest.Objective objective)
+        {
+            return objective.completionCondition.Check(transform.root.GetComponentsInChildren<IPredicateEvaluator>());
+        }
+
+        private bool IsObjectiveConditionSatisfy(Quest quest, string objectiveID)
+        {
+            Quest.Objective objective = quest.GetObjective(objectiveID);
+            if (objective == null) return false;
+
+            return IsObjectiveConditionSatisfy(objective);
+        }
+
         private bool IsQuestExist(Quest questToCheck)
         {
             return GetQuestStatus(questToCheck) != null;

@@ -19,9 +19,35 @@ MonoBehaviour:
   _objectives:
   - referenceID: 1
     description: Find her mom
+    completionCondition:
+      _and: []
   - referenceID: 2
     description: Get Medicine for her mom
+    completionCondition:
+      _and: []
+  - referenceID: 3
+    description: Train up for good Strength (3)
+    completionCondition:
+      _and:
+      - _or:
+        - _methodName: 5
+          _parameters:
+          - Strength
+          - 3
+          _negate: 0
+  - referenceID: 4
+    description: Wield the Sword
+    completionCondition:
+      _and:
+      - _or:
+        - _methodName: 6
+          _parameters:
+          - 960b28d1-f08f-4c27-86a2-78d1212af28e
+          _negate: 0
   _rewards:
+  - rewardItem: {fileID: 11400000, guid: 1291d69f1254c4166b4735475c49d8c5, type: 2}
+    number: 500
+    description: + 500 coins
   - rewardItem: {fileID: 11400000, guid: ac01bdfd42f574dbea8c177bbb9de907, type: 2}
     number: 2
     description: + 2 Healthy Hats
@@ -30,4 +56,4 @@ MonoBehaviour:
     description: + 2 Blue Bows
   - rewardItem: {fileID: 11400000, guid: 9150124a622854bd28bfab3a1dd21b9b, type: 2}
     number: 2
-    description: + 2 Shields
+    description: + 2 Wooden Shields

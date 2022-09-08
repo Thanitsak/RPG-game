@@ -57,7 +57,7 @@ namespace RPG.UI.Shops
         private void OnEnable()
         {
             // Not doing in Shopper.cs Because we don't want to refresh the whole shop just want to refresh the item list / Not in Shop.cs Because it will be created per shop and more than one subscribers in that case for Refresh ShopItem UI list SO that is not necessary
-            UIDisplayManager.OnShopRefreshed += RefreshShopItemUI; // Doing here is Great because only one instance of this script will be created & RefreshShopItemUI() is declared here & OnEnable/OnDisable is working great
+            UIRefresher.OnShopRefreshed += RefreshShopItemUI; // Doing here is Great because only one instance of this script will be created & RefreshShopItemUI() is declared here & OnEnable/OnDisable is working great
         }
 
         private void Start()
@@ -67,7 +67,7 @@ namespace RPG.UI.Shops
 
         private void OnDisable()
         {
-            UIDisplayManager.OnShopRefreshed -= RefreshShopItemUI;
+            UIRefresher.OnShopRefreshed -= RefreshShopItemUI;
         }
         #endregion
 

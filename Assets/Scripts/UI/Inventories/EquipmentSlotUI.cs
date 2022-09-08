@@ -30,7 +30,7 @@ namespace RPG.UI.Inventories
             _player = GameObject.FindGameObjectWithTag("Player");
             _playerEquipment = _player.GetComponentInChildren<Equipment>();
             
-            UIDisplayManager.OnInventoryEquipmentRefreshed += RedrawUI; // Can't do with OnEnable() cuz this will keep adding more and more And Since we can't use OnDisable() to unsubscribe Since this one will be closed by default and with button
+            UIRefresher.OnInventoryEquipmentRefreshed += RedrawUI; // Can't do with OnEnable() cuz this will keep adding more and more And Since we can't use OnDisable() to unsubscribe Since this one will be closed by default and with button
         }
 
         private void Start()

@@ -57,7 +57,7 @@ namespace RPG.UI.Dialogue
 
         private void OnEnable()
         {
-            UIDisplayManager.OnDialogueRefreshed += UpdateDialogueUI;
+            UIRefresher.OnDialogueRefreshed += UpdateDialogueUI;
         }
 
         private void Start()
@@ -67,7 +67,7 @@ namespace RPG.UI.Dialogue
 
         private void OnDisable()
         {
-            UIDisplayManager.OnDialogueRefreshed -= UpdateDialogueUI;
+            UIRefresher.OnDialogueRefreshed -= UpdateDialogueUI;
         }
         #endregion
 

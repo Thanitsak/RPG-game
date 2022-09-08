@@ -29,7 +29,7 @@ namespace RPG.UI.Traits
         {
             _playerTraitStore = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<TraitStore>();
 
-            UIDisplayManager.OnTraitRefreshed += RefreshUI; // Can't do with OnEnable() cuz this will keep adding more and more And Since we can't use OnDisable() to unsubscribe Since this one will be closed by default and with button
+            UIRefresher.OnTraitRefreshed += RefreshUI; // Can't do with OnEnable() cuz this will keep adding more and more And Since we can't use OnDisable() to unsubscribe Since this one will be closed by default and with button
 
             _minusButton.onClick.AddListener(() => Allocate(-1));
             _addButton.onClick.AddListener(() => Allocate(1));

@@ -33,7 +33,7 @@ namespace RPG.UI.InGame
             _health.OnHealthLoadDone += UpdateHealthBar;
 
             // Incase need to update HealthBar for all Characters
-            UIDisplayManager.OnInGameRefreshed += UpdateHealthBar;
+            UIRefresher.OnInGameRefreshed += UpdateHealthBar;
         }
 
         private void Start()
@@ -45,7 +45,7 @@ namespace RPG.UI.InGame
         {
             _health.OnHealthChanged -= UpdateHealthBar;
             _health.OnHealthLoadDone -= UpdateHealthBar;
-            UIDisplayManager.OnInGameRefreshed -= UpdateHealthBar;
+            UIRefresher.OnInGameRefreshed -= UpdateHealthBar;
         }
         #endregion
 

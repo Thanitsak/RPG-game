@@ -19,7 +19,7 @@ namespace RPG.Core
     /// - Calling Public Methods : simply calling ClassName.MethodName() without the need of reference to this class.
     /// - This component Must be destroyed to clear out subscribers. Can NOT put under 'PersistentObjects' prefab.
     /// </summary>
-    public class UIDisplayManager : MonoBehaviour
+    public class UIRefresher : MonoBehaviour
     {
         #region --Events-- (Delegate as Action)
         public static event Action OnHUDRefreshed;

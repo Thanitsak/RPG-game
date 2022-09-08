@@ -28,7 +28,7 @@ namespace RPG.UI.HUD
 
         private void OnEnable()
         {
-            UIDisplayManager.OnHUDRefreshed += UpdateExperienceDisplay;
+            UIRefresher.OnHUDRefreshed += UpdateExperienceDisplay;
         }
 
         private void Start()
@@ -38,7 +38,7 @@ namespace RPG.UI.HUD
 
         private void OnDisable()
         {
-            UIDisplayManager.OnHUDRefreshed -= UpdateExperienceDisplay;
+            UIRefresher.OnHUDRefreshed -= UpdateExperienceDisplay;
         }
         #endregion
 

@@ -23,7 +23,7 @@ namespace RPG.UI.Quests
         {
             _questList = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<QuestList>();
 
-            UIDisplayManager.OnQuestRefreshed += UpdateQuestListUI; // Can't do with OnEnable() cuz this will keep adding more and more And Since we can't use OnDisable() to unsubscribe Since this one will be closed by default and with button
+            UIRefresher.OnQuestRefreshed += UpdateQuestListUI; // Can't do with OnEnable() cuz this will keep adding more and more And Since we can't use OnDisable() to unsubscribe Since this one will be closed by default and with button
         }
 
         private void Start()

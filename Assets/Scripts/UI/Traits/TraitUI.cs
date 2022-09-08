@@ -32,7 +32,7 @@ namespace RPG.UI.Traits
 
         private void OnEnable()
         {
-            UIDisplayManager.OnTraitRefreshed += RefreshUI;
+            UIRefresher.OnTraitRefreshed += RefreshUI;
         }
 
         private void Start()
@@ -42,7 +42,7 @@ namespace RPG.UI.Traits
 
         private void OnDisable()
         {
-            UIDisplayManager.OnTraitRefreshed -= RefreshUI;
+            UIRefresher.OnTraitRefreshed -= RefreshUI;
         }
         #endregion
 

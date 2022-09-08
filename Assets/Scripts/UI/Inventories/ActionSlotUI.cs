@@ -35,7 +35,7 @@ namespace RPG.UI.Inventories
             _store = player.GetComponentInChildren<ActionStore>();
             _cooldownStore = player.GetComponentInChildren<CooldownStore>();
 
-            UIDisplayManager.OnInventoryActionRefreshed += UpdateIcon; // Can't do with OnEnable() cuz this will keep adding more and more And Since we can't use OnDisable() to unsubscribe Since this one will be closed by default and with button
+            UIRefresher.OnInventoryActionRefreshed += UpdateIcon; // Can't do with OnEnable() cuz this will keep adding more and more And Since we can't use OnDisable() to unsubscribe Since this one will be closed by default and with button
 
             GetComponent<Button>().onClick.AddListener(UseAbilitiesWithButton);
         }

@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 
 namespace RPG.Utils.Core
 {
-    public class Utilities : MonoBehaviour
+    public static class Utilities
     {
         #region --Methods-- (Custom PUBLIC) ~For EventSystem Touching~
         public static bool IsPointerOverUIObject()

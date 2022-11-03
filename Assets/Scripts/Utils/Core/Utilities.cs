@@ -40,8 +40,7 @@ namespace RPG.Utils.Core
 
         public static void SmoothRotateTo(Transform transform, Vector3 targetPosition, float rotateSpeed)
         {
-            Vector3 direction = targetPosition - transform.position;
-            Quaternion lookRotation = LookRotation(new Vector3(direction.x, 0f, direction.z), Vector3.up);
+            Quaternion lookRotation = LookRotation(new Vector3(targetPosition.x, 0f, targetPosition.z), Vector3.up);
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, rotateSpeed * Time.deltaTime);
         }
 

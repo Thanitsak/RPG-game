@@ -103,9 +103,10 @@ namespace RPG.Utils.Core
 
         /// <summary>
         /// Both Arguments position1 and position2 can be swap without affecting the distance result. This is faster than using .Distance() or .magnitude
+        /// This return Square Distance, to compare with Actual Distance simply do (Actual Distance * Actual Distance) to make it comparable. This gives a better performance.
         /// For more details, check 'Vector3 Code' section in 'Unity Doc' note.
         /// </summary>
-        public static float Distance(Vector3 position1, Vector3 position2)
+        public static float SqrDistance(Vector3 position1, Vector3 position2)
         {
             Vector3 offset = position1 - position2;
             return offset.sqrMagnitude;

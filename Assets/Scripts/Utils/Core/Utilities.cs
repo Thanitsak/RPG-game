@@ -102,7 +102,8 @@ namespace RPG.Utils.Core
         }
 
         /// <summary>
-        /// Both Arguments position1 and position2 can be swap without affecting the distance result. This is faster than using .Distance() or .magnitude
+        /// Both Arguments 'position1' and 'position2' ARE swappable, this has no effect in distance result.
+        /// This is faster than using .Distance() or .magnitude
         /// This return Square Distance, to compare with Actual Distance simply do (Actual Distance * Actual Distance) to make it comparable. This gives a better performance.
         /// For more details, check 'Vector3 Code' section in 'Unity Doc' note.
         /// </summary>
@@ -156,6 +157,30 @@ namespace RPG.Utils.Core
         {
             Vector2 viewPosition = mainCamera.WorldToViewportPoint(target);
             return viewPosition.x >= 0f && viewPosition.x <= 1f && viewPosition.y >= 0f && viewPosition.y <= 1f;
+        }
+        #endregion
+
+
+
+        #region --Methods-- (Custom PUBLIC) ~Vector3~
+        /// <summary>
+        /// Both Arguments 'toGoTo' and 'origin' ARE NOT swappable, since the direction will be the opposite side when swap.
+        /// </summary>
+        /// <param name="toGoTo">is the direction that we will be heading toward</param>
+        /// <returns>Only Direction. As Vector3 NOT more than 1</returns>
+        public static Vector3 Direction(Vector3 toGoTo, Vector3 origin)
+        {
+            return DirectionWithHowFarAway(toGoTo, origin).normalized;
+        }
+
+        /// <summary>
+        /// Both Arguments 'toGoTo' and 'origin' ARE NOT swappable, since the direction will be the opposite side when swap.
+        /// </summary>
+        /// <param name="toGoTo">is the direction that we will be heading toward</param>
+        /// <returns>Direction & How Far Away. As Vector3 more than 1</returns>
+        public static Vector3 DirectionWithHowFarAway(Vector3 toGoTo, Vector3 origin)
+        {
+            return toGoTo - origin;
         }
         #endregion
     }
